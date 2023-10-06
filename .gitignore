@@ -1,0 +1,10 @@
+# macOS
+.DS_Store
+
+# Go
+bin/
+coverage.txt
+data/hub.db
+
+# Docker
+.env
