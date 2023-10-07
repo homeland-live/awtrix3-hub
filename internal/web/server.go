@@ -9,6 +9,7 @@ import (
 	"github.com/rs/zerolog/log"
 
 	"github.com/awtrix-light/hub/internal/irisutil"
+	"github.com/awtrix-light/hub/internal/web/api"
 )
 
 // DefaultPort is default http port
@@ -32,6 +33,7 @@ func Serve() error {
 	// logs panicked requests
 	app.OnAnyErrorCode(irisutil.ErrMiddleware)
 
+	api.Routes(app)
 	irisutil.LogRoutes(app)
 	log.Info().Str("url", "http://localhost:"+port).Msg("starting web server")
 	return app.Listen(":" + port)
