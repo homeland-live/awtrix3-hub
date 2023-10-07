@@ -39,3 +39,13 @@ ci: lint vet sec test
 build:
 	@echo ">> Building ./bin/server..."
 	@go build -a -ldflags '${LDFLAGS}' -tags 'sqlite_json' -o ./bin/server ./cmd/server
+
+run-server: build
+	@while [ ! -f ./ui/dist/index.html ]; do sleep 0.2; done
+	@./bin/server
+
+run-ui:
+	@npm run --prefix ./ui watch
+
+dev:
+	@( make run-server & make run-ui ) | cat
