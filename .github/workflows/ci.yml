@@ -18,9 +18,18 @@ jobs:
           go-version-file: go.mod
       - name: Lint & Test
         run: make setup-ci ci
+  ui-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 20.8
+      - name: Lint & Test
+        run: cd ui && npm ci && npm run ci
   docker:
     if: ${{ github.ref == 'refs/heads/main' }}
-    needs: [hadolint, server-test]
+    needs: [hadolint, server-test, ui-test]
     runs-on: ubuntu-latest
     permissions:
       contents: read

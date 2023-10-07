@@ -10,6 +10,7 @@ import (
 
 	"github.com/awtrix-light/hub/internal/irisutil"
 	"github.com/awtrix-light/hub/internal/web/api"
+	"github.com/awtrix-light/hub/internal/web/ui"
 )
 
 // DefaultPort is default http port
@@ -34,6 +35,8 @@ func Serve() error {
 	app.OnAnyErrorCode(irisutil.ErrMiddleware)
 
 	api.Routes(app)
+	ui.Routes(app)
+
 	irisutil.LogRoutes(app)
 	log.Info().Str("url", "http://localhost:"+port).Msg("starting web server")
 	return app.Listen(":" + port)
