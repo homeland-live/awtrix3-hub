@@ -17,6 +17,7 @@
   },
   "dependencies": {
     "@coreui/vue": "^4.10.1",
+    "pinia": "^2.1.6",
     "s-ago": "^2.2.0",
     "vue": "^3.3.4",
     "vue-router": "^4.2.5"

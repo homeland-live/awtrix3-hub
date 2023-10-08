@@ -12,6 +12,7 @@
             <router-link to="/about" class="nav-link">About</router-link>
           </CNavItem>
         </CNavbarNav>
+        <NodeListMenu @toast="onToast" />
       </CCollapse>
     </CContainer>
   </CNavbar>
@@ -28,9 +29,12 @@ import {
   CNavbarNav,
   CNavItem,
 } from '@coreui/vue';
+import NodeListMenu from '@/components/NodeListMenu.vue';
+import type { Toast } from '@/types/coreui';
 
 export default defineComponent({
   name: 'MainHeader',
+  emits: ['toast'],
   components: {
     CNavbar,
     CContainer,
@@ -39,11 +43,17 @@ export default defineComponent({
     CCollapse,
     CNavbarNav,
     CNavItem,
+    NodeListMenu,
   },
   data() {
     return {
       visible: ref<boolean>(false),
     };
+  },
+  methods: {
+    onToast(toast: Toast) {
+      this.$emit('toast', toast);
+    },
   },
 });
 </script>
