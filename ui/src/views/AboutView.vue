@@ -17,7 +17,7 @@ import { defineComponent, version as vueVersion, ref } from 'vue';
 import InfoCard from '@/components/InfoCard.vue';
 import { getVersion as getCoreuiVersion } from '@/util/coreui';
 import { getVersionFromLinkElem } from '@/util/version';
-import { getBuildInfo } from '@/api';
+import { getBuildInfo } from '@/api/hub';
 
 export default defineComponent({
   name: 'AboutView',
