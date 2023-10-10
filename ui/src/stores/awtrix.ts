@@ -6,6 +6,8 @@ import {
   type Settings,
   toggleDisplay,
   updateSettings,
+  getLatestRelease,
+  type Release,
 } from '@/api/awtrix';
 import { LocalStore } from '@/util/store';
 
@@ -13,6 +15,7 @@ export type State = {
   ipv4: string | undefined,
   stats: Stats | undefined,
   settings: Settings | undefined,
+  release: Release | undefined,
   liveViewEnabled: boolean,
   initialized: boolean,
   isLoading: boolean,
@@ -29,6 +32,7 @@ export const useAwtrixStore = defineStore({
     ipv4: undefined,
     stats: undefined,
     settings: undefined,
+    release: undefined,
     liveViewEnabled: false,
     initialized: false,
     isLoading: false,
@@ -55,10 +59,14 @@ export const useAwtrixStore = defineStore({
       return Promise.all([
         getStats(this.ipv4),
         getSettings(this.ipv4),
-      ]).then(([stats, settings]) => {
+        getLatestRelease(),
+      ]).then(([stats, settings, releaseResp]) => {
         this.isLoading = false;
         this.stats = stats;
         this.settings = settings;
+        if (releaseResp.release) {
+          this.release = releaseResp.release;
+        }
       }).then(() => {
         this.liveViewEnabled = ls.readB('liveViewEnabled');
       });

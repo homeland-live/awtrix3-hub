@@ -8,8 +8,22 @@
     There is no node selected.
   </div>
   <div v-if="nodeStore.activeNode" class="row pt-3">
-    <div class="col-6">
-      {{ nodeStore.activeNode.name }}
+    <div class="col-6 d-flex align-items-center">
+      <span class="fs-4 fw-semibold opacity-75">
+        {{ nodeStore.activeNode.name }}
+      </span>
+      <span v-if="awtrixStore.hasStats" class="badge bg-secondary ms-2">
+        {{ awtrixStore.stats?.version }}
+      </span>
+      <a
+        v-if="newRelease"
+        :href="newRelease.html_url"
+        target="_blank"
+        class="badge bg-success mx-1"
+        style="text-decoration: none">
+        {{ newRelease.tag_name }} available
+        <i class="bi bi-box-arrow-up-right ps-1" />
+      </a>
     </div>
     <div class="col-6">
       <div class="float-end">
@@ -57,6 +71,8 @@ import DisplayCard from '@/components/awtrix/DisplayCard.vue';
 import PowerCard from '@/components/awtrix/PowerCard.vue';
 import { useNodeStore } from '@/stores/node';
 import { useAwtrixStore } from '@/stores/awtrix';
+import { type Release, type Stats } from '@/api/awtrix';
+import { gt } from '@/util/version';
 
 export default defineComponent({
   name: 'DashboardView',
@@ -77,6 +93,15 @@ export default defineComponent({
     };
   },
   computed: {
+    newRelease(): Release | undefined {
+      if (!this.awtrixStore.release || !this.awtrixStore.hasStats) {
+        return undefined;
+      }
+      if (!gt(this.awtrixStore.release.tag_name, (this.awtrixStore.stats as Stats).version)) {
+        return undefined;
+      }
+      return this.awtrixStore.release;
+    },
     ...mapStores(
       useNodeStore, // sets this.nodeStore
       useAwtrixStore, // sets this.awtrixStore

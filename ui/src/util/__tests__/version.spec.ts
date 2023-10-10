@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
-import { extractVersionFromUrl } from '@/util/version';
+import { extractVersionFromUrl, gt } from '@/util/version';
 
-describe('coreui', () => {
+describe('version', () => {
   describe('extractVersionFromUrl', () => {
     it('extracts coreui version string from the css asset link', () => {
       const url = 'https://cdn.jsdelivr.net/npm/@coreui/coreui@4.0.4/dist/css/coreui.min.css';
@@ -20,6 +20,13 @@ describe('coreui', () => {
 
     it('returns `n/a` when it can\'t extract the version', () => {
       expect(extractVersionFromUrl('foo', 'bar')).toEqual('n/a');
+    });
+  });
+
+  describe('gt', () => {
+    it('checks whether a version higher than another', () => {
+      expect(gt('0.88', '0.88')).toEqual(false);
+      expect(gt('0.89', '0.88')).toEqual(true);
     });
   });
 });
