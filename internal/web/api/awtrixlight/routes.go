@@ -12,16 +12,15 @@ import (
 	"github.com/rs/zerolog/log"
 )
 
-const awtrixLightRepo = "Blueforcer/awtrix-light"
+const awtrixLightReleaseURL = "https://api.github.com/repos/Blueforcer/awtrix-light/releases/latest"
 
 type release struct {
 	Tag string `json:"tag_name"`
 	URL string `json:"html_url"`
 }
 
-func reqLatestRelease() (*release, error) {
-	apiURL := fmt.Sprintf("https://api.github.com/repos/%s/releases/latest", awtrixLightRepo)
-	resp, err := http.Get(apiURL)
+func reqRelease() (*release, error) {
+	resp, err := http.Get(awtrixLightReleaseURL)
 
 	if err != nil {
 		return nil, err
@@ -39,8 +38,8 @@ func reqLatestRelease() (*release, error) {
 
 // Routes adds health api routes to the iris app
 func Routes(api iris.Party) {
-	api.Get("/v1/awtrix-light/latest-release", func(ctx iris.Context) {
-		rel, err := reqLatestRelease()
+	api.Get("/v1/awtrix-light/release", func(ctx iris.Context) {
+		rel, err := reqRelease()
 		if err != nil {
 			log.Error().Err(err).Send()
 			irisutil.WriteErrJSON(httputil.NewErrFrom(err), ctx)
