@@ -5,15 +5,23 @@ import {
   getSettings,
   type Settings,
   toggleDisplay,
+  updateSettings,
 } from '@/api/awtrix';
+import { LocalStore } from '@/util/store';
 
 export type State = {
   ipv4: string | undefined,
   stats: Stats | undefined,
   settings: Settings | undefined,
+  liveViewEnabled: boolean,
   initialized: boolean,
   isLoading: boolean,
 };
+
+export const BRIGHTNESS_MIN = 0;
+export const BRIGHTNESS_MAX = 255;
+
+const ls = new LocalStore('awtrix');
 
 export const useAwtrixStore = defineStore({
   id: 'awtrix',
@@ -21,6 +29,7 @@ export const useAwtrixStore = defineStore({
     ipv4: undefined,
     stats: undefined,
     settings: undefined,
+    liveViewEnabled: false,
     initialized: false,
     isLoading: false,
   }),
@@ -50,6 +59,8 @@ export const useAwtrixStore = defineStore({
         this.isLoading = false;
         this.stats = stats;
         this.settings = settings;
+      }).then(() => {
+        this.liveViewEnabled = ls.readB('liveViewEnabled');
       });
     },
     reload(ipv4?: string): Promise<void> {
@@ -67,6 +78,34 @@ export const useAwtrixStore = defineStore({
         .then((success) => {
           if (success && this.hasSettings) {
             (this.settings as Settings).MATP = !(this.settings as Settings).MATP;
+          }
+          return success;
+        });
+    },
+    toggleLiveView(): void {
+      this.liveViewEnabled = !this.liveViewEnabled;
+      ls.writeB('liveViewEnabled', this.liveViewEnabled);
+    },
+    setBrightness(value: number): Promise<boolean> {
+      if (!this.hasSettings || !this.ipv4) {
+        return Promise.resolve(false);
+      }
+      return updateSettings(this.ipv4, { BRI: value })
+        .then((success) => {
+          if (success && this.hasSettings) {
+            (this.settings as Settings).BRI = value;
+          }
+          return success;
+        });
+    },
+    toggleAutoBrightness(): Promise<boolean> {
+      if (!this.hasSettings || !this.ipv4) {
+        return Promise.resolve(false);
+      }
+      return updateSettings(this.ipv4, { ABRI: !(this.settings as Settings).ABRI })
+        .then((success) => {
+          if (success && this.hasSettings) {
+            (this.settings as Settings).ABRI = !(this.settings as Settings).ABRI;
           }
           return success;
         });

@@ -19,7 +19,9 @@
     </div>
   </div>
   <div class="row pt-3">
-    <div class="col-3" />
+    <div class="col-3">
+      <DisplayCard />
+    </div>
     <div class="col-6" />
     <div class="col-3">
       <PowerCard />
@@ -51,6 +53,7 @@ import AlertErr from '@/components/AlertErr.vue';
 import type { Toast } from '@/types/coreui';
 import ConfirmationModal from '@/components/coreui/ConfirmationModal.vue';
 import NodeUpsertModal from '@/components/NodeUpsertModal.vue';
+import DisplayCard from '@/components/awtrix/DisplayCard.vue';
 import PowerCard from '@/components/awtrix/PowerCard.vue';
 import { useNodeStore } from '@/stores/node';
 import { useAwtrixStore } from '@/stores/awtrix';
@@ -63,6 +66,7 @@ export default defineComponent({
     AlertErr,
     ConfirmationModal,
     NodeUpsertModal,
+    DisplayCard,
     PowerCard,
   },
   data() {

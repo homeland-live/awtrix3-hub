@@ -80,6 +80,10 @@ export function getSettings(ipv4: string): Promise<Settings> {
   return getJ(`/awtrix/${ipv4}/api/settings`);
 }
 
+export function updateSettings(ipv4: string, data: Record<string, unknown>): Promise<boolean> {
+  return postB(`/awtrix/${ipv4}/api/settings`, data);
+}
+
 export function toggleDisplay(ipv4: string, power: boolean): Promise<boolean> {
   return postB(`/awtrix/${ipv4}/api/power`, { power });
 }

@@ -25,6 +25,7 @@ module.exports = {
     'vuejs-accessibility/interactive-supports-focus': 'off',
     'vuejs-accessibility/label-has-for': 'off',
     'vuejs-accessibility/role-has-required-aria-props': 'off',
+    'vuejs-accessibility/anchor-has-content': 'off',
     'no-unused-vars': 'off', // The base rule must be disabled as it can report incorrect errors
     '@typescript-eslint/no-unused-vars': 'error',
   },
