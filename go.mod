@@ -9,8 +9,8 @@ require (
 	github.com/kataras/iris/v12 v12.2.7
 	github.com/rs/zerolog v1.31.0
 	github.com/stretchr/objx v0.5.1
-	gorm.io/driver/sqlite v1.5.3
-	gorm.io/gorm v1.25.4
+	gorm.io/driver/sqlite v1.5.4
+	gorm.io/gorm v1.25.5
 )
 
 require (
