@@ -1,4 +1,5 @@
 import { defineStore } from 'pinia';
+import { useAwtrixStore } from '@/stores/awtrix';
 import {
   listNodes,
   createNode,
@@ -45,6 +46,9 @@ export const useNodeStore = defineStore({
       }).then(() => {
         const activeId = ls.readS('activeId');
         this.activeNode = this.nodes.find((item) => item.id === activeId);
+        if (this.activeNode) {
+          useAwtrixStore().reload(this.activeNode.ipv4);
+        }
       });
     },
     reload(): Promise<void> {
@@ -52,10 +56,12 @@ export const useNodeStore = defineStore({
       return this.init();
     },
     setActiveNode(node: Node) {
+      useAwtrixStore().reload(node.ipv4);
       this.activeNode = node;
       ls.writeS('activeId', node.id);
     },
     unsetActiveNode() {
+      useAwtrixStore().reload();
       this.activeNode = undefined;
       ls.writeS('activeId', '');
     },

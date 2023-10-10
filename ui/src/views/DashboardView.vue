@@ -18,6 +18,13 @@
       </div>
     </div>
   </div>
+  <div class="row pt-3">
+    <div class="col-3" />
+    <div class="col-6" />
+    <div class="col-3">
+      <PowerCard />
+    </div>
+  </div>
   <BaseToaster :toasts="toasts" />
   <teleport to="body">
     <NodeUpsertModal
@@ -44,7 +51,9 @@ import AlertErr from '@/components/AlertErr.vue';
 import type { Toast } from '@/types/coreui';
 import ConfirmationModal from '@/components/coreui/ConfirmationModal.vue';
 import NodeUpsertModal from '@/components/NodeUpsertModal.vue';
+import PowerCard from '@/components/awtrix/PowerCard.vue';
 import { useNodeStore } from '@/stores/node';
+import { useAwtrixStore } from '@/stores/awtrix';
 
 export default defineComponent({
   name: 'DashboardView',
@@ -54,6 +63,7 @@ export default defineComponent({
     AlertErr,
     ConfirmationModal,
     NodeUpsertModal,
+    PowerCard,
   },
   data() {
     return {
@@ -65,6 +75,7 @@ export default defineComponent({
   computed: {
     ...mapStores(
       useNodeStore, // sets this.nodeStore
+      useAwtrixStore, // sets this.awtrixStore
     ),
   },
   methods: {
