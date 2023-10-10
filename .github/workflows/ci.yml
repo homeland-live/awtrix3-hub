@@ -61,3 +61,5 @@ jobs:
             GITHUB_SHA=${{steps.git.outputs.sha}}
             GITHUB_REF=${{steps.git.outputs.ref}}
           push: true
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
