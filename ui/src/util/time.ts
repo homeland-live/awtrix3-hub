@@ -1,11 +1,25 @@
 import ago from 's-ago';
 
-export function seconds(time: string): number {
+export function secondsSince(time: string): number {
   return (Date.now() - Date.parse(time)) / 1000;
 }
 
 export function getRelativeTime(time: string): string {
   return ago(new Date(time));
+}
+
+export function fmtSeconds(seconds: number): string {
+  const d = Math.floor(seconds / (3600 * 24));
+  const h = Math.floor((seconds % (3600 * 24)) / 3600);
+  const m = Math.floor((seconds % 3600) / 60);
+  const s = Math.floor(seconds % 60);
+
+  const dDisp = d > 0 ? `${d}d ` : '';
+  const hDisp = h > 0 ? `${h}h ` : '';
+  const mDisp = m > 0 ? `${m}m ` : '';
+  const sDisp = `${s}s`;
+
+  return dDisp + hDisp + mDisp + sDisp;
 }
 
 const OneSec = 1000;

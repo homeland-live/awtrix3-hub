@@ -3,7 +3,7 @@ module github.com/awtrix-light/hub
 go 1.21.2
 
 require (
-	github.com/avakarev/go-util v1.1.9
+	github.com/avakarev/go-util v1.1.10
 	github.com/go-gormigrate/gormigrate/v2 v2.1.1
 	github.com/kataras/golog v0.1.9
 	github.com/kataras/iris/v12 v12.2.7

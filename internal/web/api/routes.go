@@ -4,6 +4,7 @@ package api
 import (
 	"github.com/kataras/iris/v12"
 
+	"github.com/awtrix-light/hub/internal/web/api/awtrixlight"
 	"github.com/awtrix-light/hub/internal/web/api/health"
 	"github.com/awtrix-light/hub/internal/web/api/node"
 	"github.com/awtrix-light/hub/internal/web/api/status"
@@ -15,5 +16,6 @@ func Routes(app *iris.Application) {
 		health.Routes(api)
 		status.Routes(api)
 		node.Routes(api)
+		awtrixlight.Routes(api)
 	})
 }

@@ -10,6 +10,7 @@ import (
 
 	"github.com/awtrix-light/hub/internal/irisutil"
 	"github.com/awtrix-light/hub/internal/web/api"
+	"github.com/awtrix-light/hub/internal/web/awtrix"
 	"github.com/awtrix-light/hub/internal/web/ui"
 )
 
@@ -36,6 +37,7 @@ func Serve() error {
 
 	api.Routes(app)
 	ui.Routes(app)
+	awtrix.Routes(app)
 
 	irisutil.LogRoutes(app)
 	log.Info().Str("url", "http://localhost:"+port).Msg("starting web server")
