@@ -11,11 +11,11 @@ import {
 import { LocalStore } from '@/util/store';
 
 export type State = {
+  isLoading: boolean,
+  initialized: boolean,
+  error: Err | undefined,
   nodes: Node[],
   activeNode: Node | undefined,
-  initialized: boolean,
-  isLoading: boolean,
-  error: Err | undefined,
 };
 
 const ls = new LocalStore('node');
@@ -23,11 +23,11 @@ const ls = new LocalStore('node');
 export const useNodeStore = defineStore({
   id: 'node',
   state: (): State => ({
+    isLoading: false,
+    initialized: false,
+    error: undefined,
     nodes: [],
     activeNode: undefined,
-    initialized: false,
-    isLoading: false,
-    error: undefined,
   }),
   actions: {
     init(): Promise<void> {

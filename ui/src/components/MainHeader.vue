@@ -1,7 +1,10 @@
 <template>
   <CNavbar expand="lg" color-scheme="light" class="bg-light">
     <CContainer lg>
-      <CNavbarBrand class="mb-0 h1" component="span"><i class="bi bi-hdd-rack" /> AwtrixLightHub</CNavbarBrand>
+      <CNavbarBrand class="mb-0 h1" component="span">
+        <i class="bi bi-diagram-3" />
+        AwtrixLightHub
+      </CNavbarBrand>
       <CNavbarToggler @click="visible = !visible" />
       <CCollapse class="navbar-collapse" :visible="visible">
         <CNavbarNav class="me-auto">

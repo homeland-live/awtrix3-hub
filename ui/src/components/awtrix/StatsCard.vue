@@ -4,19 +4,67 @@
       <span class="text-muted">Stats</span>
     </div>
     <div class="card-body">
-      <div class="d-flex justify-content-between mt-2 align-items-center">
-        <span>Battery</span>
-        <span v-if="awtrixStore.hasStats" class="d-flex align-items-center">
-          <i class="bi fs-3 pe-1" :class="batteryIconClass" />
-          <span class="text-muted small">
-            {{ awtrixStore.stats?.bat }}
-          </span>
+      <div class="d-flex justify-content-between align-items-center">
+        <span class="d-flex align-items-center text-muted">
+          <i class="bi bi-battery-half fs-3 pe-2" />
+          Battery
+        </span>
+        <span v-if="awtrixStore.hasStats">
+          {{ awtrixStore.stats?.bat }}%
         </span>
       </div>
-      <div class="d-flex justify-content-between mt-2 align-items-center">
-        <span>Uptime</span>
-        <span v-if="awtrixStore.hasStats" class="small">
+      <div class="d-flex justify-content-between align-items-center">
+        <span class="d-flex align-items-center text-muted">
+          <i class="bi bi-hourglass-split fs-4 pe-2" />
+          Uptime
+        </span>
+        <span v-if="awtrixStore.hasStats">
           {{ fmtUptime(awtrixStore.stats?.uptime || 0) }}
+        </span>
+      </div>
+      <div class="d-flex justify-content-between align-items-center">
+        <span class="d-flex align-items-center text-muted">
+          <i class="bi bi-brightness-alt-high fs-4 pe-2" />
+          Illuminance
+        </span>
+        <span v-if="awtrixStore.hasStats">
+          {{ awtrixStore.stats?.lux }} lux
+        </span>
+      </div>
+      <div class="d-flex justify-content-between align-items-center">
+        <span class="d-flex align-items-center text-muted">
+          <i class="bi bi-memory fs-4 pe-2" />
+          RAM
+        </span>
+        <span v-if="awtrixStore.hasStats">
+          {{ awtrixStore.stats?.ram }}
+        </span>
+      </div>
+      <div class="d-flex justify-content-between align-items-center">
+        <span class="d-flex align-items-center text-muted">
+          <i class="bi bi-thermometer fs-4 pe-2" />
+          Temperature
+        </span>
+        <span v-if="awtrixStore.hasStats">
+          {{ awtrixStore.stats?.temp }} ℃
+        </span>
+      </div>
+      <div class="d-flex justify-content-between align-items-center">
+        <span class="d-flex align-items-center text-muted">
+          <i class="bi bi-moisture fs-4 pe-2" />
+          Humidity
+        </span>
+        <span v-if="awtrixStore.hasStats">
+          {{ awtrixStore.stats?.hum }}
+        </span>
+      </div>
+      <div class="d-flex justify-content-between align-items-center">
+        <span class="d-flex align-items-center text-muted">
+          <i class="bi bi-reception-3 fs-4 pe-2" />
+          Wi-Fi signal
+        </span>
+        <span v-if="awtrixStore.hasStats">
+          {{ awtrixStore.stats?.wifi_signal }} dBm
         </span>
       </div>
     </div>
@@ -32,16 +80,6 @@ import { fmtSeconds } from '@/util/time';
 export default defineComponent({
   name: 'StatsCard',
   computed: {
-    batteryIconClass(): string {
-      const bat = this.awtrixStore.stats?.bat || 0;
-      if (bat > 75) {
-        return 'bi-battery-full';
-      }
-      if (bat > 35) {
-        return 'bi-battery-half';
-      }
-      return 'bi-battery';
-    },
     ...mapStores(
       useAwtrixStore, // sets this.awtrixStore
     ),
