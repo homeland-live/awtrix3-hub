@@ -5,6 +5,8 @@ import {
   getSettings,
   type Settings,
   updateSettings,
+  getStatus,
+  type Status,
   getLatestRelease,
   type Release,
   reboot,
@@ -17,6 +19,7 @@ export type State = {
   ipv4: string | undefined,
   stats: Partial<Stats>,
   settings: Partial<Settings>,
+  status: Partial<Status>,
   release: Release | undefined,
   liveViewEnabled: boolean,
 };
@@ -36,6 +39,7 @@ export const useAwtrixStore = defineStore({
     ipv4: undefined,
     stats: {},
     settings: {},
+    status: {},
     release: undefined,
     liveViewEnabled: false,
   }),
@@ -45,6 +49,9 @@ export const useAwtrixStore = defineStore({
     },
     hasSettings(state): boolean {
       return !state.settings.error && Object.keys(state.settings).length > 1;
+    },
+    hasStatus(state): boolean {
+      return Object.keys(state.status).length > 0;
     },
     isDisplayOn(state): boolean {
       return state.settings?.MATP === true;
@@ -76,11 +83,13 @@ export const useAwtrixStore = defineStore({
       return Promise.all([
         getStats(this.ipv4),
         getSettings(this.ipv4),
+        getStatus(this.ipv4),
         getLatestRelease(),
-      ]).then(([stats, settings, releaseResp]) => {
+      ]).then(([stats, settings, status, releaseResp]) => {
         this.isLoading = false;
         this.stats = stats;
         this.settings = settings;
+        this.status = status;
         if (releaseResp.release) {
           this.release = releaseResp.release;
         }

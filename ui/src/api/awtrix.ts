@@ -84,6 +84,17 @@ export function updateSettings(ipv4: string, data: Record<string, unknown>): Pro
   return postB(`/awtrix/${ipv4}/api/settings`, data);
 }
 
+export interface Status {
+  type: string;
+  isOk: boolean;
+  totalBytes: string;
+  usedBytes: string;
+}
+
+export function getStatus(ipv4: string): Promise<Status> {
+  return getJ(`/awtrix/${ipv4}/status`);
+}
+
 export interface Release {
   tag_name: string;
   html_url: string;
