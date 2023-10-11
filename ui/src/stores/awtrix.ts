@@ -4,7 +4,6 @@ import {
   type Stats,
   getSettings,
   type Settings,
-  toggleDisplay,
   updateSettings,
   getLatestRelease,
   type Release,
@@ -14,8 +13,8 @@ import { LocalStore } from '@/util/store';
 
 export type State = {
   ipv4: string | undefined,
-  stats: Stats | undefined,
-  settings: Settings | undefined,
+  stats: Partial<Stats>,
+  settings: Partial<Settings>,
   release: Release | undefined,
   liveViewEnabled: boolean,
   initialized: boolean,
@@ -27,26 +26,28 @@ export const BRIGHTNESS_MAX = 255;
 
 const ls = new LocalStore('awtrix');
 
+type PickProps<T, TFilter> = { [K in keyof T as (T[K] extends TFilter ? K : never)]: T[K] }
+
 export const useAwtrixStore = defineStore({
   id: 'awtrix',
   state: (): State => ({
     ipv4: undefined,
-    stats: undefined,
-    settings: undefined,
+    stats: {},
+    settings: {},
     release: undefined,
     liveViewEnabled: false,
     initialized: false,
     isLoading: false,
   }),
   getters: {
-    isDisplayOn(state): boolean {
-      return state.settings?.MATP === true;
-    },
     hasStats(state): boolean {
-      return !!state.stats && !state.stats.error && Object.keys(state.stats).length > 1;
+      return !state.stats.error && Object.keys(state.stats).length > 1;
     },
     hasSettings(state): boolean {
-      return !!state.settings && !state.settings.error && Object.keys(state.settings).length > 1;
+      return !state.settings.error && Object.keys(state.settings).length > 1;
+    },
+    isDisplayOn(state): boolean {
+      return state.settings?.MATP === true;
     },
   },
   actions: {
@@ -79,45 +80,34 @@ export const useAwtrixStore = defineStore({
       }
       return this.init(ipv4);
     },
-    toggleDisplay(): Promise<boolean> {
+    setSetting(key: keyof Settings, value: string | number | boolean): Promise<boolean> {
       if (!this.hasSettings || !this.ipv4) {
         return Promise.resolve(false);
       }
-      return toggleDisplay(this.ipv4, !this.isDisplayOn)
+      return updateSettings(this.ipv4, { [key]: value })
         .then((success) => {
           if (success && this.hasSettings) {
-            (this.settings as Settings).MATP = !(this.settings as Settings).MATP;
+            this.settings = { ...this.settings, [key]: value };
+            return true;
           }
-          return success;
+          return false;
         });
+    },
+    toggleSetting(key: keyof PickProps<Settings, boolean>): Promise<boolean> {
+      return this.setSetting(key, !this.settings[key]);
+    },
+    toggleDisplay(): Promise<boolean> {
+      return this.toggleSetting('MATP');
     },
     toggleLiveView(): void {
       this.liveViewEnabled = !this.liveViewEnabled;
       ls.writeB('liveViewEnabled', this.liveViewEnabled);
     },
     setBrightness(value: number): Promise<boolean> {
-      if (!this.hasSettings || !this.ipv4) {
-        return Promise.resolve(false);
-      }
-      return updateSettings(this.ipv4, { BRI: value })
-        .then((success) => {
-          if (success && this.hasSettings) {
-            (this.settings as Settings).BRI = value;
-          }
-          return success;
-        });
+      return this.setSetting('BRI', value);
     },
     toggleAutoBrightness(): Promise<boolean> {
-      if (!this.hasSettings || !this.ipv4) {
-        return Promise.resolve(false);
-      }
-      return updateSettings(this.ipv4, { ABRI: !(this.settings as Settings).ABRI })
-        .then((success) => {
-          if (success && this.hasSettings) {
-            (this.settings as Settings).ABRI = !(this.settings as Settings).ABRI;
-          }
-          return success;
-        });
+      return this.toggleSetting('ABRI');
     },
     reboot(): Promise<boolean> {
       if (!this.ipv4) {

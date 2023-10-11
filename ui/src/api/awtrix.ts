@@ -84,10 +84,6 @@ export function updateSettings(ipv4: string, data: Record<string, unknown>): Pro
   return postB(`/awtrix/${ipv4}/api/settings`, data);
 }
 
-export function toggleDisplay(ipv4: string, power: boolean): Promise<boolean> {
-  return postB(`/awtrix/${ipv4}/api/power`, { power });
-}
-
 export interface Release {
   tag_name: string;
   html_url: string;
