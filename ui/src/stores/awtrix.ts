@@ -8,6 +8,7 @@ import {
   updateSettings,
   getLatestRelease,
   type Release,
+  reboot,
 } from '@/api/awtrix';
 import { LocalStore } from '@/util/store';
 
@@ -117,6 +118,12 @@ export const useAwtrixStore = defineStore({
           }
           return success;
         });
+    },
+    reboot(): Promise<boolean> {
+      if (!this.ipv4) {
+        return Promise.resolve(false);
+      }
+      return reboot(this.ipv4);
     },
   },
 });

@@ -9,7 +9,7 @@
   </div>
   <div v-if="nodeStore.activeNode" class="row pt-3">
     <div class="col-6 d-flex align-items-center">
-      <span class="fs-4 fw-semibold opacity-75">
+      <span class="fs-4 fw-semibold text-dark">
         {{ nodeStore.activeNode.name }}
       </span>
       <span v-if="awtrixStore.hasStats" class="badge bg-secondary ms-2">
@@ -27,8 +27,19 @@
     </div>
     <div class="col-6">
       <div class="float-end">
+        <CDropdown v-if="nodeStore.activeNode" placement="bottom-end" class="me-2">
+          <CDropdownToggle size="sm" class="btn-outline-secondary">
+            <i class="bi bi-power" />
+          </CDropdownToggle>
+          <CDropdownMenu>
+            <button class="dropdown-item text-danger" type="button" @click="reboot">
+              <i class="bi bi-bootstrap-reboot pe-1" />
+              Reboot
+            </button>
+          </CDropdownMenu>
+        </CDropdown>
         <BtnIcon icon="pencil" class="btn-outline-secondary me-2" @click="showUpsertModal" />
-        <BtnIcon icon="trash" class="btn-outline-secondary me-2" @click="showDeleteModal" />
+        <BtnIcon icon="trash" class="btn-outline-secondary" @click="showDeleteModal" />
       </div>
     </div>
   </div>
@@ -61,6 +72,7 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
 import { mapStores } from 'pinia';
+import { CDropdown, CDropdownToggle, CDropdownMenu } from '@coreui/vue';
 import BaseToaster from '@/components/coreui/BaseToaster.vue';
 import BtnIcon from '@/components/coreui/BtnIcon.vue';
 import AlertErr from '@/components/AlertErr.vue';
@@ -77,6 +89,9 @@ import { gt } from '@/util/version';
 export default defineComponent({
   name: 'DashboardView',
   components: {
+    CDropdown,
+    CDropdownToggle,
+    CDropdownMenu,
     BaseToaster,
     BtnIcon,
     AlertErr,
@@ -134,6 +149,20 @@ export default defineComponent({
           this.$emit('toast', { title: `Error ${err.code}`, body: err.msg });
         }
       });
+    },
+    reboot() {
+      this.awtrixStore.reboot()
+        .then((success) => {
+          if (success) {
+            this.toasts.push({
+              title: 'Reboot',
+              body: `Node ${this.nodeStore?.activeNode?.name} is performing reboot.
+                Please, refresh page when reboot is done.`,
+              icon: 'bell',
+              iconColor: 'warning',
+            });
+          }
+        });
     },
     onToast(toast: Toast) {
       this.toasts.push(toast);

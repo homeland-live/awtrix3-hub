@@ -96,3 +96,7 @@ export interface Release {
 export function getLatestRelease(): Promise<{release?: Release, error?: Err}> {
   return getJ('/api/v1/awtrix-light/release');
 }
+
+export function reboot(ipv4: string): Promise<boolean> {
+  return postB(`/awtrix/${ipv4}/api/reboot`, {});
+}
