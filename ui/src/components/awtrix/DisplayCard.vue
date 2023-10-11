@@ -1,7 +1,16 @@
 <template>
   <div class="card">
-    <div class="card-header">
+    <div class="card-header d-flex justify-content-between">
       <span class="text-muted">Display</span>
+      <div class="form-check form-switch">
+        <input
+          v-if="awtrixStore.hasSettings"
+          class="form-check-input"
+          type="checkbox"
+          role="switch"
+          :checked="awtrixStore.isDisplayOn"
+          @change="awtrixStore.toggleDisplay">
+      </div>
     </div>
     <div class="card-body">
       <div class="form-check form-switch d-flex justify-content-between ps-0">

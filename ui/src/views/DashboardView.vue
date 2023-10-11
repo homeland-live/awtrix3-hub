@@ -38,7 +38,7 @@
     </div>
     <div class="col-6" />
     <div class="col-3">
-      <PowerCard />
+      <StatsCard />
     </div>
   </div>
   <BaseToaster :toasts="toasts" />
@@ -68,7 +68,7 @@ import type { Toast } from '@/types/coreui';
 import ConfirmationModal from '@/components/coreui/ConfirmationModal.vue';
 import NodeUpsertModal from '@/components/NodeUpsertModal.vue';
 import DisplayCard from '@/components/awtrix/DisplayCard.vue';
-import PowerCard from '@/components/awtrix/PowerCard.vue';
+import StatsCard from '@/components/awtrix/StatsCard.vue';
 import { useNodeStore } from '@/stores/node';
 import { useAwtrixStore } from '@/stores/awtrix';
 import { type Release, type Stats } from '@/api/awtrix';
@@ -83,7 +83,7 @@ export default defineComponent({
     ConfirmationModal,
     NodeUpsertModal,
     DisplayCard,
-    PowerCard,
+    StatsCard,
   },
   data() {
     return {

@@ -1,19 +1,9 @@
 <template>
   <div class="card">
     <div class="card-header">
-      <span class="text-muted">Power</span>
+      <span class="text-muted">Stats</span>
     </div>
     <div class="card-body">
-      <div class="form-check form-switch d-flex justify-content-between ps-0">
-        <span>Power</span>
-        <input
-          v-if="awtrixStore.hasSettings"
-          class="form-check-input"
-          type="checkbox"
-          role="switch"
-          :checked="awtrixStore.isDisplayOn"
-          @change="awtrixStore.toggleDisplay">
-      </div>
       <div class="d-flex justify-content-between mt-2 align-items-center">
         <span>Battery</span>
         <span v-if="awtrixStore.hasStats" class="d-flex align-items-center">
@@ -40,7 +30,7 @@ import { useAwtrixStore } from '@/stores/awtrix';
 import { fmtSeconds } from '@/util/time';
 
 export default defineComponent({
-  name: 'PowerCard',
+  name: 'StatsCard',
   computed: {
     batteryIconClass(): string {
       const bat = this.awtrixStore.stats?.bat || 0;
