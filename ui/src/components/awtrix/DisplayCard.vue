@@ -1,6 +1,6 @@
 <template>
   <div class="card">
-    <div class="card-header d-flex justify-content-between">
+    <div class="card-header d-flex justify-content-between pe-2">
       <span class="text-muted">Display</span>
       <div class="form-check form-switch">
         <input
@@ -13,11 +13,12 @@
       </div>
     </div>
     <div class="card-body">
-      <div class="form-check form-switch d-flex justify-content-between ps-0">
-        <span>
+      <div class="form-check form-switch d-flex justify-content-between align-items-center ps-0">
+        <span class="d-flex align-items-center text-muted">
+          <i class="bi bi-cast fs-4 pe-2" />
           LiveView
           <a v-if="nodeStore.activeNode" :href="'http://' + nodeStore.activeNode.ipv4 + '/fullscreen'" target="_blank">
-            <i class="bi bi-box-arrow-up-right pe-1" />
+            <i class="bi bi-box-arrow-up-right ms-2" />
           </a>
         </span>
         <input
@@ -33,13 +34,14 @@
         :src="'http://' + nodeStore.activeNode.ipv4 + '/fullscreen'"
         width="100%"
         title="Display LiveView" />
-      <div class="d-flex justify-content-between mt-2 align-items-center">
-        <span>
+      <div class="d-flex justify-content-between align-items-center">
+        <span class="d-flex align-items-center text-muted">
+          <i class="bi bi-brightness-high fs-4 pe-2" />
           Brightness
           <BtnIcon
             v-if="awtrixStore.hasSettings && !awtrixStore.settings?.ABRI"
             icon="caret-left-fill"
-            class="px-0"
+            class="ps-2 pe-0"
             @click="decrementBrightness"
             :disabled="brightness === brightnessMin" />
           <BtnIcon
@@ -61,8 +63,9 @@
         :max="brightnessMax"
         :value="brightness"
         @change="setBrightness">
-      <div class="form-check form-switch d-flex justify-content-between ps-0">
-        <span>
+      <div class="form-check form-switch d-flex justify-content-between align-items-center ps-0">
+        <span class="d-flex align-items-center text-muted">
+          <i class="bi bi-brightness-low fs-4 pe-2" />
           AutoBrightness
         </span>
         <input
