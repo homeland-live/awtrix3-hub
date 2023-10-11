@@ -94,5 +94,5 @@ export interface Release {
 }
 
 export function getLatestRelease(): Promise<{release?: Release, error?: Err}> {
-  return getJ('/api/v1/awtrix-light/latest-release');
+  return getJ('/api/v1/awtrix-light/release');
 }
