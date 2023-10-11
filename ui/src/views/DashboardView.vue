@@ -46,6 +46,7 @@
   <div class="row pt-3">
     <div class="col-3">
       <DisplayCard />
+      <NativeAppsCard class="mt-2" @toast="onToast" />
     </div>
     <div class="col-6" />
     <div class="col-3">
@@ -80,6 +81,7 @@ import type { Toast } from '@/types/coreui';
 import ConfirmationModal from '@/components/coreui/ConfirmationModal.vue';
 import NodeUpsertModal from '@/components/NodeUpsertModal.vue';
 import DisplayCard from '@/components/awtrix/DisplayCard.vue';
+import NativeAppsCard from '@/components/awtrix/NativeAppsCard.vue';
 import StatsCard from '@/components/awtrix/StatsCard.vue';
 import { useNodeStore } from '@/stores/node';
 import { useAwtrixStore } from '@/stores/awtrix';
@@ -98,6 +100,7 @@ export default defineComponent({
     ConfirmationModal,
     NodeUpsertModal,
     DisplayCard,
+    NativeAppsCard,
     StatsCard,
   },
   data() {

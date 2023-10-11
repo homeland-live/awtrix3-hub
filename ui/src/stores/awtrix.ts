@@ -12,13 +12,13 @@ import {
 import { LocalStore } from '@/util/store';
 
 export type State = {
+  isLoading: boolean,
+  initialized: boolean,
   ipv4: string | undefined,
   stats: Partial<Stats>,
   settings: Partial<Settings>,
   release: Release | undefined,
   liveViewEnabled: boolean,
-  initialized: boolean,
-  isLoading: boolean,
 };
 
 export const BRIGHTNESS_MIN = 0;
@@ -31,13 +31,13 @@ type PickProps<T, TFilter> = { [K in keyof T as (T[K] extends TFilter ? K : neve
 export const useAwtrixStore = defineStore({
   id: 'awtrix',
   state: (): State => ({
+    isLoading: false,
+    initialized: false,
     ipv4: undefined,
     stats: {},
     settings: {},
     release: undefined,
     liveViewEnabled: false,
-    initialized: false,
-    isLoading: false,
   }),
   getters: {
     hasStats(state): boolean {
@@ -48,6 +48,21 @@ export const useAwtrixStore = defineStore({
     },
     isDisplayOn(state): boolean {
       return state.settings?.MATP === true;
+    },
+    appTimeEnabled(state): boolean {
+      return state.settings?.TIM === true;
+    },
+    appDateEnabled(state): boolean {
+      return state.settings?.DAT === true;
+    },
+    appHumidityEnabled(state): boolean {
+      return state.settings?.HUM === true;
+    },
+    appTemperatureEnabled(state): boolean {
+      return state.settings?.TEMP === true;
+    },
+    appBatteryEnabled(state): boolean {
+      return state.settings?.BAT === true;
     },
   },
   actions: {
@@ -108,6 +123,21 @@ export const useAwtrixStore = defineStore({
     },
     toggleAutoBrightness(): Promise<boolean> {
       return this.toggleSetting('ABRI');
+    },
+    toggleAppTime(): Promise<boolean> {
+      return this.toggleSetting('TIM');
+    },
+    toggleAppDate(): Promise<boolean> {
+      return this.toggleSetting('DAT');
+    },
+    toggleAppHumidity(): Promise<boolean> {
+      return this.toggleSetting('HUM');
+    },
+    toggleAppTemperature(): Promise<boolean> {
+      return this.toggleSetting('TEMP');
+    },
+    toggleAppBattery(): Promise<boolean> {
+      return this.toggleSetting('BAT');
     },
     reboot(): Promise<boolean> {
       if (!this.ipv4) {
