@@ -24,11 +24,17 @@
       </div>
       <div class="d-flex justify-content-between align-items-center">
         <span class="d-flex align-items-center text-muted">
-          <i class="bi bi-brightness-alt-high fs-4 pe-2" />
-          Illuminance
+          <i class="bi bi-sd-card fs-4 pe-2" />
+          Storage
         </span>
-        <span v-if="awtrixStore.hasStats">
-          {{ awtrixStore.stats?.lux }} lux
+        <span v-if="awtrixStore.hasStatus">
+          <small>
+            {{ storageUsage(totalBytes, usedBytes) }}
+            ({{ Math.round(storageUsageProgress(totalBytes, usedBytes)) }}%)
+          </small>
+          <CProgress class="mt-1" :thin="true">
+            <CProgressBar :value="storageUsageProgress(totalBytes, usedBytes)" color="info" />
+          </CProgress>
         </span>
       </div>
       <div class="d-flex justify-content-between align-items-center">
@@ -38,6 +44,15 @@
         </span>
         <span v-if="awtrixStore.hasStats">
           {{ awtrixStore.stats?.ram }}
+        </span>
+      </div>
+      <div class="d-flex justify-content-between align-items-center">
+        <span class="d-flex align-items-center text-muted">
+          <i class="bi bi-brightness-alt-high fs-4 pe-2" />
+          Illuminance
+        </span>
+        <span v-if="awtrixStore.hasStats">
+          {{ awtrixStore.stats?.lux }} lux
         </span>
       </div>
       <div class="d-flex justify-content-between align-items-center">
@@ -74,18 +89,45 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import { mapStores } from 'pinia';
+import { CProgress, CProgressBar } from '@coreui/vue';
 import { useAwtrixStore } from '@/stores/awtrix';
 import { fmtSeconds } from '@/util/time';
 
 export default defineComponent({
   name: 'StatsCard',
+  components: { CProgress, CProgressBar },
   computed: {
+    totalBytes(): number {
+      return this.parseBytes(this.awtrixStore.status?.totalBytes || '');
+    },
+    usedBytes(): number {
+      return this.parseBytes(this.awtrixStore.status?.usedBytes || '');
+    },
     ...mapStores(
       useAwtrixStore, // sets this.awtrixStore
     ),
   },
   methods: {
     fmtUptime: fmtSeconds,
+    parseBytes(str: string): number {
+      if (!str) {
+        return 0;
+      }
+      const num = parseInt(str, 10);
+      if (!Number.isInteger(num)) {
+        return 0;
+      }
+      return num;
+    },
+    storageUsage(totalBytes: number, usedBytes: number): string {
+      return `${usedBytes / 1024} KiB / ${totalBytes / 1024} KiB`;
+    },
+    storageUsageProgress(totalBytes: number, usedBytes: number): number {
+      if (totalBytes === 0) {
+        return 0;
+      }
+      return (usedBytes / totalBytes) * 100;
+    },
   },
 });
 </script>
