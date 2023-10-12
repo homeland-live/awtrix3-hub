@@ -10,6 +10,7 @@ import {
   getLatestRelease,
   type Release,
   reboot,
+  type Err,
 } from '@/api/awtrix';
 import { LocalStore } from '@/util/store';
 
@@ -44,6 +45,9 @@ export const useAwtrixStore = defineStore({
     liveViewEnabled: false,
   }),
   getters: {
+    error(state): Err | undefined {
+      return state.stats.error || state.settings.error || state.status.error;
+    },
     hasStats(state): boolean {
       return !state.stats.error && Object.keys(state.stats).length > 1;
     },
@@ -51,7 +55,7 @@ export const useAwtrixStore = defineStore({
       return !state.settings.error && Object.keys(state.settings).length > 1;
     },
     hasStatus(state): boolean {
-      return Object.keys(state.status).length > 0;
+      return !state.status.error && Object.keys(state.status).length > 1;
     },
     isDisplayOn(state): boolean {
       return state.settings?.MATP === true;

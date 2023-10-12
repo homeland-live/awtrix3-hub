@@ -1,5 +1,8 @@
 <template>
-  <AlertErr v-if="nodeStore.error" :err="nodeStore.error" class="m-2" />
+  <BaseAlert v-if="nodeStore.error" color="danger">
+    <h6 class="alert-heading">There is an issue with retrieving active node details.</h6>
+    <p class="mb-0">Error {{ nodeStore.error.code }}: {{ nodeStore.error.msg }}</p>
+  </BaseAlert>
   <div v-else-if="!nodeStore.nodes.length" class="p-3">
     There are no nodes yet,
     <button type="button" class="btn btn-link align-baseline p-0" @click="showUpsertModal">add</button> one.
@@ -48,7 +51,14 @@
       <DisplayCard />
       <NativeAppsCard class="mt-2" @toast="onToast" />
     </div>
-    <div class="col-6" />
+    <div class="col-6">
+      <BaseAlert v-if="awtrixStore.error" color="danger">
+        <h6 class="alert-heading">
+          There is an issue with communication to "{{ nodeStore.activeNode?.name }}" awtrix-light node.
+        </h6>
+        <p class="mb-0">Error {{ awtrixStore.error.code }}: {{ awtrixStore.error.msg }}</p>
+      </BaseAlert>
+    </div>
     <div class="col-3">
       <StatsCard />
     </div>
@@ -75,8 +85,8 @@ import { defineComponent, ref } from 'vue';
 import { mapStores } from 'pinia';
 import { CDropdown, CDropdownToggle, CDropdownMenu } from '@coreui/vue';
 import BaseToaster from '@/components/coreui/BaseToaster.vue';
+import BaseAlert from '@/components/coreui/BaseAlert.vue';
 import BtnIcon from '@/components/coreui/BtnIcon.vue';
-import AlertErr from '@/components/AlertErr.vue';
 import type { Toast } from '@/types/coreui';
 import ConfirmationModal from '@/components/coreui/ConfirmationModal.vue';
 import NodeUpsertModal from '@/components/NodeUpsertModal.vue';
@@ -95,8 +105,8 @@ export default defineComponent({
     CDropdownToggle,
     CDropdownMenu,
     BaseToaster,
+    BaseAlert,
     BtnIcon,
-    AlertErr,
     ConfirmationModal,
     NodeUpsertModal,
     DisplayCard,

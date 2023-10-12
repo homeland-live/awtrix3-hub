@@ -24,7 +24,8 @@ export interface Stats {
   indicator3: boolean;
   app: string;
   uid: string;
-  error?: Err;
+
+  error?: Err; // proxy error
 }
 
 export function getStats(ipv4: string): Promise<Stats> {
@@ -73,7 +74,8 @@ export interface Settings {
   MAT: number; // not documented
   SOUND: boolean; // not documented
   GAMMA: number; // not documented
-  error?: Err;
+
+  error?: Err; // proxy error
 }
 
 export function getSettings(ipv4: string): Promise<Settings> {
@@ -89,6 +91,8 @@ export interface Status {
   isOk: boolean;
   totalBytes: string;
   usedBytes: string;
+
+  error?: Err; // proxy error
 }
 
 export function getStatus(ipv4: string): Promise<Status> {
