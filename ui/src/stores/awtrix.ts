@@ -131,9 +131,6 @@ export const useAwtrixStore = defineStore({
       this.liveViewEnabled = !this.liveViewEnabled;
       ls.writeB('liveViewEnabled', this.liveViewEnabled);
     },
-    setBrightness(value: number): Promise<boolean> {
-      return this.setSetting('BRI', value);
-    },
     toggleAutoBrightness(): Promise<boolean> {
       return this.toggleSetting('ABRI');
     },

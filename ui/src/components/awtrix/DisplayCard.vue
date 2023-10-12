@@ -108,13 +108,13 @@ export default defineComponent({
   methods: {
     setBrightness(event: Event) {
       const input = event.target as HTMLInputElement;
-      this.awtrixStore.setBrightness(parseInt(input.value, 10));
+      this.awtrixStore.setSetting('BRI', parseInt(input.value, 10));
     },
     incrementBrightness() {
-      this.awtrixStore.setBrightness(this.brightness + 1);
+      this.awtrixStore.setSetting('BRI', this.brightness + 1);
     },
     decrementBrightness() {
-      this.awtrixStore.setBrightness(this.brightness - 1);
+      this.awtrixStore.setSetting('BRI', this.brightness - 1);
     },
   },
   mounted() {
