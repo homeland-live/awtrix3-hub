@@ -76,24 +76,46 @@
           :checked="awtrixStore.settings?.ABRI"
           @change="awtrixStore.toggleAutoBrightness">
       </div>
+      <div class="d-flex justify-content-between align-items-center ps-0">
+        <span class="d-flex align-items-center text-muted">
+          <i class="bi bi-fonts fs-4 pe-2" />
+          Global text color
+        </span>
+        <ColorPicker
+          v-if="awtrixStore.hasSettings"
+          format="hex"
+          shape="circle"
+          disable-alpha
+          disable-history
+          v-model:pureColor="globalTextColorHex"
+          @pureColorChange="setGlobalTextColor" />
+      </div>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, ref } from 'vue';
 import { mapStores } from 'pinia';
+import { ColorPicker } from 'vue3-colorpicker';
+import 'vue3-colorpicker/style.css';
 import BtnIcon from '@/components/coreui/BtnIcon.vue';
 import { useNodeStore } from '@/stores/node';
-import { useAwtrixStore, BRIGHTNESS_MIN, BRIGHTNESS_MAX } from '@/stores/awtrix';
+import {
+  useAwtrixStore,
+  BRIGHTNESS_MIN,
+  BRIGHTNESS_MAX,
+  COLOR_DEFAULT_HEX,
+} from '@/stores/awtrix';
 
 export default defineComponent({
   name: 'DisplayCard',
-  components: { BtnIcon },
+  components: { ColorPicker, BtnIcon },
   data() {
     return {
       brightnessMin: BRIGHTNESS_MIN,
       brightnessMax: BRIGHTNESS_MAX,
+      globalTextColorHex: ref<string>(COLOR_DEFAULT_HEX),
     };
   },
   computed: {
@@ -104,6 +126,11 @@ export default defineComponent({
       useNodeStore, // sets this.nodeStore
       useAwtrixStore, // sets this.awtrixStore
     ),
+  },
+  watch: {
+    'awtrixStore.globalTextColorHex': function watchGlobalTextColorHex(newHex: string) {
+      this.globalTextColorHex = newHex;
+    },
   },
   methods: {
     setBrightness(event: Event) {
@@ -116,9 +143,22 @@ export default defineComponent({
     decrementBrightness() {
       this.awtrixStore.setSetting('BRI', this.brightness - 1);
     },
+    setGlobalTextColor(color: string) {
+      this.awtrixStore.setColor('TCOL', color);
+    },
   },
   mounted() {
     this.nodeStore.init();
   },
 });
 </script>
+
+<style scoped>
+:deep(.vc-color-wrap) {
+  margin-right: 0;
+}
+:deep(.vc-color-wrap.round) {
+  width: 1.3em;
+  height: 1.3em;
+}
+</style>
