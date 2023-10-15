@@ -15,29 +15,6 @@
     <div class="card-body">
       <div class="d-flex justify-content-between align-items-center">
         <span class="d-flex align-items-center text-muted">
-          <i class="bi bi-cast fs-4 pe-2" />
-          LiveView
-          <a v-if="nodeStore.activeNode" :href="'http://' + nodeStore.activeNode.ipv4 + '/fullscreen'" target="_blank">
-            <i class="bi bi-box-arrow-up-right ms-2" />
-          </a>
-        </span>
-        <div class="form-check form-switch">
-          <input
-            v-if="nodeStore.activeNode"
-            class="form-check-input ms-0"
-            type="checkbox"
-            role="switch"
-            :checked="awtrixStore.liveViewEnabled"
-            @change="awtrixStore.toggleLiveView">
-        </div>
-      </div>
-      <iframe
-        v-if="nodeStore.activeNode && awtrixStore.liveViewEnabled"
-        :src="'http://' + nodeStore.activeNode.ipv4 + '/fullscreen'"
-        width="100%"
-        title="Display LiveView" />
-      <div class="d-flex justify-content-between align-items-center">
-        <span class="d-flex align-items-center text-muted">
           <i class="bi bi-brightness-high fs-4 pe-2" />
           Brightness
           <BtnIcon
