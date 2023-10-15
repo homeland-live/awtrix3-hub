@@ -4,125 +4,115 @@
       <span class="text-muted">Native Apps</span>
     </div>
     <div class="card-body">
-      <div class="d-flex justify-content-between align-items-center ps-0">
+      <div class="d-flex justify-content-between align-items-center">
         <span class="d-flex align-items-center text-muted">
           <i class="bi bi-clock fs-4 pe-2" />
           Time
         </span>
-        <div class="form-check form-switch d-flex align-items-center">
-          <label class="form-check-label">
-            <ColorPicker
-              v-if="awtrixStore.hasSettings"
-              format="hex"
-              shape="circle"
-              disable-alpha
-              disable-history
-              v-model:pureColor="timeTextColorHex"
-              @pureColorChange="setTimeTextColor" />
-          </label>
+        <div class="form-check form-switch d-flex align-items-center ps-0">
+          <ColorPicker
+            v-if="awtrixStore.hasSettings"
+            format="hex"
+            shape="circle"
+            disable-alpha
+            disable-history
+            v-model:pureColor="timeTextColorHex"
+            @pureColorChange="setTimeTextColor" />
           <input
             v-if="awtrixStore.hasSettings"
-            class="form-check-input"
+            class="form-check-input float-none m-0"
             type="checkbox"
             role="switch"
             :checked="awtrixStore.appTimeEnabled"
             @change="toggle(awtrixStore.toggleAppTime)">
         </div>
       </div>
-      <div class="d-flex justify-content-between align-items-center ps-0">
+      <div class="d-flex justify-content-between align-items-center">
         <span class="d-flex align-items-center text-muted">
           <i class="bi bi-calendar-date fs-4 pe-2" />
           Date
         </span>
-        <div class="form-check form-switch d-flex align-items-center">
-          <label class="form-check-label">
-            <ColorPicker
-              v-if="awtrixStore.hasSettings"
-              format="hex"
-              shape="circle"
-              disable-alpha
-              disable-history
-              v-model:pureColor="dateTextColorHex"
-              @pureColorChange="setDateTextColor" />
-          </label>
+        <div class="form-check form-switch d-flex align-items-center ps-0">
+          <ColorPicker
+            v-if="awtrixStore.hasSettings"
+            format="hex"
+            shape="circle"
+            disable-alpha
+            disable-history
+            v-model:pureColor="dateTextColorHex"
+            @pureColorChange="setDateTextColor" />
           <input
             v-if="awtrixStore.hasSettings"
-            class="form-check-input"
+            class="form-check-input float-none m-0"
             type="checkbox"
             role="switch"
             :checked="awtrixStore.appDateEnabled"
             @change="toggle(awtrixStore.toggleAppDate)">
         </div>
       </div>
-      <div class="d-flex justify-content-between align-items-center ps-0">
+      <div class="d-flex justify-content-between align-items-center">
         <span class="d-flex align-items-center text-muted">
           <i class="bi bi-moisture fs-4 pe-2" />
           Humidity
         </span>
-        <div class="form-check form-switch d-flex align-items-center">
-          <label class="form-check-label">
-            <ColorPicker
-              v-if="awtrixStore.hasSettings"
-              format="hex"
-              shape="circle"
-              disable-alpha
-              disable-history
-              v-model:pureColor="humTextColorHex"
-              @pureColorChange="setHumTextColor" />
-          </label>
+        <div class="form-check form-switch d-flex align-items-center ps-0">
+          <ColorPicker
+            v-if="awtrixStore.hasSettings"
+            format="hex"
+            shape="circle"
+            disable-alpha
+            disable-history
+            v-model:pureColor="humTextColorHex"
+            @pureColorChange="setHumTextColor" />
           <input
             v-if="awtrixStore.hasSettings"
-            class="form-check-input"
+            class="form-check-input float-none m-0"
             type="checkbox"
             role="switch"
             :checked="awtrixStore.appHumidityEnabled"
             @change="toggle(awtrixStore.toggleAppHumidity)">
         </div>
       </div>
-      <div class="d-flex justify-content-between align-items-center ps-0">
+      <div class="d-flex justify-content-between align-items-center">
         <span class="d-flex align-items-center text-muted">
           <i class="bi bi-thermometer fs-4 pe-2" />
           Temperature
         </span>
-        <div class="form-check form-switch d-flex align-items-center">
-          <label class="form-check-label">
-            <ColorPicker
-              v-if="awtrixStore.hasSettings"
-              format="hex"
-              shape="circle"
-              disable-alpha
-              disable-history
-              v-model:pureColor="tempTextColorHex"
-              @pureColorChange="setTempTextColor" />
-          </label>
+        <div class="form-check form-switch d-flex align-items-center ps-0">
+          <ColorPicker
+            v-if="awtrixStore.hasSettings"
+            format="hex"
+            shape="circle"
+            disable-alpha
+            disable-history
+            v-model:pureColor="tempTextColorHex"
+            @pureColorChange="setTempTextColor" />
           <input
             v-if="awtrixStore.hasSettings"
-            class="form-check-input"
+            class="form-check-input float-none m-0"
             type="checkbox"
             role="switch"
             :checked="awtrixStore.appTemperatureEnabled"
             @change="toggle(awtrixStore.toggleAppTemperature)">
         </div>
       </div>
-      <div class="d-flex justify-content-between align-items-center ps-0">
+      <div class="d-flex justify-content-between align-items-center">
         <span class="d-flex align-items-center text-muted">
           <i class="bi bi-battery-half fs-4 pe-2" />
           Battery
         </span>
-        <div class="form-check form-switch d-flex align-items-center">
-          <label class="form-check-label">
-            <ColorPicker
-              v-if="awtrixStore.hasSettings"
-              format="hex"
-              shape="circle"
-              disable-alpha
-              disable-history
-              v-model:pureColor="batTextColorHex"
-              @pureColorChange="setBatTextColor" />
-          </label>
+        <div class="form-check form-switch d-flex align-items-center ps-0">
+          <ColorPicker
+            v-if="awtrixStore.hasSettings"
+            format="hex"
+            shape="circle"
+            disable-alpha
+            disable-history
+            v-model:pureColor="batTextColorHex"
+            @pureColorChange="setBatTextColor" />
           <input
             v-if="awtrixStore.hasSettings"
-            class="form-check-input"
+            class="form-check-input float-none m-0"
             type="checkbox"
             role="switch"
             :checked="awtrixStore.appBatteryEnabled"
@@ -208,9 +198,6 @@ export default defineComponent({
 </script>
 
 <style scoped>
-:deep(.vc-color-wrap) {
-  margin-right: 3em;
-}
 :deep(.vc-color-wrap.round) {
   width: 1.3em;
   height: 1.3em;
