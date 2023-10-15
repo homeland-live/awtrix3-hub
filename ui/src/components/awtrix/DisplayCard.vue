@@ -13,7 +13,7 @@
       </div>
     </div>
     <div class="card-body">
-      <div class="form-check form-switch d-flex justify-content-between align-items-center ps-0">
+      <div class="d-flex justify-content-between align-items-center">
         <span class="d-flex align-items-center text-muted">
           <i class="bi bi-cast fs-4 pe-2" />
           LiveView
@@ -21,13 +21,15 @@
             <i class="bi bi-box-arrow-up-right ms-2" />
           </a>
         </span>
-        <input
-          v-if="nodeStore.activeNode"
-          class="form-check-input"
-          type="checkbox"
-          role="switch"
-          :checked="awtrixStore.liveViewEnabled"
-          @change="awtrixStore.toggleLiveView">
+        <div class="form-check form-switch">
+          <input
+            v-if="nodeStore.activeNode"
+            class="form-check-input ms-0"
+            type="checkbox"
+            role="switch"
+            :checked="awtrixStore.liveViewEnabled"
+            @change="awtrixStore.toggleLiveView">
+        </div>
       </div>
       <iframe
         v-if="nodeStore.activeNode && awtrixStore.liveViewEnabled"
@@ -63,20 +65,22 @@
         :max="brightnessMax"
         :value="brightness"
         @change="setBrightness">
-      <div class="form-check form-switch d-flex justify-content-between align-items-center ps-0">
+      <div class="d-flex justify-content-between align-items-center">
         <span class="d-flex align-items-center text-muted">
           <i class="bi bi-brightness-low fs-4 pe-2" />
           AutoBrightness
         </span>
-        <input
-          v-if="awtrixStore.hasSettings"
-          class="form-check-input"
-          type="checkbox"
-          role="switch"
-          :checked="awtrixStore.settings?.ABRI"
-          @change="awtrixStore.toggleAutoBrightness">
+        <div class="form-check form-switch">
+          <input
+            v-if="awtrixStore.hasSettings"
+            class="form-check-input ms-0"
+            type="checkbox"
+            role="switch"
+            :checked="awtrixStore.settings?.ABRI"
+            @change="awtrixStore.toggleAutoBrightness">
+        </div>
       </div>
-      <div class="d-flex justify-content-between align-items-center ps-0">
+      <div class="d-flex justify-content-between align-items-center">
         <span class="d-flex align-items-center text-muted">
           <i class="bi bi-fonts fs-4 pe-2" />
           Global text color
