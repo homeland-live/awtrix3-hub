@@ -58,6 +58,7 @@
         </h6>
         <p class="mb-0">Error {{ awtrixStore.error.code }}: {{ awtrixStore.error.msg }}</p>
       </BaseAlert>
+      <LiveViewCard />
     </div>
     <div class="col-3">
       <StatsCard />
@@ -92,6 +93,7 @@ import ConfirmationModal from '@/components/coreui/ConfirmationModal.vue';
 import NodeUpsertModal from '@/components/NodeUpsertModal.vue';
 import DisplayCard from '@/components/awtrix/DisplayCard.vue';
 import NativeAppsCard from '@/components/awtrix/NativeAppsCard.vue';
+import LiveViewCard from '@/components/awtrix/LiveViewCard.vue';
 import StatsCard from '@/components/awtrix/StatsCard.vue';
 import { useNodeStore } from '@/stores/node';
 import { useAwtrixStore } from '@/stores/awtrix';
@@ -111,6 +113,7 @@ export default defineComponent({
     NodeUpsertModal,
     DisplayCard,
     NativeAppsCard,
+    LiveViewCard,
     StatsCard,
   },
   data() {
