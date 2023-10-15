@@ -13,6 +13,7 @@ import {
   type Err,
 } from '@/api/awtrix';
 import { LocalStore } from '@/util/store';
+import { intToHex, hexToInt } from '@/util/color';
 
 export type State = {
   isLoading: boolean,
@@ -27,6 +28,8 @@ export type State = {
 
 export const BRIGHTNESS_MIN = 0;
 export const BRIGHTNESS_MAX = 255;
+export const COLOR_DEFAULT_INT = 16777215;
+export const COLOR_DEFAULT_HEX = 'ffffff';
 
 const ls = new LocalStore('awtrix');
 
@@ -60,20 +63,41 @@ export const useAwtrixStore = defineStore({
     isDisplayOn(state): boolean {
       return state.settings?.MATP === true;
     },
+    globalTextColorInt(state): number {
+      return state.settings?.TCOL || COLOR_DEFAULT_INT;
+    },
+    globalTextColorHex(state): string {
+      return intToHex(state.settings?.TCOL || COLOR_DEFAULT_INT);
+    },
     appTimeEnabled(state): boolean {
       return state.settings?.TIM === true;
+    },
+    appTimeTextColorHex(state): string {
+      return intToHex(state.settings?.TIME_COL || state.settings?.TCOL || COLOR_DEFAULT_INT);
     },
     appDateEnabled(state): boolean {
       return state.settings?.DAT === true;
     },
+    appDateTextColorHex(state): string {
+      return intToHex(state.settings?.DATE_COL || state.settings?.TCOL || COLOR_DEFAULT_INT);
+    },
     appHumidityEnabled(state): boolean {
       return state.settings?.HUM === true;
+    },
+    appHumTextColorHex(state): string {
+      return intToHex(state.settings?.HUM_COL || state.settings?.TCOL || COLOR_DEFAULT_INT);
     },
     appTemperatureEnabled(state): boolean {
       return state.settings?.TEMP === true;
     },
+    appTempTextColorHex(state): string {
+      return intToHex(state.settings?.TEMP_COL || state.settings?.TCOL || COLOR_DEFAULT_INT);
+    },
     appBatteryEnabled(state): boolean {
       return state.settings?.BAT === true;
+    },
+    appBatTextColorHex(state): string {
+      return intToHex(state.settings?.BAT_COL || state.settings?.TCOL || COLOR_DEFAULT_INT);
     },
   },
   actions: {
@@ -121,6 +145,19 @@ export const useAwtrixStore = defineStore({
           return false;
         });
     },
+    setColor(key: keyof Settings, value: string): Promise<boolean> {
+      if (!this.hasSettings || !this.ipv4) {
+        return Promise.resolve(false);
+      }
+      return updateSettings(this.ipv4, { [key]: value })
+        .then((success) => {
+          if (success && this.hasSettings) {
+            this.settings = { ...this.settings, [key]: hexToInt(value) };
+            return true;
+          }
+          return false;
+        });
+    },
     toggleSetting(key: keyof PickProps<Settings, boolean>): Promise<boolean> {
       return this.setSetting(key, !this.settings[key]);
     },
@@ -130,9 +167,6 @@ export const useAwtrixStore = defineStore({
     toggleLiveView(): void {
       this.liveViewEnabled = !this.liveViewEnabled;
       ls.writeB('liveViewEnabled', this.liveViewEnabled);
-    },
-    setBrightness(value: number): Promise<boolean> {
-      return this.setSetting('BRI', value);
     },
     toggleAutoBrightness(): Promise<boolean> {
       return this.toggleSetting('ABRI');
