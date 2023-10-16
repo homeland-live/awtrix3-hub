@@ -26,7 +26,7 @@ export function post(url: string, data: Record<string, unknown>): Promise<Respon
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function postJ(url: string, data: Record<string, unknown>): Promise<any> {
-  return postJ(url, data).then((resp) => resp.json());
+  return post(url, data).then((resp) => resp.json());
 }
 
 export function postB(url: string, data: Record<string, unknown>): Promise<boolean> {
