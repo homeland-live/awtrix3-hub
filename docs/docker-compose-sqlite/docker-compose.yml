@@ -1,0 +1,15 @@
+version: "3.9"
+
+services:
+  hub:
+    restart: unless-stopped
+    image: ghcr.io/awtrix-light/hub
+    container_name: awtrix-hub
+    ports:
+      - "8080:8080"
+    environment:
+      TZ: "Europe/Berlin"
+      LOG_LEVEL: "debug"
+      HTTP_PORT: "8080"
+    volumes:
+      - ./data:/app/data
