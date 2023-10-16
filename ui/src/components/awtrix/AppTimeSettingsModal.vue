@@ -39,6 +39,14 @@
           <EditableInput :value="awtrixStore.settings?.TFORMAT || ''" @change="updateFormat" />
         </div>
       </div>
+      <div class="row mb-3">
+        <div class="col-2">
+          <span class="align-middle">Mode:</span>
+        </div>
+        <div class="col-10">
+          <EditableSelect :value="currentMode" :options="modes" @change="updateMode" />
+        </div>
+      </div>
     </template>
     <template v-slot:footer>
       <button type="button" class="btn btn-light" @click="close">Close</button>
@@ -57,8 +65,9 @@ import {
 } from '@coreui/vue';
 import BaseModal from '@/components/coreui/BaseModal.vue';
 import EditableInput from '@/components/coreui/EditableInput.vue';
+import EditableSelect from '@/components/coreui/EditableSelect.vue';
 import { useNodeStore } from '@/stores/node';
-import { useAwtrixStore } from '@/stores/awtrix';
+import { useAwtrixStore, TIME_APP_DEFAULT_MODE } from '@/stores/awtrix';
 import type { EditableChangeEvent } from '@/types/coreui';
 
 export default defineComponent({
@@ -71,6 +80,7 @@ export default defineComponent({
     CListGroup,
     BaseModal,
     EditableInput,
+    EditableSelect,
   },
   data() {
     return {
@@ -84,9 +94,13 @@ export default defineComponent({
         { format: '%l:%M %p', example: '1:30 PM' },
         { format: '%l %M %p', example: '1:30 PM', blinking: true },
       ],
+      modes: ['0', '1', '2', '3', '4'],
     };
   },
   computed: {
+    currentMode(): string {
+      return (this.awtrixStore.settings?.TMODE || TIME_APP_DEFAULT_MODE).toString();
+    },
     ...mapStores(
       useNodeStore, // sets this.nodeStore
       useAwtrixStore, // sets this.awtrixStore
@@ -109,6 +123,14 @@ export default defineComponent({
         if (!success) {
           this.$emit('toast', { title: 'Error', body: 'remote node did not save new format' });
         }
+      });
+    },
+    updateMode(e: EditableChangeEvent<string>) {
+      this.awtrixStore.setSetting('TMODE', parseInt(e.value, 10)).then((success) => {
+        if (!success) {
+          return e.reject('remote node did not save new mode');
+        }
+        return e.confirm();
       });
     },
   },
