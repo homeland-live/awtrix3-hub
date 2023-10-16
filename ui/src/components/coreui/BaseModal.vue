@@ -40,6 +40,10 @@ export default defineComponent({
       default: '',
       validator: (value: string) => ['', 'sm', 'lg', 'xl'].includes(value),
     },
+    keyboard: {
+      type: Boolean,
+      default: true,
+    },
   },
   computed: {
     dialogClassList(): string[] {
@@ -63,7 +67,7 @@ export default defineComponent({
   },
   mounted() {
     const el = this.$refs.modal as Element;
-    modal(el).show();
+    modal(el, { keyboard: this.keyboard }).show();
     el.addEventListener('hidden.coreui.modal', () => this.$emit('close'));
   },
 });
