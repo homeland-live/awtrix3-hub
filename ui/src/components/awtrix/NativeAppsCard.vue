@@ -54,29 +54,6 @@
       </div>
       <div class="d-flex justify-content-between align-items-center">
         <span class="d-flex align-items-center text-muted">
-          <i class="bi bi-moisture fs-4 pe-2" />
-          Humidity
-        </span>
-        <div class="form-check form-switch d-flex align-items-center ps-0">
-          <ColorPicker
-            v-if="awtrixStore.hasSettings"
-            format="hex"
-            shape="circle"
-            disable-alpha
-            disable-history
-            v-model:pureColor="humTextColorHex"
-            @pureColorChange="setHumTextColor" />
-          <input
-            v-if="awtrixStore.hasSettings"
-            class="form-check-input float-none m-0"
-            type="checkbox"
-            role="switch"
-            :checked="awtrixStore.appHumidityEnabled"
-            @change="toggle(awtrixStore.toggleAppHumidity)">
-        </div>
-      </div>
-      <div class="d-flex justify-content-between align-items-center">
-        <span class="d-flex align-items-center text-muted">
           <i class="bi bi-thermometer fs-4 pe-2" />
           Temperature
         </span>
@@ -96,6 +73,29 @@
             role="switch"
             :checked="awtrixStore.appTemperatureEnabled"
             @change="toggle(awtrixStore.toggleAppTemperature)">
+        </div>
+      </div>
+      <div class="d-flex justify-content-between align-items-center">
+        <span class="d-flex align-items-center text-muted">
+          <i class="bi bi-moisture fs-4 pe-2" />
+          Humidity
+        </span>
+        <div class="form-check form-switch d-flex align-items-center ps-0">
+          <ColorPicker
+            v-if="awtrixStore.hasSettings"
+            format="hex"
+            shape="circle"
+            disable-alpha
+            disable-history
+            v-model:pureColor="humTextColorHex"
+            @pureColorChange="setHumTextColor" />
+          <input
+            v-if="awtrixStore.hasSettings"
+            class="form-check-input float-none m-0"
+            type="checkbox"
+            role="switch"
+            :checked="awtrixStore.appHumidityEnabled"
+            @change="toggle(awtrixStore.toggleAppHumidity)">
         </div>
       </div>
       <div class="d-flex justify-content-between align-items-center">
@@ -161,9 +161,9 @@ export default defineComponent({
       isTimeSettingsModalVisible: ref<boolean>(false),
       dateTextColorHex: ref<string>(COLOR_DEFAULT_HEX),
       isDateSettingsModalVisible: ref<boolean>(false),
-      batTextColorHex: ref<string>(COLOR_DEFAULT_HEX),
       tempTextColorHex: ref<string>(COLOR_DEFAULT_HEX),
       humTextColorHex: ref<string>(COLOR_DEFAULT_HEX),
+      batTextColorHex: ref<string>(COLOR_DEFAULT_HEX),
     };
   },
   computed: {
@@ -178,14 +178,14 @@ export default defineComponent({
     'awtrixStore.appDateTextColorHex': function watchAppDateTextColorHex(newHex: string) {
       this.dateTextColorHex = newHex;
     },
-    'awtrixStore.appBatTextColorHex': function watchAppBatTextColorHex(newHex: string) {
-      this.batTextColorHex = newHex;
-    },
     'awtrixStore.appTempTextColorHex': function watchAppTempTextColorHex(newHex: string) {
       this.tempTextColorHex = newHex;
     },
     'awtrixStore.appHumTextColorHex': function watchAppHumTextColorHex(newHex: string) {
       this.humTextColorHex = newHex;
+    },
+    'awtrixStore.appBatTextColorHex': function watchAppBatTextColorHex(newHex: string) {
+      this.batTextColorHex = newHex;
     },
   },
   methods: {
@@ -222,14 +222,14 @@ export default defineComponent({
     hideDateSettingsModal() {
       this.isDateSettingsModalVisible = false;
     },
-    setBatTextColor(color: string) {
-      this.awtrixStore.setColor('BAT_COL', color);
-    },
     setTempTextColor(color: string) {
       this.awtrixStore.setColor('TEMP_COL', color);
     },
     setHumTextColor(color: string) {
       this.awtrixStore.setColor('HUM_COL', color);
+    },
+    setBatTextColor(color: string) {
+      this.awtrixStore.setColor('BAT_COL', color);
     },
   },
 });
