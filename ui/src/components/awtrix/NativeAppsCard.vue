@@ -3,7 +3,7 @@
     <div class="card-header">
       <span class="text-muted">Native Apps</span>
     </div>
-    <div class="card-body">
+    <div class="card-body small">
       <div class="d-flex justify-content-between align-items-center">
         <span class="d-flex align-items-center text-muted">
           <i class="bi bi-clock fs-4 pe-2" />

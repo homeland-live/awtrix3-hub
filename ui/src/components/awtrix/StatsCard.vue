@@ -3,7 +3,7 @@
     <div class="card-header">
       <span class="text-muted">Stats</span>
     </div>
-    <div class="card-body">
+    <div class="card-body small">
       <div class="d-flex justify-content-between align-items-center">
         <span class="d-flex align-items-center text-muted">
           <i class="bi bi-battery-half fs-3 pe-2" />
