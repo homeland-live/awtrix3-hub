@@ -42,3 +42,14 @@ export interface Toast {
   icon?: string;
   iconColor?: string;
 }
+
+export type EditableConfirmFn = () => void;
+
+export type EditableRejectFn = (reason: string) => void;
+
+export interface EditableChangeEvent<T> {
+  value: T;
+  oldValue: T;
+  confirm: EditableConfirmFn;
+  reject: EditableRejectFn;
+}
