@@ -1,6 +1,6 @@
 <template>
   <div class="modal fade" tabindex="-1" ref="modal">
-    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" :class="{ 'modal-lg': large }">
+    <div class="modal-dialog" :class="dialogClassList">
       <div class="modal-content">
         <div class="modal-header">
           <div class="modal-title">
@@ -25,10 +25,37 @@ import { modal, getModalInstance } from '@/util/coreui';
 
 export default defineComponent({
   name: 'BaseModal',
-  props: {
-    large: { type: Boolean, default: false },
-  },
   emits: ['close'],
+  props: {
+    centered: {
+      type: Boolean,
+      default: true,
+    },
+    scrollable: {
+      type: Boolean,
+      default: true,
+    },
+    size: {
+      type: String,
+      default: '',
+      validator: (value: string) => ['', 'sm', 'lg', 'xl'].includes(value),
+    },
+  },
+  computed: {
+    dialogClassList(): string[] {
+      const list = [];
+      if (this.centered) {
+        list.push('modal-dialog-centered');
+      }
+      if (this.scrollable) {
+        list.push('modal-dialog-scrollable');
+      }
+      if (this.size) {
+        list.push(`modal-${this.size}`);
+      }
+      return list;
+    },
+  },
   methods: {
     close() {
       getModalInstance(this.$refs.modal as Element).hide();
