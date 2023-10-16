@@ -10,6 +10,7 @@
           Time
         </span>
         <div class="form-check form-switch d-flex align-items-center ps-0">
+          <BtnIcon icon="sliders" @click="showTimeSettingsModal" />
           <ColorPicker
             v-if="awtrixStore.hasSettings"
             format="hex"
@@ -123,6 +124,10 @@
     </div>
   </div>
   <teleport to="body">
+    <AppTimeSettingsModal
+      v-if="isTimeSettingsModalVisible && awtrixStore.hasSettings"
+      @toast="onToast"
+      @close="hideTimeSettingsModal" />
     <AppDateSettingsModal
       v-if="isDateSettingsModalVisible && awtrixStore.hasSettings"
       @toast="onToast"
@@ -136,6 +141,7 @@ import { mapStores } from 'pinia';
 import { ColorPicker } from 'vue3-colorpicker';
 import 'vue3-colorpicker/style.css';
 import BtnIcon from '@/components/coreui/BtnIcon.vue';
+import AppTimeSettingsModal from '@/components/awtrix/AppTimeSettingsModal.vue';
 import AppDateSettingsModal from '@/components/awtrix/AppDateSettingsModal.vue';
 import { useAwtrixStore, COLOR_DEFAULT_HEX } from '@/stores/awtrix';
 import type { Toast } from '@/types/coreui';
@@ -146,11 +152,13 @@ export default defineComponent({
   components: {
     ColorPicker,
     BtnIcon,
+    AppTimeSettingsModal,
     AppDateSettingsModal,
   },
   data() {
     return {
       timeTextColorHex: ref<string>(COLOR_DEFAULT_HEX),
+      isTimeSettingsModalVisible: ref<boolean>(false),
       dateTextColorHex: ref<string>(COLOR_DEFAULT_HEX),
       isDateSettingsModalVisible: ref<boolean>(false),
       batTextColorHex: ref<string>(COLOR_DEFAULT_HEX),
@@ -198,6 +206,12 @@ export default defineComponent({
     },
     setTimeTextColor(color: string) {
       this.awtrixStore.setColor('TIME_COL', color);
+    },
+    showTimeSettingsModal() {
+      this.isTimeSettingsModalVisible = true;
+    },
+    hideTimeSettingsModal() {
+      this.isTimeSettingsModalVisible = false;
     },
     setDateTextColor(color: string) {
       this.awtrixStore.setColor('DATE_COL', color);
