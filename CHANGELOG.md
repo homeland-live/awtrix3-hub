@@ -7,9 +7,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.1] - 2023-10-16
+### Added
+- ui: refactor BaseModal to allow more configuration props
+- ui: implement AppTimeSettingsModal, to set time app format
+- ui: implement AppDateSettingsModal, to set date app format
+### Changed
+- ui: make cards' body font smaller
+### Fixed
+- ui: bugfix http post method recursion in api module
+
 ## [0.1.0] - 2023-10-15
 ### Added
 - Initial release
 
-[Unreleased]: https://github.com/awtrix-light/hub/compare/v0.1.0...HEAD
+[Unreleased]: https://github.com/awtrix-light/hub/compare/v0.1.1...HEAD
+[1.1.0]: https://github.com/awtrix-light/hub/compare/v0.1.0...v0.1.1
 [0.1.0]: https://github.com/awtrix-light/hub/releases/tag/v0.1.0
