@@ -56,6 +56,11 @@ export default defineComponent({
       return this.mask(this.oldValue);
     },
   },
+  watch: {
+    value(newValue: string) {
+      this.oldValue = newValue;
+    },
+  },
   methods: {
     input() {
       if (this.error) {
