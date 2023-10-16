@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.2] - 2023-10-16
+### Changed
+- ui: refactor form into inline controls in AppTimeSettingsModal
+- ui: refactor form into inline controls in AppDateSettingsModal
+### Added
+- ui: implement mode control in AppTimeSettingsModal
+
 ## [0.1.1] - 2023-10-16
 ### Added
 - ui: refactor BaseModal to allow more configuration props
@@ -21,6 +28,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Initial release
 
-[Unreleased]: https://github.com/awtrix-light/hub/compare/v0.1.1...HEAD
-[1.1.0]: https://github.com/awtrix-light/hub/compare/v0.1.0...v0.1.1
+[Unreleased]: https://github.com/awtrix-light/hub/compare/v0.1.2...HEAD
+[0.1.2]: https://github.com/awtrix-light/hub/compare/v0.1.1...v0.1.2
+[0.1.1]: https://github.com/awtrix-light/hub/compare/v0.1.0...v0.1.1
 [0.1.0]: https://github.com/awtrix-light/hub/releases/tag/v0.1.0
