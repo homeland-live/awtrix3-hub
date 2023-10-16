@@ -1,5 +1,5 @@
 <template>
-  <div class="card">
+  <div class="card" :class="$attrs.class">
     <div class="card-header">
       <span class="text-muted">Native Apps</span>
     </div>
@@ -33,6 +33,7 @@
           Date
         </span>
         <div class="form-check form-switch d-flex align-items-center ps-0">
+          <BtnIcon icon="sliders" @click="showDateSettingsModal" />
           <ColorPicker
             v-if="awtrixStore.hasSettings"
             format="hex"
@@ -121,6 +122,12 @@
       </div>
     </div>
   </div>
+  <teleport to="body">
+    <AppDateSettingsModal
+      v-if="isDateSettingsModalVisible && awtrixStore.hasSettings"
+      @toast="onToast"
+      @close="hideDateSettingsModal" />
+  </teleport>
 </template>
 
 <script lang="ts">
@@ -128,16 +135,24 @@ import { defineComponent, ref } from 'vue';
 import { mapStores } from 'pinia';
 import { ColorPicker } from 'vue3-colorpicker';
 import 'vue3-colorpicker/style.css';
+import BtnIcon from '@/components/coreui/BtnIcon.vue';
+import AppDateSettingsModal from '@/components/awtrix/AppDateSettingsModal.vue';
 import { useAwtrixStore, COLOR_DEFAULT_HEX } from '@/stores/awtrix';
+import type { Toast } from '@/types/coreui';
 
 export default defineComponent({
   name: 'NativeAppsCard',
   emits: ['toast'],
-  components: { ColorPicker },
+  components: {
+    ColorPicker,
+    BtnIcon,
+    AppDateSettingsModal,
+  },
   data() {
     return {
       timeTextColorHex: ref<string>(COLOR_DEFAULT_HEX),
       dateTextColorHex: ref<string>(COLOR_DEFAULT_HEX),
+      isDateSettingsModalVisible: ref<boolean>(false),
       batTextColorHex: ref<string>(COLOR_DEFAULT_HEX),
       tempTextColorHex: ref<string>(COLOR_DEFAULT_HEX),
       humTextColorHex: ref<string>(COLOR_DEFAULT_HEX),
@@ -166,6 +181,9 @@ export default defineComponent({
     },
   },
   methods: {
+    onToast(toast: Toast) {
+      this.$emit('toast', toast);
+    },
     toggle(fn: () => Promise<boolean>) {
       fn().then((success) => {
         if (success) {
@@ -183,6 +201,12 @@ export default defineComponent({
     },
     setDateTextColor(color: string) {
       this.awtrixStore.setColor('DATE_COL', color);
+    },
+    showDateSettingsModal() {
+      this.isDateSettingsModalVisible = true;
+    },
+    hideDateSettingsModal() {
+      this.isDateSettingsModalVisible = false;
     },
     setBatTextColor(color: string) {
       this.awtrixStore.setColor('BAT_COL', color);
