@@ -34,6 +34,6 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v3
         with:
-          node-version: 20.8
+          node-version: 20.9
       - name: Lint & Test
         run: cd ui && npm ci && npm run ci
