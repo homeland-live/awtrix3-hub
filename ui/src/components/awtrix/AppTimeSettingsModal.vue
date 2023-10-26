@@ -44,7 +44,25 @@
           <span class="align-middle">Mode:</span>
         </div>
         <div class="col-10">
-          <EditableSelect :value="currentMode" :options="modes" @change="updateMode" />
+          <CDropdown v-if="nodeStore.activeNode" placement="bottom-end" class="me-2">
+            <CDropdownToggle size="sm" class="btn-outline-secondary">
+              <i class="bi bi-list" />
+              {{ currentMode }}
+            </CDropdownToggle>
+            <CDropdownMenu>
+              <CListGroup>
+                <button
+                  v-for="mode in modes"
+                  :key="mode"
+                  class="dropdown-item list-group-item list-group-item-action"
+                  :class="{ active: mode === currentMode }"
+                  type="button"
+                  @click="updateMode(mode)">
+                  {{ mode }}
+                </button>
+              </CListGroup>
+            </CDropdownMenu>
+          </CDropdown>
         </div>
       </div>
     </template>
@@ -65,7 +83,6 @@ import {
 } from '@coreui/vue';
 import BaseModal from '@/components/coreui/BaseModal.vue';
 import EditableInput from '@/components/coreui/EditableInput.vue';
-import EditableSelect from '@/components/coreui/EditableSelect.vue';
 import { useNodeStore } from '@/stores/node';
 import { useAwtrixStore, TIME_APP_DEFAULT_MODE } from '@/stores/awtrix';
 import type { EditableChangeEvent } from '@/types/coreui';
@@ -80,7 +97,6 @@ export default defineComponent({
     CListGroup,
     BaseModal,
     EditableInput,
-    EditableSelect,
   },
   data() {
     return {
@@ -94,12 +110,13 @@ export default defineComponent({
         { format: '%l:%M %p', example: '1:30 PM' },
         { format: '%l %M %p', example: '1:30 PM', blinking: true },
       ],
-      modes: ['0', '1', '2', '3', '4'],
+      modes: [0, 1, 2, 3, 4],
     };
   },
   computed: {
-    currentMode(): string {
-      return (this.awtrixStore.settings?.TMODE || TIME_APP_DEFAULT_MODE).toString();
+    currentMode(): number {
+      const mode = this.awtrixStore.settings?.TMODE;
+      return mode !== undefined ? mode : TIME_APP_DEFAULT_MODE;
     },
     ...mapStores(
       useNodeStore, // sets this.nodeStore
@@ -125,13 +142,8 @@ export default defineComponent({
         }
       });
     },
-    updateMode(e: EditableChangeEvent<string>) {
-      this.awtrixStore.setSetting('TMODE', parseInt(e.value, 10)).then((success) => {
-        if (!success) {
-          return e.reject('remote node did not save new mode');
-        }
-        return e.confirm();
-      });
+    updateMode(mode: number) {
+      this.awtrixStore.setSetting('TMODE', mode);
     },
   },
   mounted() {
