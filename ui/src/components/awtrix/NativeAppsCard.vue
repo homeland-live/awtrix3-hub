@@ -20,8 +20,8 @@
             class="form-check-input float-none m-0"
             type="checkbox"
             role="switch"
-            :checked="awtrixStore.appTimeEnabled"
-            @change="toggle(awtrixStore.toggleAppTime)">
+            :checked="awtrixStore.settings?.TIM"
+            @change="toggle('TIM')">
         </div>
       </div>
       <div class="d-flex justify-content-between align-items-center">
@@ -40,8 +40,8 @@
             class="form-check-input float-none m-0"
             type="checkbox"
             role="switch"
-            :checked="awtrixStore.appDateEnabled"
-            @change="toggle(awtrixStore.toggleAppDate)">
+            :checked="awtrixStore.settings?.DAT"
+            @change="toggle('DAT')">
         </div>
       </div>
       <div class="d-flex justify-content-between align-items-center">
@@ -59,8 +59,8 @@
             class="form-check-input float-none m-0"
             type="checkbox"
             role="switch"
-            :checked="awtrixStore.appTemperatureEnabled"
-            @change="toggle(awtrixStore.toggleAppTemperature)">
+            :checked="awtrixStore.settings?.TEMP"
+            @change="toggle('TEMP')">
         </div>
       </div>
       <div class="d-flex justify-content-between align-items-center">
@@ -78,8 +78,8 @@
             class="form-check-input float-none m-0"
             type="checkbox"
             role="switch"
-            :checked="awtrixStore.appHumidityEnabled"
-            @change="toggle(awtrixStore.toggleAppHumidity)">
+            :checked="awtrixStore.settings?.HUM"
+            @change="toggle('HUM')">
         </div>
       </div>
       <div class="d-flex justify-content-between align-items-center">
@@ -97,8 +97,8 @@
             class="form-check-input float-none m-0"
             type="checkbox"
             role="switch"
-            :checked="awtrixStore.appBatteryEnabled"
-            @change="toggle(awtrixStore.toggleAppBattery)">
+            :checked="awtrixStore.settings?.BAT"
+            @change="toggle('BAT')">
         </div>
       </div>
     </div>
@@ -126,6 +126,8 @@ import { useNodeStore } from '@/stores/node';
 import { useAwtrixStore } from '@/stores/awtrix';
 import type { Toast } from '@/types/coreui';
 
+type AppFlag = 'TIM' | 'DAT' | 'TEMP' | 'HUM' | 'BAT';
+
 export default defineComponent({
   name: 'NativeAppsCard',
   emits: ['toast'],
@@ -151,8 +153,8 @@ export default defineComponent({
     onToast(toast: Toast) {
       this.$emit('toast', toast);
     },
-    toggle(fn: () => Promise<boolean>) {
-      fn().then((success) => {
+    toggle(setting: AppFlag) {
+      this.awtrixStore.toggleSetting(setting).then((success) => {
         if (success) {
           this.$emit('toast', {
             title: 'Reboot required',
