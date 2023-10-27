@@ -202,6 +202,9 @@ export const useAwtrixStore = defineStore({
     toggleAutoBrightness(): Promise<boolean> {
       return this.toggleSetting('ABRI');
     },
+    toggleUppercase(): Promise<boolean> {
+      return this.toggleSetting('UPPERCASE');
+    },
     toggleAppTime(): Promise<boolean> {
       return this.toggleSetting('TIM');
     },

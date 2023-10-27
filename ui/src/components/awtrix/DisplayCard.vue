@@ -67,6 +67,21 @@
           :value="awtrixStore.globalTextColorHex"
           @change="setGlobalTextColor" />
       </div>
+      <div class="d-flex justify-content-between align-items-center">
+        <span class="d-flex align-items-center text-muted">
+          <i class="bi bi-alphabet-uppercase fs-4 pe-2" />
+          Uppercase letters
+        </span>
+        <div class="form-check form-switch">
+          <input
+            v-if="awtrixStore.hasSettings"
+            class="form-check-input ms-0"
+            type="checkbox"
+            role="switch"
+            :checked="awtrixStore.settings?.UPPERCASE"
+            @change="awtrixStore.toggleUppercase">
+        </div>
+      </div>
     </div>
   </div>
 </template>
