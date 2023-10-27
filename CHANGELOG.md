@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 ### Added
 - ui: implement weekday active/inactive color pickers in AppTimeSettingsModal
+- ui: implement uppercase toggle in DisplayCard
 
 ## [0.1.3] - 2023-10-27
 ### Added
