@@ -111,6 +111,30 @@
           </div>
         </div>
       </div>
+      <div class="row mb-3">
+        <div class="col-3">
+          <span class="align-middle fw-semibold">Weekday colors:</span>
+        </div>
+        <div class="col-9 my-auto">
+          <div class="row">
+            <div class="col-4">
+              Active
+              <HexColorPicker
+                v-if="awtrixStore.hasSettings"
+                :value="awtrixStore.activeWeekdayColorHex"
+                @change="setActiveWeekdayColor" />
+            </div>
+            <div class="col-4">
+              Inactive
+              <HexColorPicker
+                v-if="awtrixStore.hasSettings"
+                :value="awtrixStore.inactiveWeekdayColorHex"
+                @change="setInactiveWeekdayColor" />
+            </div>
+            <div class="col-4" />
+          </div>
+        </div>
+      </div>
     </template>
     <template v-slot:footer>
       <button type="button" class="btn btn-light" @click="close">Close</button>
@@ -201,6 +225,12 @@ export default defineComponent({
     },
     setTextColor(color: string) {
       this.awtrixStore.setColor('CTCOL', color);
+    },
+    setActiveWeekdayColor(color: string) {
+      this.awtrixStore.setColor('WDCA', color);
+    },
+    setInactiveWeekdayColor(color: string) {
+      this.awtrixStore.setColor('WDCI', color);
     },
   },
   mounted() {

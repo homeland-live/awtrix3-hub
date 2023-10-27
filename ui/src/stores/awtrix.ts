@@ -122,6 +122,14 @@ export const useAwtrixStore = defineStore({
     isWeekdayOn(state): boolean {
       return state.settings?.WD === true;
     },
+    activeWeekdayColorHex(state): string {
+      const wdca = state.settings?.WDCA;
+      return wdca !== undefined ? intToHex(wdca) : this.globalTextColorHex;
+    },
+    inactiveWeekdayColorHex(state): string {
+      const wdci = state.settings?.WDCI;
+      return wdci !== undefined ? intToHex(wdci) : this.globalTextColorHex;
+    },
   },
   actions: {
     init(ipv4: string): Promise<void> {
