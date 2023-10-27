@@ -110,6 +110,9 @@ export const useAwtrixStore = defineStore({
     calTextColorHex(state): string {
       return intToHex(state.settings?.CTCOL || state.settings?.TCOL || COLOR_DEFAULT_INT);
     },
+    isWeekdayOn(state): boolean {
+      return state.settings?.WD === true;
+    },
   },
   actions: {
     init(ipv4: string): Promise<void> {
@@ -196,6 +199,9 @@ export const useAwtrixStore = defineStore({
     },
     toggleAppBattery(): Promise<boolean> {
       return this.toggleSetting('BAT');
+    },
+    toggleWeekday(): Promise<boolean> {
+      return this.toggleSetting('WD');
     },
     reboot(): Promise<boolean> {
       if (!this.ipv4) {

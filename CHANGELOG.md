@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - ui: implement calendar header/body/text color pickers in AppTimeSettingsModal
 - ui: implement reset settings
+- ui: implement weekday toggle in AppTimeSettingsModal
 
 ## [0.1.2] - 2023-10-16
 ### Changed
