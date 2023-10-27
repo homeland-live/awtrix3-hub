@@ -62,9 +62,6 @@ export const useAwtrixStore = defineStore({
     hasStatus(state): boolean {
       return !state.status.error && Object.keys(state.status).length > 1;
     },
-    isDisplayOn(state): boolean {
-      return state.settings?.MATP === true;
-    },
     globalTextColorInt(state): number {
       const tcol = state.settings?.TCOL;
       return tcol !== undefined ? tcol : COLOR_DEFAULT_INT;
@@ -72,36 +69,21 @@ export const useAwtrixStore = defineStore({
     globalTextColorHex(): string {
       return intToHex(this.globalTextColorInt);
     },
-    appTimeEnabled(state): boolean {
-      return state.settings?.TIM === true;
-    },
     appTimeTextColorHex(state): string {
       // 0 means global text color
       return intToHex(state.settings?.TIME_COL || this.globalTextColorInt);
-    },
-    appDateEnabled(state): boolean {
-      return state.settings?.DAT === true;
     },
     appDateTextColorHex(state): string {
       // 0 means global text color
       return intToHex(state.settings?.DATE_COL || this.globalTextColorInt);
     },
-    appHumidityEnabled(state): boolean {
-      return state.settings?.HUM === true;
-    },
     appHumTextColorHex(state): string {
       // 0 means global text color
       return intToHex(state.settings?.HUM_COL || this.globalTextColorInt);
     },
-    appTemperatureEnabled(state): boolean {
-      return state.settings?.TEMP === true;
-    },
     appTempTextColorHex(state): string {
       // 0 means global text color
       return intToHex(state.settings?.TEMP_COL || this.globalTextColorInt);
-    },
-    appBatteryEnabled(state): boolean {
-      return state.settings?.BAT === true;
     },
     appBatTextColorHex(state): string {
       // 0 means global text color
@@ -118,9 +100,6 @@ export const useAwtrixStore = defineStore({
     calTextColorHex(state): string {
       const ctcol = state.settings?.CTCOL;
       return ctcol !== undefined ? intToHex(ctcol) : this.globalTextColorHex;
-    },
-    isWeekdayOn(state): boolean {
-      return state.settings?.WD === true;
     },
     activeWeekdayColorHex(state): string {
       const wdca = state.settings?.WDCA;
@@ -192,36 +171,9 @@ export const useAwtrixStore = defineStore({
     toggleSetting(key: keyof PickProps<Settings, boolean>): Promise<boolean> {
       return this.setSetting(key, !this.settings[key]);
     },
-    toggleDisplay(): Promise<boolean> {
-      return this.toggleSetting('MATP');
-    },
     toggleLiveView(): void {
       this.liveViewEnabled = !this.liveViewEnabled;
       ls.writeB('liveViewEnabled', this.liveViewEnabled);
-    },
-    toggleAutoBrightness(): Promise<boolean> {
-      return this.toggleSetting('ABRI');
-    },
-    toggleUppercase(): Promise<boolean> {
-      return this.toggleSetting('UPPERCASE');
-    },
-    toggleAppTime(): Promise<boolean> {
-      return this.toggleSetting('TIM');
-    },
-    toggleAppDate(): Promise<boolean> {
-      return this.toggleSetting('DAT');
-    },
-    toggleAppHumidity(): Promise<boolean> {
-      return this.toggleSetting('HUM');
-    },
-    toggleAppTemperature(): Promise<boolean> {
-      return this.toggleSetting('TEMP');
-    },
-    toggleAppBattery(): Promise<boolean> {
-      return this.toggleSetting('BAT');
-    },
-    toggleWeekday(): Promise<boolean> {
-      return this.toggleSetting('WD');
     },
     reboot(): Promise<boolean> {
       if (!this.ipv4) {

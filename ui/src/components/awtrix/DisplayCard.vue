@@ -8,8 +8,8 @@
           class="form-check-input"
           type="checkbox"
           role="switch"
-          :checked="awtrixStore.isDisplayOn"
-          @change="awtrixStore.toggleDisplay">
+          :checked="awtrixStore.settings?.MATP"
+          @change="awtrixStore.toggleSetting('MATP')">
       </div>
     </div>
     <div class="card-body small">
@@ -54,7 +54,7 @@
             type="checkbox"
             role="switch"
             :checked="awtrixStore.settings?.ABRI"
-            @change="awtrixStore.toggleAutoBrightness">
+            @change="awtrixStore.toggleSetting('ABRI')">
         </div>
       </div>
       <div class="d-flex justify-content-between align-items-center">
@@ -79,7 +79,7 @@
             type="checkbox"
             role="switch"
             :checked="awtrixStore.settings?.UPPERCASE"
-            @change="awtrixStore.toggleUppercase">
+            @change="awtrixStore.toggleSetting('UPPERCASE')">
         </div>
       </div>
     </div>

@@ -106,8 +106,8 @@
               class="form-check-input"
               type="checkbox"
               role="switch"
-              :checked="awtrixStore.isWeekdayOn"
-              @change="awtrixStore.toggleWeekday">
+              :checked="awtrixStore.settings?.WD"
+              @change="awtrixStore.toggleSetting('WD')">
           </div>
         </div>
       </div>
