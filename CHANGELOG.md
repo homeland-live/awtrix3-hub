@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - ui: v-align label in EditableInput
 - ui: refactor EditableSelect into DropdownMenu in AppTimeSettingsModal
+- ui: wrap ColorPicker into HexColorPicker to avoid code repetitions
 
 ## [0.1.2] - 2023-10-16
 ### Added

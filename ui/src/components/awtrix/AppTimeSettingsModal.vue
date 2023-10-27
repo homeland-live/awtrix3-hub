@@ -73,36 +73,24 @@
           <div class="row">
             <div class="col-4">
               Header
-              <ColorPicker
+              <HexColorPicker
                 v-if="awtrixStore.hasSettings"
-                format="hex"
-                shape="circle"
-                disable-alpha
-                disable-history
-                v-model:pureColor="calHeaderColorHex"
-                @pureColorChange="setHeaderColor" />
+                :value="awtrixStore.calHeaderColorHex"
+                @change="setHeaderColor" />
             </div>
             <div class="col-4">
               Body
-              <ColorPicker
+              <HexColorPicker
                 v-if="awtrixStore.hasSettings"
-                format="hex"
-                shape="circle"
-                disable-alpha
-                disable-history
-                v-model:pureColor="calBodyColorHex"
-                @pureColorChange="setBodyColor" />
+                :value="awtrixStore.calBodyColorHex"
+                @change="setBodyColor" />
             </div>
             <div class="col-4">
               Text
-              <ColorPicker
+              <HexColorPicker
                 v-if="awtrixStore.hasSettings"
-                format="hex"
-                shape="circle"
-                disable-alpha
-                disable-history
-                v-model:pureColor="calTextColorHex"
-                @pureColorChange="setTextColor" />
+                :value="awtrixStore.calTextColorHex"
+                @change="setTextColor" />
             </div>
           </div>
         </div>
@@ -131,9 +119,8 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
+import { defineComponent } from 'vue';
 import { mapStores } from 'pinia';
-import { ColorPicker } from 'vue3-colorpicker';
 import {
   CDropdown,
   CDropdownToggle,
@@ -142,21 +129,22 @@ import {
 } from '@coreui/vue';
 import BaseModal from '@/components/coreui/BaseModal.vue';
 import EditableInput from '@/components/coreui/EditableInput.vue';
+import HexColorPicker from '@/components/HexColorPicker.vue';
 import { useNodeStore } from '@/stores/node';
-import { useAwtrixStore, TIME_APP_DEFAULT_MODE, COLOR_DEFAULT_HEX } from '@/stores/awtrix';
+import { useAwtrixStore, TIME_APP_DEFAULT_MODE } from '@/stores/awtrix';
 import type { EditableChangeEvent } from '@/types/coreui';
 
 export default defineComponent({
   name: 'AppTimeSettingsModal',
   emits: ['close', 'toast'],
   components: {
-    ColorPicker,
     CDropdown,
     CDropdownToggle,
     CDropdownMenu,
     CListGroup,
     BaseModal,
     EditableInput,
+    HexColorPicker,
   },
   data() {
     return {
@@ -171,9 +159,6 @@ export default defineComponent({
         { format: '%l %M %p', example: '1:30 PM', blinking: true },
       ],
       modes: [0, 1, 2, 3, 4],
-      calHeaderColorHex: ref<string>(COLOR_DEFAULT_HEX),
-      calBodyColorHex: ref<string>(COLOR_DEFAULT_HEX),
-      calTextColorHex: ref<string>(COLOR_DEFAULT_HEX),
     };
   },
   computed: {
@@ -185,17 +170,6 @@ export default defineComponent({
       useNodeStore, // sets this.nodeStore
       useAwtrixStore, // sets this.awtrixStore
     ),
-  },
-  watch: {
-    'awtrixStore.calHeaderColorHex': function watchCalBodyColorHex(newHex: string) {
-      this.calHeaderColorHex = newHex;
-    },
-    'awtrixStore.calBodyColorHex': function watchCalBodyColorHex(newHex: string) {
-      this.calBodyColorHex = newHex;
-    },
-    'awtrixStore.calTextColorHex': function watchCalTextColorHex(newHex: string) {
-      this.calTextColorHex = newHex;
-    },
   },
   methods: {
     close() {
@@ -230,11 +204,7 @@ export default defineComponent({
     },
   },
   mounted() {
-    this.nodeStore.init().then(() => {
-      this.calHeaderColorHex = this.awtrixStore.calHeaderColorHex;
-      this.calBodyColorHex = this.awtrixStore.calBodyColorHex;
-      this.calTextColorHex = this.awtrixStore.calTextColorHex;
-    });
+    this.nodeStore.init();
   },
 });
 </script>
@@ -251,5 +221,9 @@ export default defineComponent({
 }
 .list-group-item.active .text-muted {
   color: var(--cui-list-group-active-color,rgba(255,255,255,.87)) !important;
+}
+:deep(.vc-color-wrap.round) {
+  width: 1.3em;
+  height: 1.3em;
 }
 </style>

@@ -62,41 +62,34 @@
           <i class="bi bi-fonts fs-4 pe-2" />
           Global text color
         </span>
-        <ColorPicker
+        <HexColorPicker
           v-if="awtrixStore.hasSettings"
-          format="hex"
-          shape="circle"
-          disable-alpha
-          disable-history
-          v-model:pureColor="globalTextColorHex"
-          @pureColorChange="setGlobalTextColor" />
+          :value="awtrixStore.globalTextColorHex"
+          @change="setGlobalTextColor" />
       </div>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
+import { defineComponent } from 'vue';
 import { mapStores } from 'pinia';
-import { ColorPicker } from 'vue3-colorpicker';
-import 'vue3-colorpicker/style.css';
 import BtnIcon from '@/components/coreui/BtnIcon.vue';
+import HexColorPicker from '@/components/HexColorPicker.vue';
 import { useNodeStore } from '@/stores/node';
 import {
   useAwtrixStore,
   BRIGHTNESS_MIN,
   BRIGHTNESS_MAX,
-  COLOR_DEFAULT_HEX,
 } from '@/stores/awtrix';
 
 export default defineComponent({
   name: 'DisplayCard',
-  components: { ColorPicker, BtnIcon },
+  components: { BtnIcon, HexColorPicker },
   data() {
     return {
       brightnessMin: BRIGHTNESS_MIN,
       brightnessMax: BRIGHTNESS_MAX,
-      globalTextColorHex: ref<string>(COLOR_DEFAULT_HEX),
     };
   },
   computed: {
@@ -107,11 +100,6 @@ export default defineComponent({
       useNodeStore, // sets this.nodeStore
       useAwtrixStore, // sets this.awtrixStore
     ),
-  },
-  watch: {
-    'awtrixStore.globalTextColorHex': function watchGlobalTextColorHex(newHex: string) {
-      this.globalTextColorHex = newHex;
-    },
   },
   methods: {
     setBrightness(event: Event) {
