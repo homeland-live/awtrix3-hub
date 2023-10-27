@@ -11,14 +11,10 @@
         </span>
         <div class="form-check form-switch d-flex align-items-center ps-0">
           <BtnIcon icon="sliders" @click="showTimeSettingsModal" />
-          <ColorPicker
+          <HexColorPicker
             v-if="awtrixStore.hasSettings"
-            format="hex"
-            shape="circle"
-            disable-alpha
-            disable-history
-            v-model:pureColor="timeTextColorHex"
-            @pureColorChange="setTimeTextColor" />
+            :value="awtrixStore.appTimeTextColorHex"
+            @change="setTimeTextColor" />
           <input
             v-if="awtrixStore.hasSettings"
             class="form-check-input float-none m-0"
@@ -35,14 +31,10 @@
         </span>
         <div class="form-check form-switch d-flex align-items-center ps-0">
           <BtnIcon icon="sliders" @click="showDateSettingsModal" />
-          <ColorPicker
+          <HexColorPicker
             v-if="awtrixStore.hasSettings"
-            format="hex"
-            shape="circle"
-            disable-alpha
-            disable-history
-            v-model:pureColor="dateTextColorHex"
-            @pureColorChange="setDateTextColor" />
+            :value="awtrixStore.appDateTextColorHex"
+            @change="setDateTextColor" />
           <input
             v-if="awtrixStore.hasSettings"
             class="form-check-input float-none m-0"
@@ -58,14 +50,10 @@
           Temperature
         </span>
         <div class="form-check form-switch d-flex align-items-center ps-0">
-          <ColorPicker
+          <HexColorPicker
             v-if="awtrixStore.hasSettings"
-            format="hex"
-            shape="circle"
-            disable-alpha
-            disable-history
-            v-model:pureColor="tempTextColorHex"
-            @pureColorChange="setTempTextColor" />
+            :value="awtrixStore.appTempTextColorHex"
+            @change="setTempTextColor" />
           <input
             v-if="awtrixStore.hasSettings"
             class="form-check-input float-none m-0"
@@ -81,14 +69,10 @@
           Humidity
         </span>
         <div class="form-check form-switch d-flex align-items-center ps-0">
-          <ColorPicker
+          <HexColorPicker
             v-if="awtrixStore.hasSettings"
-            format="hex"
-            shape="circle"
-            disable-alpha
-            disable-history
-            v-model:pureColor="humTextColorHex"
-            @pureColorChange="setHumTextColor" />
+            :value="awtrixStore.appHumTextColorHex"
+            @change="setHumTextColor" />
           <input
             v-if="awtrixStore.hasSettings"
             class="form-check-input float-none m-0"
@@ -104,14 +88,10 @@
           Battery
         </span>
         <div class="form-check form-switch d-flex align-items-center ps-0">
-          <ColorPicker
+          <HexColorPicker
             v-if="awtrixStore.hasSettings"
-            format="hex"
-            shape="circle"
-            disable-alpha
-            disable-history
-            v-model:pureColor="batTextColorHex"
-            @pureColorChange="setBatTextColor" />
+            :value="awtrixStore.appBatTextColorHex"
+            @change="setBatTextColor" />
           <input
             v-if="awtrixStore.hasSettings"
             class="form-check-input float-none m-0"
@@ -138,33 +118,27 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
 import { mapStores } from 'pinia';
-import { ColorPicker } from 'vue3-colorpicker';
-import 'vue3-colorpicker/style.css';
 import BtnIcon from '@/components/coreui/BtnIcon.vue';
 import AppTimeSettingsModal from '@/components/awtrix/AppTimeSettingsModal.vue';
 import AppDateSettingsModal from '@/components/awtrix/AppDateSettingsModal.vue';
+import HexColorPicker from '@/components/HexColorPicker.vue';
 import { useNodeStore } from '@/stores/node';
-import { useAwtrixStore, COLOR_DEFAULT_HEX } from '@/stores/awtrix';
+import { useAwtrixStore } from '@/stores/awtrix';
 import type { Toast } from '@/types/coreui';
 
 export default defineComponent({
   name: 'NativeAppsCard',
   emits: ['toast'],
   components: {
-    ColorPicker,
     BtnIcon,
     AppTimeSettingsModal,
     AppDateSettingsModal,
+    HexColorPicker,
   },
   data() {
     return {
-      timeTextColorHex: ref<string>(COLOR_DEFAULT_HEX),
       isTimeSettingsModalVisible: ref<boolean>(false),
-      dateTextColorHex: ref<string>(COLOR_DEFAULT_HEX),
       isDateSettingsModalVisible: ref<boolean>(false),
-      tempTextColorHex: ref<string>(COLOR_DEFAULT_HEX),
-      humTextColorHex: ref<string>(COLOR_DEFAULT_HEX),
-      batTextColorHex: ref<string>(COLOR_DEFAULT_HEX),
     };
   },
   computed: {
@@ -172,23 +146,6 @@ export default defineComponent({
       useNodeStore, // sets this.nodeStore
       useAwtrixStore, // sets this.awtrixStore
     ),
-  },
-  watch: {
-    'awtrixStore.appTimeTextColorHex': function watchAppTimeTextColorHex(newHex: string) {
-      this.timeTextColorHex = newHex;
-    },
-    'awtrixStore.appDateTextColorHex': function watchAppDateTextColorHex(newHex: string) {
-      this.dateTextColorHex = newHex;
-    },
-    'awtrixStore.appTempTextColorHex': function watchAppTempTextColorHex(newHex: string) {
-      this.tempTextColorHex = newHex;
-    },
-    'awtrixStore.appHumTextColorHex': function watchAppHumTextColorHex(newHex: string) {
-      this.humTextColorHex = newHex;
-    },
-    'awtrixStore.appBatTextColorHex': function watchAppBatTextColorHex(newHex: string) {
-      this.batTextColorHex = newHex;
-    },
   },
   methods: {
     onToast(toast: Toast) {
@@ -235,13 +192,7 @@ export default defineComponent({
     },
   },
   mounted() {
-    this.nodeStore.init().then(() => {
-      this.timeTextColorHex = this.awtrixStore.appTimeTextColorHex;
-      this.dateTextColorHex = this.awtrixStore.appDateTextColorHex;
-      this.tempTextColorHex = this.awtrixStore.appTempTextColorHex;
-      this.humTextColorHex = this.awtrixStore.appHumTextColorHex;
-      this.batTextColorHex = this.awtrixStore.appBatTextColorHex;
-    });
+    this.nodeStore.init();
   },
 });
 </script>
