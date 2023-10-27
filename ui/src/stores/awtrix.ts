@@ -100,6 +100,15 @@ export const useAwtrixStore = defineStore({
     appBatTextColorHex(state): string {
       return intToHex(state.settings?.BAT_COL || state.settings?.TCOL || COLOR_DEFAULT_INT);
     },
+    calHeaderColorHex(state): string {
+      return intToHex(state.settings?.CHCOL || state.settings?.TCOL || COLOR_DEFAULT_INT);
+    },
+    calBodyColorHex(state): string {
+      return intToHex(state.settings?.CBCOL || state.settings?.TCOL || COLOR_DEFAULT_INT);
+    },
+    calTextColorHex(state): string {
+      return intToHex(state.settings?.CTCOL || state.settings?.TCOL || COLOR_DEFAULT_INT);
+    },
   },
   actions: {
     init(ipv4: string): Promise<void> {
