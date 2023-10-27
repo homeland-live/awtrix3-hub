@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - ui: refactor EditableSelect into DropdownMenu in AppTimeSettingsModal
 ### Added
 - ui: implement calendar header/body/text color pickers in AppTimeSettingsModal
+- ui: implement reset settings
 
 ## [0.1.2] - 2023-10-16
 ### Changed
