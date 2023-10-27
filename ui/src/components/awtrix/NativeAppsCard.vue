@@ -143,6 +143,7 @@ import 'vue3-colorpicker/style.css';
 import BtnIcon from '@/components/coreui/BtnIcon.vue';
 import AppTimeSettingsModal from '@/components/awtrix/AppTimeSettingsModal.vue';
 import AppDateSettingsModal from '@/components/awtrix/AppDateSettingsModal.vue';
+import { useNodeStore } from '@/stores/node';
 import { useAwtrixStore, COLOR_DEFAULT_HEX } from '@/stores/awtrix';
 import type { Toast } from '@/types/coreui';
 
@@ -168,6 +169,7 @@ export default defineComponent({
   },
   computed: {
     ...mapStores(
+      useNodeStore, // sets this.nodeStore
       useAwtrixStore, // sets this.awtrixStore
     ),
   },
@@ -231,6 +233,15 @@ export default defineComponent({
     setBatTextColor(color: string) {
       this.awtrixStore.setColor('BAT_COL', color);
     },
+  },
+  mounted() {
+    this.nodeStore.init().then(() => {
+      this.timeTextColorHex = this.awtrixStore.appTimeTextColorHex;
+      this.dateTextColorHex = this.awtrixStore.appDateTextColorHex;
+      this.tempTextColorHex = this.awtrixStore.appTempTextColorHex;
+      this.humTextColorHex = this.awtrixStore.appHumTextColorHex;
+      this.batTextColorHex = this.awtrixStore.appBatTextColorHex;
+    });
   },
 });
 </script>

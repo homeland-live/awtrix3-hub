@@ -7,8 +7,8 @@
     </template>
     <template v-slot:body>
       <div class="row mb-3">
-        <div class="col-2">
-          <span class="align-middle">Format:</span>
+        <div class="col-3">
+          <span class="align-middle fw-semibold">Format:</span>
         </div>
         <div class="col-3">
           <CDropdown v-if="nodeStore.activeNode" placement="bottom-end" class="me-2">
@@ -32,7 +32,7 @@
             </CDropdownMenu>
           </CDropdown>
         </div>
-        <div class="col-7">
+        <div class="col-6">
           <EditableInput :value="awtrixStore.settings?.DFORMAT || ''" @change="updateFormat" />
         </div>
       </div>
