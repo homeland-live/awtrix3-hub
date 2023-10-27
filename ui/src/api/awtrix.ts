@@ -111,3 +111,7 @@ export function getLatestRelease(): Promise<{release?: Release, error?: Err}> {
 export function reboot(ipv4: string): Promise<boolean> {
   return postB(`/awtrix/${ipv4}/api/reboot`, {});
 }
+
+export function resetSettings(ipv4: string): Promise<boolean> {
+  return postB(`/awtrix/${ipv4}/api/resetSettings`, {});
+}

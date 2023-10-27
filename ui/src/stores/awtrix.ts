@@ -10,6 +10,7 @@ import {
   getLatestRelease,
   type Release,
   reboot,
+  resetSettings,
   type Err,
 } from '@/api/awtrix';
 import { LocalStore } from '@/util/store';
@@ -201,6 +202,12 @@ export const useAwtrixStore = defineStore({
         return Promise.resolve(false);
       }
       return reboot(this.ipv4);
+    },
+    resetSettings(): Promise<boolean> {
+      if (!this.ipv4) {
+        return Promise.resolve(false);
+      }
+      return resetSettings(this.ipv4);
     },
   },
 });

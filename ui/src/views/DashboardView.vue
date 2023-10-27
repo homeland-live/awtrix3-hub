@@ -39,6 +39,10 @@
               <i class="bi bi-bootstrap-reboot pe-1" />
               Reboot
             </button>
+            <button class="dropdown-item text-danger" type="button" @click="resetSettings">
+              <i class="bi bi-recycle pe-1" />
+              Reset Settings
+            </button>
           </CDropdownMenu>
         </CDropdown>
         <BtnIcon icon="pencil" class="btn-outline-secondary me-2" @click="showUpsertModal" />
@@ -173,6 +177,21 @@ export default defineComponent({
             this.toasts.push({
               title: 'Reboot',
               body: `Node ${this.nodeStore?.activeNode?.name} is performing reboot.
+                Please, refresh page when reboot is done.`,
+              icon: 'bell',
+              iconColor: 'warning',
+            });
+          }
+        });
+    },
+    resetSettings() {
+      this.awtrixStore.resetSettings()
+        .then((success) => {
+          if (success) {
+            this.toasts.push({
+              title: 'Reset Settings',
+              body: `Node ${this.nodeStore?.activeNode?.name} has reset its settings.
+                It does not reset the flash files and WiFi Settings.
                 Please, refresh page when reboot is done.`,
               icon: 'bell',
               iconColor: 'warning',
