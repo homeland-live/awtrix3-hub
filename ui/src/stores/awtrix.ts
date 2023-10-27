@@ -66,49 +66,58 @@ export const useAwtrixStore = defineStore({
       return state.settings?.MATP === true;
     },
     globalTextColorInt(state): number {
-      return state.settings?.TCOL || COLOR_DEFAULT_INT;
+      const tcol = state.settings?.TCOL;
+      return tcol !== undefined ? tcol : COLOR_DEFAULT_INT;
     },
-    globalTextColorHex(state): string {
-      return intToHex(state.settings?.TCOL || COLOR_DEFAULT_INT);
+    globalTextColorHex(): string {
+      return intToHex(this.globalTextColorInt);
     },
     appTimeEnabled(state): boolean {
       return state.settings?.TIM === true;
     },
     appTimeTextColorHex(state): string {
-      return intToHex(state.settings?.TIME_COL || state.settings?.TCOL || COLOR_DEFAULT_INT);
+      // 0 means global text color
+      return intToHex(state.settings?.TIME_COL || this.globalTextColorInt);
     },
     appDateEnabled(state): boolean {
       return state.settings?.DAT === true;
     },
     appDateTextColorHex(state): string {
-      return intToHex(state.settings?.DATE_COL || state.settings?.TCOL || COLOR_DEFAULT_INT);
+      // 0 means global text color
+      return intToHex(state.settings?.DATE_COL || this.globalTextColorInt);
     },
     appHumidityEnabled(state): boolean {
       return state.settings?.HUM === true;
     },
     appHumTextColorHex(state): string {
-      return intToHex(state.settings?.HUM_COL || state.settings?.TCOL || COLOR_DEFAULT_INT);
+      // 0 means global text color
+      return intToHex(state.settings?.HUM_COL || this.globalTextColorInt);
     },
     appTemperatureEnabled(state): boolean {
       return state.settings?.TEMP === true;
     },
     appTempTextColorHex(state): string {
-      return intToHex(state.settings?.TEMP_COL || state.settings?.TCOL || COLOR_DEFAULT_INT);
+      // 0 means global text color
+      return intToHex(state.settings?.TEMP_COL || this.globalTextColorInt);
     },
     appBatteryEnabled(state): boolean {
       return state.settings?.BAT === true;
     },
     appBatTextColorHex(state): string {
-      return intToHex(state.settings?.BAT_COL || state.settings?.TCOL || COLOR_DEFAULT_INT);
+      // 0 means global text color
+      return intToHex(state.settings?.BAT_COL || this.globalTextColorInt);
     },
     calHeaderColorHex(state): string {
-      return intToHex(state.settings?.CHCOL || state.settings?.TCOL || COLOR_DEFAULT_INT);
+      const chcol = state.settings?.CHCOL;
+      return chcol !== undefined ? intToHex(chcol) : this.globalTextColorHex;
     },
     calBodyColorHex(state): string {
-      return intToHex(state.settings?.CBCOL || state.settings?.TCOL || COLOR_DEFAULT_INT);
+      const cbcol = state.settings?.CBCOL;
+      return cbcol !== undefined ? intToHex(cbcol) : this.globalTextColorHex;
     },
     calTextColorHex(state): string {
-      return intToHex(state.settings?.CTCOL || state.settings?.TCOL || COLOR_DEFAULT_INT);
+      const ctcol = state.settings?.CTCOL;
+      return ctcol !== undefined ? intToHex(ctcol) : this.globalTextColorHex;
     },
     isWeekdayOn(state): boolean {
       return state.settings?.WD === true;

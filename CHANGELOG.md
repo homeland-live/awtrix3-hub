@@ -6,30 +6,32 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
-### Changed
-- ui: v-align label in EditableInput
-- ui: refactor EditableSelect into DropdownMenu in AppTimeSettingsModal
 ### Added
 - ui: implement calendar header/body/text color pickers in AppTimeSettingsModal
 - ui: implement reset settings
 - ui: implement weekday toggle in AppTimeSettingsModal
+### Fixed
+- ui: bugfix default colors, sometimes 0 means black, sometimes it means global text color
+### Changed
+- ui: v-align label in EditableInput
+- ui: refactor EditableSelect into DropdownMenu in AppTimeSettingsModal
 
 ## [0.1.2] - 2023-10-16
+### Added
+- ui: implement mode control in AppTimeSettingsModal
 ### Changed
 - ui: refactor form into inline controls in AppTimeSettingsModal
 - ui: refactor form into inline controls in AppDateSettingsModal
-### Added
-- ui: implement mode control in AppTimeSettingsModal
 
 ## [0.1.1] - 2023-10-16
 ### Added
 - ui: refactor BaseModal to allow more configuration props
 - ui: implement AppTimeSettingsModal, to set time app format
 - ui: implement AppDateSettingsModal, to set date app format
-### Changed
-- ui: make cards' body font smaller
 ### Fixed
 - ui: bugfix http post method recursion in api module
+### Changed
+- ui: make cards' body font smaller
 
 ## [0.1.0] - 2023-10-15
 ### Added
