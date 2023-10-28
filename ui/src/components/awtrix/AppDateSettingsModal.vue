@@ -6,12 +6,10 @@
       </div>
     </template>
     <template v-slot:body>
-      <div class="row mb-3">
-        <div class="col-3">
-          <span class="align-middle fw-semibold">Format:</span>
-        </div>
-        <div class="col-3">
-          <CDropdown v-if="nodeStore.activeNode" placement="bottom-end" class="me-2">
+      <div class="row mb-2">
+        <label class="col-sm-3 col-form-label col-form-label-sm fw-semibold">Format</label>
+        <div class="col-sm-3">
+          <CDropdown v-if="nodeStore.activeNode" placement="bottom" class="me-2">
             <CDropdownToggle size="sm" class="btn-outline-secondary">
               <i class="bi bi-list" />
               Preset
@@ -21,7 +19,7 @@
                 <button
                   v-for="fp in formatPresets"
                   :key="fp.format"
-                  class="dropdown-item list-group-item list-group-item-action d-flex justify-content-between"
+                  class="dropdown-item list-group-item list-group-item-action d-flex justify-content-between small"
                   :class="{ active: fp.format === awtrixStore.settings?.DFORMAT }"
                   type="button"
                   @click="setFormat(fp.format)">
@@ -32,8 +30,63 @@
             </CDropdownMenu>
           </CDropdown>
         </div>
-        <div class="col-6">
+        <div class="col-sm-6">
           <EditableInput :value="awtrixStore.settings?.DFORMAT || ''" @change="updateFormat" />
+        </div>
+      </div>
+      <div class="row mb-2">
+        <label class="col-sm-3 col-form-label col-form-label-sm fw-semibold">Weekday</label>
+        <div class="col-sm-9 my-auto">
+          <div class="col-sm-9 form-check form-switch">
+            <input
+              v-if="awtrixStore.hasSettings"
+              class="form-check-input"
+              type="checkbox"
+              role="switch"
+              :checked="awtrixStore.settings?.WD"
+              @change="awtrixStore.toggleSetting('WD')">
+          </div>
+        </div>
+      </div>
+      <div class="row mb-2">
+        <label class="col-sm-3 col-form-label col-form-label-sm fw-semibold">Weekday colors</label>
+        <div class="col-sm-9 my-auto">
+          <div class="row">
+            <div class="col-4">
+              Active
+              <HexColorPicker
+                v-if="awtrixStore.hasSettings"
+                :value="awtrixStore.activeWeekdayColorHex"
+                @change="setActiveWeekdayColor" />
+            </div>
+            <div class="col-4">
+              Inactive
+              <HexColorPicker
+                v-if="awtrixStore.hasSettings"
+                :value="awtrixStore.inactiveWeekdayColorHex"
+                @change="setInactiveWeekdayColor" />
+            </div>
+            <div class="col-4" />
+          </div>
+        </div>
+      </div>
+      <div class="row mb-2">
+        <label class="col-sm-3 col-form-label col-form-label-sm fw-semibold">Start week on Monday</label>
+        <div class="col-sm-9 my-auto">
+          <div class="form-check form-switch">
+            <input
+              v-if="awtrixStore.hasSettings"
+              class="form-check-input"
+              type="checkbox"
+              role="switch"
+              :checked="awtrixStore.settings?.SOM"
+              @change="awtrixStore.toggleSetting('SOM')">
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="form-text">
+          Note: any week / weekday changes also affect time app.
         </div>
       </div>
     </template>
@@ -54,6 +107,7 @@ import {
 } from '@coreui/vue';
 import BaseModal from '@/components/coreui/BaseModal.vue';
 import EditableInput from '@/components/coreui/EditableInput.vue';
+import HexColorPicker from '@/components/HexColorPicker.vue';
 import { useNodeStore } from '@/stores/node';
 import { useAwtrixStore } from '@/stores/awtrix';
 import type { EditableChangeEvent } from '@/types/coreui';
@@ -68,6 +122,7 @@ export default defineComponent({
     CListGroup,
     BaseModal,
     EditableInput,
+    HexColorPicker,
   },
   data() {
     return {
@@ -109,6 +164,12 @@ export default defineComponent({
         }
       });
     },
+    setActiveWeekdayColor(color: string) {
+      this.awtrixStore.setColor('WDCA', color);
+    },
+    setInactiveWeekdayColor(color: string) {
+      this.awtrixStore.setColor('WDCI', color);
+    },
   },
   mounted() {
     this.nodeStore.init();
@@ -128,5 +189,9 @@ export default defineComponent({
 }
 .list-group-item.active .text-muted {
   color: var(--cui-list-group-active-color,rgba(255,255,255,.87)) !important;
+}
+:deep(.vc-color-wrap.round) {
+  width: 1.3em;
+  height: 1.3em;
 }
 </style>
