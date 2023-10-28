@@ -135,6 +135,22 @@
           </div>
         </div>
       </div>
+      <div class="row mb-3">
+        <div class="col-3">
+          <span class="align-middle fw-semibold">Start week on Monday:</span>
+        </div>
+        <div class="col-9">
+          <div class="form-check form-switch">
+            <input
+              v-if="awtrixStore.hasSettings"
+              class="form-check-input"
+              type="checkbox"
+              role="switch"
+              :checked="awtrixStore.settings?.SOM"
+              @change="awtrixStore.toggleSetting('SOM')">
+          </div>
+        </div>
+      </div>
     </template>
     <template v-slot:footer>
       <button type="button" class="btn btn-light" @click="close">Close</button>
