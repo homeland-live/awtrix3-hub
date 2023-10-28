@@ -6,12 +6,10 @@
       </div>
     </template>
     <template v-slot:body>
-      <div class="row mb-3">
-        <div class="col-3">
-          <span class="align-middle fw-semibold">Format:</span>
-        </div>
-        <div class="col-3">
-          <CDropdown v-if="nodeStore.activeNode" placement="bottom-end" class="me-2">
+      <div class="row mb-2">
+        <label class="col-sm-3 col-form-label col-form-label-sm fw-semibold">Format</label>
+        <div class="col-sm-3">
+          <CDropdown v-if="nodeStore.activeNode" placement="bottom" class="me-2">
             <CDropdownToggle size="sm" class="btn-outline-secondary">
               <i class="bi bi-list" />
               Preset
@@ -21,7 +19,7 @@
                 <button
                   v-for="fp in formatPresets"
                   :key="fp.format"
-                  class="dropdown-item list-group-item list-group-item-action"
+                  class="dropdown-item list-group-item list-group-item-action small"
                   :class="{ active: fp.format === awtrixStore.settings?.TFORMAT }"
                   type="button"
                   @click="setFormat(fp.format)">
@@ -35,16 +33,14 @@
             </CDropdownMenu>
           </CDropdown>
         </div>
-        <div class="col-6">
+        <div class="col-sm-6">
           <EditableInput :value="awtrixStore.settings?.TFORMAT || ''" @change="updateFormat" />
         </div>
       </div>
-      <div class="row mb-3">
-        <div class="col-3">
-          <span class="align-middle fw-semibold">Mode:</span>
-        </div>
-        <div class="col-9">
-          <CDropdown v-if="nodeStore.activeNode" placement="bottom-end" class="me-2">
+      <div class="row mb-2">
+        <label class="col-sm-3 col-form-label col-form-label-sm fw-semibold">Mode</label>
+        <div class="col-sm-9">
+          <CDropdown v-if="nodeStore.activeNode" placement="bottom" class="me-2">
             <CDropdownToggle size="sm" class="btn-outline-secondary">
               <i class="bi bi-list" />
               {{ currentMode }}
@@ -54,7 +50,7 @@
                 <button
                   v-for="mode in modes"
                   :key="mode"
-                  class="dropdown-item list-group-item list-group-item-action"
+                  class="dropdown-item list-group-item list-group-item-action text-center small"
                   :class="{ active: mode === currentMode }"
                   type="button"
                   @click="setMode(mode)">
@@ -65,11 +61,9 @@
           </CDropdown>
         </div>
       </div>
-      <div class="row mb-3">
-        <div class="col-3">
-          <span class="align-middle fw-semibold">Calendar colors:</span>
-        </div>
-        <div class="col-9 my-auto">
+      <div class="row mb-2">
+        <label class="col-sm-3 col-form-label col-form-label-sm fw-semibold">Calendar colors</label>
+        <div class="col-sm-9 my-auto">
           <div class="row">
             <div class="col-4">
               Header
@@ -95,12 +89,10 @@
           </div>
         </div>
       </div>
-      <div class="row mb-3">
-        <div class="col-3">
-          <span class="align-middle fw-semibold">Weekday:</span>
-        </div>
-        <div class="col-9">
-          <div class="form-check form-switch">
+      <div class="row mb-2">
+        <label class="col-sm-3 col-form-label col-form-label-sm fw-semibold">Weekday</label>
+        <div class="col-sm-9 my-auto">
+          <div class="col-sm-9 form-check form-switch">
             <input
               v-if="awtrixStore.hasSettings"
               class="form-check-input"
@@ -111,11 +103,9 @@
           </div>
         </div>
       </div>
-      <div class="row mb-3">
-        <div class="col-3">
-          <span class="align-middle fw-semibold">Weekday colors:</span>
-        </div>
-        <div class="col-9 my-auto">
+      <div class="row mb-2">
+        <label class="col-sm-3 col-form-label col-form-label-sm fw-semibold">Weekday colors</label>
+        <div class="col-sm-9 my-auto">
           <div class="row">
             <div class="col-4">
               Active
@@ -135,11 +125,9 @@
           </div>
         </div>
       </div>
-      <div class="row mb-3">
-        <div class="col-3">
-          <span class="align-middle fw-semibold">Start week on Monday:</span>
-        </div>
-        <div class="col-9">
+      <div class="row">
+        <label class="col-sm-3 col-form-label col-form-label-sm fw-semibold">Start week on Monday</label>
+        <div class="col-sm-9 my-auto">
           <div class="form-check form-switch">
             <input
               v-if="awtrixStore.hasSettings"
@@ -149,6 +137,11 @@
               :checked="awtrixStore.settings?.SOM"
               @change="awtrixStore.toggleSetting('SOM')">
           </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="form-text">
+          Note: any week / weekday changes also affect date app.
         </div>
       </div>
     </template>

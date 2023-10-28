@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - ui: implement weekday active/inactive color pickers in AppTimeSettingsModal
 - ui: implement uppercase toggle in DisplayCard
 - ui: implement "start week on Monday" toggle in AppTimeSettingsModal
+- ui: add week/weekday controls to date app settings
 ### Fixed
 - ui: bugfix label visibility on edit in EditableInput
 
