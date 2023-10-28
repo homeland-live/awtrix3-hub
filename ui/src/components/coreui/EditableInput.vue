@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-show="!isEditing" class="text-nowrap text-truncate d-flex align-items-center">
+    <div v-show="!isEditing" class="text-nowrap text-truncate align-items-center">
       <BtnIcon icon="pencil" @click="edit" />
       <span :class="{ small: small }">{{ maskedValue }}</span>
     </div>
