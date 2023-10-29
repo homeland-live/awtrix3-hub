@@ -31,7 +31,7 @@ export const BRIGHTNESS_MIN = 0;
 export const BRIGHTNESS_MAX = 255;
 export const COLOR_DEFAULT_INT = 16777215;
 export const COLOR_DEFAULT_HEX = 'ffffff';
-export const TIME_APP_DEFAULT_MODE = 1;
+export const TIME_APP_MODE_DEFAULT = 1;
 
 const ls = new LocalStore('awtrix');
 

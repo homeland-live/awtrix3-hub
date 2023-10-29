@@ -6,11 +6,11 @@
       </div>
     </template>
     <template v-slot:body>
-      <div class="row mb-2">
-        <label class="col-sm-3 col-form-label col-form-label-sm fw-semibold">Format</label>
-        <div class="col-sm-3">
-          <CDropdown v-if="nodeStore.activeNode" placement="bottom" class="me-2">
-            <CDropdownToggle size="sm" class="btn-outline-secondary">
+      <div class="row mb-3">
+        <label class="col-sm-4 col-form-label col-form-label-sm fw-semibold">Format</label>
+        <div class="col-sm-3 ps-0">
+          <CDropdown v-if="nodeStore.activeNode" placement="bottom">
+            <CDropdownToggle size="sm" class="btn-outline-secondary text-reset">
               <i class="bi bi-list" />
               Preset
             </CDropdownToggle>
@@ -33,15 +33,15 @@
             </CDropdownMenu>
           </CDropdown>
         </div>
-        <div class="col-sm-6">
+        <div class="col-sm-5">
           <EditableInput :value="awtrixStore.settings?.TFORMAT || ''" @change="updateFormat" />
         </div>
       </div>
-      <div class="row mb-2">
-        <label class="col-sm-3 col-form-label col-form-label-sm fw-semibold">Mode</label>
-        <div class="col-sm-9">
-          <CDropdown v-if="nodeStore.activeNode" placement="bottom" class="me-2">
-            <CDropdownToggle size="sm" class="btn-outline-secondary">
+      <div class="row mb-3">
+        <label class="col-sm-4 col-form-label col-form-label-sm fw-semibold">Mode</label>
+        <div class="col-sm-8 ps-0">
+          <CDropdown v-if="nodeStore.activeNode" placement="bottom">
+            <CDropdownToggle size="sm" class="btn-outline-secondary text-reset">
               <i class="bi bi-list" />
               {{ currentMode }}
             </CDropdownToggle>
@@ -61,81 +61,96 @@
           </CDropdown>
         </div>
       </div>
-      <div class="row mb-2">
-        <label class="col-sm-3 col-form-label col-form-label-sm fw-semibold">Calendar colors</label>
-        <div class="col-sm-9 my-auto">
+      <div class="row mb-3">
+        <label class="col-sm-4 col-form-label col-form-label-sm fw-semibold">Calendar colors</label>
+        <div class="col-sm-8 my-auto">
           <div class="row">
-            <div class="col-4">
-              Header
+            <div class="col-4 ps-0">
               <HexColorPicker
                 v-if="awtrixStore.hasSettings"
                 :value="awtrixStore.calHeaderColorHex"
                 @change="setHeaderColor" />
+              <span class="small">Header</span>
             </div>
             <div class="col-4">
-              Body
               <HexColorPicker
                 v-if="awtrixStore.hasSettings"
                 :value="awtrixStore.calBodyColorHex"
                 @change="setBodyColor" />
+              <span class="small">Body</span>
             </div>
             <div class="col-4">
-              Text
               <HexColorPicker
                 v-if="awtrixStore.hasSettings"
                 :value="awtrixStore.calTextColorHex"
                 @change="setTextColor" />
+              <span class="small">Text</span>
             </div>
           </div>
         </div>
       </div>
-      <div class="row mb-2">
-        <label class="col-sm-3 col-form-label col-form-label-sm fw-semibold">Weekday</label>
-        <div class="col-sm-9 my-auto">
-          <div class="col-sm-9 form-check form-switch">
-            <input
-              v-if="awtrixStore.hasSettings"
-              class="form-check-input"
-              type="checkbox"
-              role="switch"
-              :checked="awtrixStore.settings?.WD"
-              @change="awtrixStore.toggleSetting('WD')">
-          </div>
+      <div class="row mb-3">
+        <label class="col-sm-4 col-form-label col-form-label-sm fw-semibold">Weekday</label>
+        <div class="col-sm-8 form-check form-switch my-auto">
+          <input
+            v-if="awtrixStore.hasSettings"
+            class="form-check-input"
+            type="checkbox"
+            role="switch"
+            :checked="awtrixStore.settings?.WD"
+            @change="awtrixStore.toggleSetting('WD')">
+          <label class="form-check-label small">Enable</label>
         </div>
       </div>
-      <div class="row mb-2">
-        <label class="col-sm-3 col-form-label col-form-label-sm fw-semibold">Weekday colors</label>
-        <div class="col-sm-9 my-auto">
+      <div class="row mb-3">
+        <label class="col-sm-4 col-form-label col-form-label-sm fw-semibold">Weekday colors</label>
+        <div class="col-sm-8 my-auto">
           <div class="row">
-            <div class="col-4">
-              Active
+            <div class="col-5 ps-0">
               <HexColorPicker
                 v-if="awtrixStore.hasSettings"
                 :value="awtrixStore.activeWeekdayColorHex"
                 @change="setActiveWeekdayColor" />
+              <span class="small">Active</span>
             </div>
-            <div class="col-4">
-              Inactive
+            <div class="col-5">
               <HexColorPicker
                 v-if="awtrixStore.hasSettings"
                 :value="awtrixStore.inactiveWeekdayColorHex"
                 @change="setInactiveWeekdayColor" />
+              <span class="small">Inactive</span>
             </div>
-            <div class="col-4" />
+            <div class="col-2" />
           </div>
         </div>
       </div>
-      <div class="row">
-        <label class="col-sm-3 col-form-label col-form-label-sm fw-semibold">Start week on Monday</label>
-        <div class="col-sm-9 my-auto">
-          <div class="form-check form-switch">
-            <input
-              v-if="awtrixStore.hasSettings"
-              class="form-check-input"
-              type="checkbox"
-              role="switch"
-              :checked="awtrixStore.settings?.SOM"
-              @change="awtrixStore.toggleSetting('SOM')">
+      <div class="row mb-3">
+        <label class="col-sm-4 col-form-label col-form-label-sm fw-semibold">Week starts on</label>
+        <div class="col-sm-8 my-auto">
+          <div class="row">
+            <div class="col-sm-4 form-check form-check-inline">
+              <input
+                class="form-check-input"
+                type="radio"
+                name="date-som"
+                id="date-som-true"
+                value="true"
+                :checked="awtrixStore.settings?.SOM === true"
+                @change="awtrixStore.toggleSetting('SOM')">
+              <label class="form-check-label small" for="date-som-true">Monday</label>
+            </div>
+            <div class="col-sm-4 form-check form-check-inline">
+              <input
+                class="form-check-input"
+                type="radio"
+                name="date-som"
+                id="date-som-false"
+                :checked="awtrixStore.settings?.SOM === false"
+                value="false"
+                @change="awtrixStore.toggleSetting('SOM')">
+              <label class="form-check-label small" for="date-som-false">Sunday</label>
+            </div>
+            <div class="col-sm-4" />
           </div>
         </div>
       </div>
@@ -164,7 +179,7 @@ import BaseModal from '@/components/coreui/BaseModal.vue';
 import EditableInput from '@/components/coreui/EditableInput.vue';
 import HexColorPicker from '@/components/HexColorPicker.vue';
 import { useNodeStore } from '@/stores/node';
-import { useAwtrixStore, TIME_APP_DEFAULT_MODE } from '@/stores/awtrix';
+import { useAwtrixStore, TIME_APP_MODE_DEFAULT } from '@/stores/awtrix';
 import type { EditableChangeEvent } from '@/types/coreui';
 
 export default defineComponent({
@@ -197,7 +212,7 @@ export default defineComponent({
   computed: {
     currentMode(): number {
       const mode = this.awtrixStore.settings?.TMODE;
-      return mode !== undefined ? mode : TIME_APP_DEFAULT_MODE;
+      return mode !== undefined ? mode : TIME_APP_MODE_DEFAULT;
     },
     ...mapStores(
       useNodeStore, // sets this.nodeStore
@@ -260,6 +275,9 @@ export default defineComponent({
 }
 .list-group-item.active .text-muted {
   color: var(--cui-list-group-active-color,rgba(255,255,255,.87)) !important;
+}
+:deep(.vc-color-wrap) {
+  margin-right: 0.5em;
 }
 :deep(.vc-color-wrap.round) {
   width: 1.3em;
