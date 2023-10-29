@@ -45,7 +45,7 @@
       <div class="d-flex justify-content-between align-items-center">
         <span class="d-flex align-items-center text-muted">
           <i class="bi bi-brightness-low fs-4 pe-2" />
-          AutoBrightness
+          Auto Brightness
         </span>
         <div class="form-check form-switch">
           <input
