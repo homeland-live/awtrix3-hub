@@ -100,6 +100,8 @@ import {
   BRIGHTNESS_MAX,
 } from '@/stores/awtrix';
 
+const BRIGHTNESS_STEP = 1;
+
 export default defineComponent({
   name: 'DisplayCard',
   components: { BtnIcon, HexColorPicker },
@@ -124,10 +126,10 @@ export default defineComponent({
       this.awtrixStore.setSetting('BRI', parseInt(input.value, 10));
     },
     incrementBrightness() {
-      this.awtrixStore.setSetting('BRI', this.currentBrightness + 1);
+      this.awtrixStore.setSetting('BRI', this.currentBrightness + BRIGHTNESS_STEP);
     },
     decrementBrightness() {
-      this.awtrixStore.setSetting('BRI', this.currentBrightness - 1);
+      this.awtrixStore.setSetting('BRI', this.currentBrightness - BRIGHTNESS_STEP);
     },
     setGlobalTextColor(color: string) {
       this.awtrixStore.setColor('TCOL', color);

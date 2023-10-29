@@ -1,7 +1,20 @@
 <template>
   <div class="card" :class="$attrs.class">
-    <div class="card-header">
-      <span class="text-muted">Native Apps</span>
+    <div class="card-header d-flex justify-content-between pe-2">
+      <span class="text-muted">
+        Native Apps
+        <BtnIcon
+          v-if="awtrixStore.hasSettings"
+          icon="rewind-circle"
+          class="fs-5 ps-2"
+          @click="awtrixStore.prevApp" />
+        <BtnIcon
+          v-if="awtrixStore.hasSettings"
+          icon="fast-forward-circle"
+          class="fs-5 px-0"
+          @click="awtrixStore.nextApp" />
+      </span>
+      <BtnIcon icon="sliders" class="fs-6 py-0" @click="showGeneralSettingsModal" />
     </div>
     <div class="card-body small">
       <div class="d-flex justify-content-between align-items-center">
@@ -104,6 +117,10 @@
     </div>
   </div>
   <teleport to="body">
+    <AppGeneralSettingsModal
+      v-if="isGeneralSettingsModalVisible && awtrixStore.hasSettings"
+      @toast="onToast"
+      @close="hideGeneralSettingsModal" />
     <AppTimeSettingsModal
       v-if="isTimeSettingsModalVisible && awtrixStore.hasSettings"
       @toast="onToast"
@@ -119,6 +136,7 @@
 import { defineComponent, ref } from 'vue';
 import { mapStores } from 'pinia';
 import BtnIcon from '@/components/coreui/BtnIcon.vue';
+import AppGeneralSettingsModal from '@/components/awtrix/AppGeneralSettingsModal.vue';
 import AppTimeSettingsModal from '@/components/awtrix/AppTimeSettingsModal.vue';
 import AppDateSettingsModal from '@/components/awtrix/AppDateSettingsModal.vue';
 import HexColorPicker from '@/components/HexColorPicker.vue';
@@ -133,12 +151,14 @@ export default defineComponent({
   emits: ['toast'],
   components: {
     BtnIcon,
+    AppGeneralSettingsModal,
     AppTimeSettingsModal,
     AppDateSettingsModal,
     HexColorPicker,
   },
   data() {
     return {
+      isGeneralSettingsModalVisible: ref<boolean>(false),
       isTimeSettingsModalVisible: ref<boolean>(false),
       isDateSettingsModalVisible: ref<boolean>(false),
     };
@@ -152,6 +172,12 @@ export default defineComponent({
   methods: {
     onToast(toast: Toast) {
       this.$emit('toast', toast);
+    },
+    showGeneralSettingsModal() {
+      this.isGeneralSettingsModalVisible = true;
+    },
+    hideGeneralSettingsModal() {
+      this.isGeneralSettingsModalVisible = false;
     },
     toggle(setting: AppFlag) {
       this.awtrixStore.toggleSetting(setting).then((success) => {
