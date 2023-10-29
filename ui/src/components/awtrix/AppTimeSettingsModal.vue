@@ -7,8 +7,8 @@
     </template>
     <template v-slot:body>
       <div class="row mb-3">
-        <label class="col-sm-4 col-form-label col-form-label-sm fw-semibold">Format</label>
-        <div class="col-sm-3 ps-0">
+        <label class="col-4 col-form-label col-form-label-sm fw-semibold">Format</label>
+        <div class="col-3 ps-0">
           <CDropdown v-if="nodeStore.activeNode" placement="bottom">
             <CDropdownToggle size="sm" class="btn-outline-secondary text-reset">
               <i class="bi bi-list" />
@@ -33,13 +33,13 @@
             </CDropdownMenu>
           </CDropdown>
         </div>
-        <div class="col-sm-5">
+        <div class="col-5">
           <EditableInput :value="awtrixStore.settings?.TFORMAT || ''" @change="updateFormat" />
         </div>
       </div>
       <div class="row mb-3">
-        <label class="col-sm-4 col-form-label col-form-label-sm fw-semibold">Mode</label>
-        <div class="col-sm-8 ps-0">
+        <label class="col-4 col-form-label col-form-label-sm fw-semibold">Mode</label>
+        <div class="col-8 ps-0">
           <CDropdown v-if="nodeStore.activeNode" placement="bottom">
             <CDropdownToggle size="sm" class="btn-outline-secondary text-reset">
               <i class="bi bi-list" />
@@ -62,8 +62,8 @@
         </div>
       </div>
       <div class="row mb-3">
-        <label class="col-sm-4 col-form-label col-form-label-sm fw-semibold">Calendar colors</label>
-        <div class="col-sm-8 my-auto">
+        <label class="col-4 col-form-label col-form-label-sm fw-semibold">Calendar colors</label>
+        <div class="col-8 my-auto">
           <div class="row">
             <div class="col-4 ps-0">
               <HexColorPicker
@@ -90,8 +90,8 @@
         </div>
       </div>
       <div class="row mb-3">
-        <label class="col-sm-4 col-form-label col-form-label-sm fw-semibold">Weekday</label>
-        <div class="col-sm-8 form-check form-switch my-auto">
+        <label class="col-4 col-form-label col-form-label-sm fw-semibold">Weekday</label>
+        <div class="col-8 form-check form-switch my-auto">
           <input
             v-if="awtrixStore.hasSettings"
             class="form-check-input"
@@ -103,8 +103,8 @@
         </div>
       </div>
       <div class="row mb-3">
-        <label class="col-sm-4 col-form-label col-form-label-sm fw-semibold">Weekday colors</label>
-        <div class="col-sm-8 my-auto">
+        <label class="col-4 col-form-label col-form-label-sm fw-semibold">Weekday colors</label>
+        <div class="col-8 my-auto">
           <div class="row">
             <div class="col-5 ps-0">
               <HexColorPicker
@@ -125,10 +125,10 @@
         </div>
       </div>
       <div class="row mb-3">
-        <label class="col-sm-4 col-form-label col-form-label-sm fw-semibold">Week starts on</label>
-        <div class="col-sm-8 my-auto">
+        <label class="col-4 col-form-label col-form-label-sm fw-semibold">Week starts on</label>
+        <div class="col-8 my-auto">
           <div class="row">
-            <div class="col-sm-4 form-check form-check-inline">
+            <div class="col-4 form-check form-check-inline">
               <input
                 class="form-check-input"
                 type="radio"
@@ -139,7 +139,7 @@
                 @change="awtrixStore.toggleSetting('SOM')">
               <label class="form-check-label small" for="date-som-true">Monday</label>
             </div>
-            <div class="col-sm-4 form-check form-check-inline">
+            <div class="col-4 form-check form-check-inline">
               <input
                 class="form-check-input"
                 type="radio"
@@ -150,7 +150,7 @@
                 @change="awtrixStore.toggleSetting('SOM')">
               <label class="form-check-label small" for="date-som-false">Sunday</label>
             </div>
-            <div class="col-sm-4" />
+            <div class="col-4" />
           </div>
         </div>
       </div>
