@@ -14,7 +14,7 @@
           class="fs-6 px-0 py-0"
           @click="awtrixStore.nextApp" />
       </span>
-      <BtnIcon icon="sliders" class="fs-6 py-0" @click="showGeneralSettingsModal" />
+      <BtnIcon v-if="awtrixStore.hasSettings" icon="sliders" class="fs-6 py-0" @click="showGeneralSettingsModal" />
     </div>
     <div class="card-body small">
       <div class="d-flex justify-content-between align-items-center">
@@ -23,7 +23,7 @@
           Time
         </span>
         <div class="form-check form-switch d-flex align-items-center ps-0">
-          <BtnIcon icon="sliders" @click="showTimeSettingsModal" />
+          <BtnIcon v-if="awtrixStore.hasSettings" icon="sliders" @click="showTimeSettingsModal" />
           <HexColorPicker
             v-if="awtrixStore.hasSettings"
             :value="awtrixStore.appTimeTextColorHex"
@@ -43,7 +43,7 @@
           Date
         </span>
         <div class="form-check form-switch d-flex align-items-center ps-0">
-          <BtnIcon icon="sliders" @click="showDateSettingsModal" />
+          <BtnIcon v-if="awtrixStore.hasSettings" icon="sliders" @click="showDateSettingsModal" />
           <HexColorPicker
             v-if="awtrixStore.hasSettings"
             :value="awtrixStore.appDateTextColorHex"
