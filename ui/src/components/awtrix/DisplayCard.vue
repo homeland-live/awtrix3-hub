@@ -17,21 +17,23 @@
         <span class="d-flex align-items-center text-muted">
           <i class="bi bi-brightness-high fs-4 pe-2" />
           Brightness
+        </span>
+        <span v-if="awtrixStore.hasSettings">
           <BtnIcon
             v-if="awtrixStore.hasSettings && !awtrixStore.settings?.ABRI"
-            icon="caret-left-fill"
-            class="ps-2 pe-0"
+            icon="chevron-left"
+            class="border-0"
             @click="decrementBrightness"
             :disabled="currentBrightness === brightnessMin" />
+          <span class="small align-middle">
+            {{ currentBrightness }} / {{ brightnessMax }}
+          </span>
           <BtnIcon
             v-if="awtrixStore.hasSettings && !awtrixStore.settings?.ABRI"
-            icon="caret-right-fill"
-            class="px-0"
+            icon="chevron-right"
+            class="border-0 pe-0"
             @click="incrementBrightness"
             :disabled="currentBrightness === brightnessMax" />
-        </span>
-        <span v-if="awtrixStore.hasSettings" class="small">
-          {{ currentBrightness }} / {{ brightnessMax }}
         </span>
       </div>
       <input
@@ -54,7 +56,7 @@
             type="checkbox"
             role="switch"
             :checked="awtrixStore.settings?.ABRI"
-            @change="awtrixStore.toggleSetting('ABRI')">
+            @change="awtrixStore.toggleAutoBrightness()">
         </div>
       </div>
       <div class="d-flex justify-content-between align-items-center">

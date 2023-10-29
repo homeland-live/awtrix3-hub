@@ -171,6 +171,24 @@ export const useAwtrixStore = defineStore({
     toggleSetting(key: keyof PickProps<Settings, boolean>): Promise<boolean> {
       return this.setSetting(key, !this.settings[key]);
     },
+    syncBrightness() {
+      if (!this.hasSettings || !this.ipv4) {
+        return;
+      }
+      getSettings(this.ipv4).then((settings) => {
+        this.settings.BRI = settings.BRI;
+      });
+    },
+    toggleAutoBrightness(): Promise<boolean> {
+      return this.toggleSetting('ABRI')
+        .then((success) => {
+          if (this.settings.ABRI) {
+            // update state of auto-adjusted brightness
+            setTimeout(this.syncBrightness, 500);
+          }
+          return success;
+        });
+    },
     toggleLiveView(): void {
       this.liveViewEnabled = !this.liveViewEnabled;
       ls.writeB('liveViewEnabled', this.liveViewEnabled);
