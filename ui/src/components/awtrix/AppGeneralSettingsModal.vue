@@ -17,8 +17,8 @@
     </template>
     <template v-slot:body>
       <div class="row mb-3">
-        <label class="col-sm-4 col-form-label col-form-label-sm fw-semibold">Auto Transition</label>
-        <div class="col-sm-8 form-check form-switch my-auto">
+        <label class="col-4 col-form-label col-form-label-sm fw-semibold">Auto Transition</label>
+        <div class="col-8 form-check form-switch my-auto">
           <input
             v-if="awtrixStore.hasSettings"
             class="form-check-input"
@@ -29,8 +29,8 @@
         </div>
       </div>
       <div class="row mb-3">
-        <label class="col-sm-4 col-form-label col-form-label-sm fw-semibold">Transition effect</label>
-        <div class="col-sm-8 ps-0 my-auto">
+        <label class="col-4 col-form-label col-form-label-sm fw-semibold">Transition effect</label>
+        <div class="col-8 ps-0 my-auto">
           <CDropdown v-if="nodeStore.activeNode" placement="bottom">
             <CDropdownToggle size="sm" class="btn-outline-secondary text-reset">
               <i class="bi bi-list" />
@@ -53,8 +53,8 @@
         </div>
       </div>
       <div class="row mb-3">
-        <label class="col-sm-4 col-form-label col-form-label-sm fw-semibold">Transition speed</label>
-        <div class="col-sm-8 ps-0">
+        <label class="col-4 col-form-label col-form-label-sm fw-semibold">Transition speed</label>
+        <div class="col-8 ps-0">
           <BtnIcon
             v-if="awtrixStore.hasSettings"
             icon="chevron-left"
@@ -70,8 +70,8 @@
         </div>
       </div>
       <div class="row mb-3">
-        <label class="col-sm-4 col-form-label col-form-label-sm fw-semibold">App time</label>
-        <div class="col-sm-8 ps-0">
+        <label class="col-4 col-form-label col-form-label-sm fw-semibold">App time</label>
+        <div class="col-8 ps-0">
           <BtnIcon
             v-if="awtrixStore.hasSettings"
             icon="chevron-left"
