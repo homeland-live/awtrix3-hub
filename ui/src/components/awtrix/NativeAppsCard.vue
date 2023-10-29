@@ -6,12 +6,12 @@
         <BtnIcon
           v-if="awtrixStore.hasSettings"
           icon="rewind-circle"
-          class="fs-5 ps-2"
+          class="fs-6 ps-2 py-0"
           @click="awtrixStore.prevApp" />
         <BtnIcon
           v-if="awtrixStore.hasSettings"
           icon="fast-forward-circle"
-          class="fs-5 px-0"
+          class="fs-6 px-0 py-0"
           @click="awtrixStore.nextApp" />
       </span>
       <BtnIcon icon="sliders" class="fs-6 py-0" @click="showGeneralSettingsModal" />
