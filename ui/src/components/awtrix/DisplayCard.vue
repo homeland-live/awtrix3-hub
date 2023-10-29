@@ -22,16 +22,16 @@
             icon="caret-left-fill"
             class="ps-2 pe-0"
             @click="decrementBrightness"
-            :disabled="brightness === brightnessMin" />
+            :disabled="currentBrightness === brightnessMin" />
           <BtnIcon
             v-if="awtrixStore.hasSettings && !awtrixStore.settings?.ABRI"
             icon="caret-right-fill"
             class="px-0"
             @click="incrementBrightness"
-            :disabled="brightness === brightnessMax" />
+            :disabled="currentBrightness === brightnessMax" />
         </span>
         <span v-if="awtrixStore.hasSettings" class="small">
-          {{ brightness }} / {{ brightnessMax }}
+          {{ currentBrightness }} / {{ brightnessMax }}
         </span>
       </div>
       <input
@@ -40,7 +40,7 @@
         class="form-range"
         :min="brightnessMin"
         :max="brightnessMax"
-        :value="brightness"
+        :value="currentBrightness"
         @change="setBrightness">
       <div class="d-flex justify-content-between align-items-center">
         <span class="d-flex align-items-center text-muted">
@@ -108,7 +108,7 @@ export default defineComponent({
     };
   },
   computed: {
-    brightness(): number {
+    currentBrightness(): number {
       return this.awtrixStore.settings?.BRI || this.brightnessMin;
     },
     ...mapStores(
@@ -122,10 +122,10 @@ export default defineComponent({
       this.awtrixStore.setSetting('BRI', parseInt(input.value, 10));
     },
     incrementBrightness() {
-      this.awtrixStore.setSetting('BRI', this.brightness + 1);
+      this.awtrixStore.setSetting('BRI', this.currentBrightness + 1);
     },
     decrementBrightness() {
-      this.awtrixStore.setSetting('BRI', this.brightness - 1);
+      this.awtrixStore.setSetting('BRI', this.currentBrightness - 1);
     },
     setGlobalTextColor(color: string) {
       this.awtrixStore.setColor('TCOL', color);
