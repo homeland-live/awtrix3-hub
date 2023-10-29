@@ -30,7 +30,7 @@
     </div>
     <div class="col-6">
       <div class="float-end">
-        <CDropdown v-if="nodeStore.activeNode" placement="bottom-end" class="me-2">
+        <CDropdown v-if="awtrixStore.hasSettings" placement="bottom-end" class="me-2">
           <CDropdownToggle size="sm" class="btn-outline-secondary">
             <i class="bi bi-power" />
           </CDropdownToggle>
@@ -62,7 +62,7 @@
         </h6>
         <p class="mb-0">Error {{ awtrixStore.error.code }}: {{ awtrixStore.error.msg }}</p>
       </BaseAlert>
-      <LiveViewCard />
+      <LiveViewCard v-if="awtrixStore.hasSettings" />
     </div>
     <div class="col-3">
       <StatsCard />
