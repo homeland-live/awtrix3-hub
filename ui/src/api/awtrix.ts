@@ -108,6 +108,14 @@ export function getLatestRelease(): Promise<{release?: Release, error?: Err}> {
   return getJ('/api/v1/awtrix-light/release');
 }
 
+export function prevApp(ipv4: string): Promise<boolean> {
+  return postB(`/awtrix/${ipv4}/api/previousapp`, {});
+}
+
+export function nextApp(ipv4: string): Promise<boolean> {
+  return postB(`/awtrix/${ipv4}/api/nextapp`, {});
+}
+
 export function reboot(ipv4: string): Promise<boolean> {
   return postB(`/awtrix/${ipv4}/api/reboot`, {});
 }

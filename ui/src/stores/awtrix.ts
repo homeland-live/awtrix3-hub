@@ -9,6 +9,8 @@ import {
   type Status,
   getLatestRelease,
   type Release,
+  prevApp,
+  nextApp,
   reboot,
   resetSettings,
   type Err,
@@ -32,6 +34,11 @@ export const BRIGHTNESS_MAX = 255;
 export const COLOR_DEFAULT_INT = 16777215;
 export const COLOR_DEFAULT_HEX = 'ffffff';
 export const TIME_APP_MODE_DEFAULT = 1;
+export const TRANSITION_EFFECT_DEFAULT = 1;
+export const TRANSITION_SPEED_DEFAULT = 500;
+export const TRANSITION_SPEED_MIN = 100;
+export const APP_TIME_DEFAULT = 7;
+export const APP_TIME_MIN = 1;
 
 const ls = new LocalStore('awtrix');
 
@@ -192,6 +199,18 @@ export const useAwtrixStore = defineStore({
     toggleLiveView(): void {
       this.liveViewEnabled = !this.liveViewEnabled;
       ls.writeB('liveViewEnabled', this.liveViewEnabled);
+    },
+    prevApp(): Promise<boolean> {
+      if (!this.ipv4) {
+        return Promise.resolve(false);
+      }
+      return prevApp(this.ipv4);
+    },
+    nextApp(): Promise<boolean> {
+      if (!this.ipv4) {
+        return Promise.resolve(false);
+      }
+      return nextApp(this.ipv4);
     },
     reboot(): Promise<boolean> {
       if (!this.ipv4) {
