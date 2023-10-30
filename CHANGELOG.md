@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Added
+- ui: implement button to dismiss notification in DashboardView
+### Changed
+- ui: hide some components if node is not reachable
 
 ## [0.1.5] - 2023-10-29
 ### Added
