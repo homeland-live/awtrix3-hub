@@ -116,6 +116,10 @@ export function nextApp(ipv4: string): Promise<boolean> {
   return postB(`/awtrix/${ipv4}/api/nextapp`, {});
 }
 
+export function dismissNotification(ipv4: string): Promise<boolean> {
+  return postB(`/awtrix/${ipv4}/api/notify/dismiss`, {});
+}
+
 export function reboot(ipv4: string): Promise<boolean> {
   return postB(`/awtrix/${ipv4}/api/reboot`, {});
 }
