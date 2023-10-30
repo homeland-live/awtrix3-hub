@@ -11,6 +11,7 @@ import {
   type Release,
   prevApp,
   nextApp,
+  dismissNotification,
   reboot,
   resetSettings,
   type Err,
@@ -211,6 +212,12 @@ export const useAwtrixStore = defineStore({
         return Promise.resolve(false);
       }
       return nextApp(this.ipv4);
+    },
+    dismissNotification(): Promise<boolean> {
+      if (!this.ipv4) {
+        return Promise.resolve(false);
+      }
+      return dismissNotification(this.ipv4);
     },
     reboot(): Promise<boolean> {
       if (!this.ipv4) {

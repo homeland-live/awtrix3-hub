@@ -30,6 +30,11 @@
     </div>
     <div class="col-6">
       <div class="float-end">
+        <BtnIcon
+          v-if="awtrixStore.hasSettings"
+          icon="send-slash"
+          class="btn-outline-secondary me-2"
+          @click="dismissNotification" />
         <CDropdown v-if="awtrixStore.hasSettings" placement="bottom-end" class="me-2">
           <CDropdownToggle size="sm" class="btn-outline-secondary">
             <i class="bi bi-power" />
@@ -169,6 +174,9 @@ export default defineComponent({
           this.$emit('toast', { title: `Error ${err.code}`, body: err.msg });
         }
       });
+    },
+    dismissNotification() {
+      this.awtrixStore.dismissNotification();
     },
     reboot() {
       this.awtrixStore.reboot()
