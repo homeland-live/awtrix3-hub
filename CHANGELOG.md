@@ -8,6 +8,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 ### Added
 - ui: implement button to dismiss notification in DashboardView
+### Fixed
+- ui: bugifx first node creation from hint `add` link
 ### Changed
 - ui: hide some components if node is not reachable
 

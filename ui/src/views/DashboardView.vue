@@ -76,8 +76,8 @@
   <BaseToaster :toasts="toasts" />
   <teleport to="body">
     <NodeUpsertModal
-      v-if="isUpsertModalVisible && nodeStore.activeNode"
-      :node="nodeStore.activeNode"
+      v-if="isUpsertModalVisible"
+      :node="nodeStore?.activeNode || {}"
       @toast="onToast"
       @close="hideUpsertModal" />
     <ConfirmationModal
@@ -149,9 +149,7 @@ export default defineComponent({
   },
   methods: {
     showUpsertModal() {
-      if (this.nodeStore.activeNode) {
-        this.isUpsertModalVisible = true;
-      }
+      this.isUpsertModalVisible = true;
     },
     hideUpsertModal() {
       this.isUpsertModalVisible = false;
