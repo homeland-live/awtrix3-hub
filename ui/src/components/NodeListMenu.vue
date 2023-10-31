@@ -5,19 +5,19 @@
     </CDropdownToggle>
     <CDropdownMenu>
       <CListGroup>
+        <button class="dropdown-item list-group-item list-group-item-action" type="button" @click="showUpsertModal">
+          <i class="bi bi-plus-lg pe-1" />
+          Add node
+        </button>
         <button
           v-for="n in nodeStore.nodes"
           :key="n.id"
           class="dropdown-item list-group-item list-group-item-action"
           :class="{ active: nodeStore.activeNode?.id === n.id }"
           type="button"
-          @click="nodeStore.setActiveNode(n)">
+          @click="onSelect(n)">
           <p class="mb-1">{{ n.name }}</p>
           <small class="text-muted d-flex flex-row-reverse">{{ n.ipv4 }}</small>
-        </button>
-        <button class="dropdown-item list-group-item list-group-item-action" type="button" @click="showUpsertModal">
-          <i class="bi bi-plus-lg pe-1" />
-          Add node
         </button>
       </CListGroup>
     </CDropdownMenu>
@@ -27,6 +27,7 @@
       v-if="isUpsertModalVisible"
       :node="{}"
       @toast="onToast"
+      @upsert="onSelect"
       @close="hideUpsertModal" />
   </teleport>
 </template>
@@ -46,7 +47,7 @@ import { useNodeStore } from '@/stores/node';
 
 export default defineComponent({
   name: 'NodeListMenu',
-  emits: ['toast'],
+  emits: ['toast', 'select'],
   components: {
     CDropdown,
     CDropdownToggle,
@@ -70,6 +71,9 @@ export default defineComponent({
     },
     hideUpsertModal() {
       this.isUpsertModalVisible = false;
+    },
+    onSelect(node: Node) {
+      this.$emit('select', node);
     },
     onToast(toast: Toast) {
       this.$emit('toast', toast);
