@@ -52,7 +52,7 @@ import { useNodeStore } from '@/stores/node';
 
 export default defineComponent({
   name: 'NodeUpsertModal',
-  emits: ['close', 'toast'],
+  emits: ['upsert', 'toast', 'close'],
   components: { BaseModal },
   props: {
     node: { type: Object as PropType<Partial<Node>>, required: true },
@@ -81,20 +81,22 @@ export default defineComponent({
       (this.$refs.modal as typeof BaseModal).close();
     },
     upsert() {
-      const fn = this.isCreating ? this.nodeStore.createNode : this.nodeStore.updateNode;
-      fn({ ...this.model }).then((err) => {
-        if (!err) {
+      this.nodeStore.upsertNode({ ...this.model }).then((data) => {
+        if (!data.error) {
+          if (data.node) {
+            this.$emit('upsert', data.node);
+          }
           this.close();
           return;
         }
-        if (err.items) {
-          err.items.forEach((item) => {
+        if (data.error.items) {
+          data.error.items.forEach((item) => {
             this.errors[item.subject] = item.msg;
           });
         }
         this.$emit('toast', {
-          title: `Error ${err.code}`,
-          body: err.msg,
+          title: `Error ${data.error.code}`,
+          body: data.error.msg,
           icon: 'bell',
           iconColor: 'danger',
         });

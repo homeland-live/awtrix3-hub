@@ -15,7 +15,7 @@
             <router-link to="/about" class="nav-link">About</router-link>
           </CNavItem>
         </CNavbarNav>
-        <NodeListMenu @toast="onToast" />
+        <NodeListMenu @toast="onToast" @select="nodeStore.setActiveNode" />
       </CCollapse>
     </CContainer>
   </CNavbar>
@@ -23,6 +23,7 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
+import { mapStores } from 'pinia';
 import {
   CNavbar,
   CContainer,
@@ -33,6 +34,7 @@ import {
   CNavItem,
 } from '@coreui/vue';
 import NodeListMenu from '@/components/NodeListMenu.vue';
+import { useNodeStore } from '@/stores/node';
 import type { Toast } from '@/types/coreui';
 
 export default defineComponent({
@@ -53,10 +55,18 @@ export default defineComponent({
       visible: ref<boolean>(false),
     };
   },
+  computed: {
+    ...mapStores(
+      useNodeStore, // sets this.nodeStore
+    ),
+  },
   methods: {
     onToast(toast: Toast) {
       this.$emit('toast', toast);
     },
+  },
+  mounted() {
+    this.nodeStore.init();
   },
 });
 </script>

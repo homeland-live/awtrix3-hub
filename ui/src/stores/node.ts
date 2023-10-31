@@ -65,16 +65,15 @@ export const useNodeStore = defineStore({
       this.activeNode = undefined;
       ls.writeS('activeId', '');
     },
-    createNode(payload: Record<string, unknown>): Promise<Err | undefined> {
+    createNode(payload: Record<string, unknown>): Promise<{node?: Node, error?: Err}> {
       return createNode(payload).then((data) => {
         if (data.node) {
           this.nodes.push(data.node);
-          this.setActiveNode(data.node);
         }
-        return data.error;
+        return data;
       });
     },
-    updateNode(payload: Record<string, unknown>): Promise<Err | undefined> {
+    updateNode(payload: Record<string, unknown>): Promise<{node?: Node, error?: Err}> {
       return updateNode(payload).then((data) => {
         if (data.node) {
           const n = this.nodes.find((item) => item.id === data.node?.id);
@@ -84,8 +83,12 @@ export const useNodeStore = defineStore({
             n.updatedAt = data.node.updatedAt;
           }
         }
-        return data.error;
+        return data;
       });
+    },
+    upsertNode(payload: Record<string, unknown>): Promise<{node?: Node, error?: Err}> {
+      const fn = !payload.id ? this.createNode : this.updateNode;
+      return fn(payload);
     },
     deleteNode(id: string): Promise<Err | undefined> {
       return deleteNode(id).then((data) => {
