@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.7] - 2023-11-13
+### Changed
+- ui: update node deps
+- server: update go deps
+
 ## [0.1.6] - 2023-10-30
 ### Added
 - ui: implement button to dismiss notification in DashboardView
@@ -63,7 +68,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Initial release
 
-[Unreleased]: https://github.com/homeland-live/awtrix-light-hub/compare/v0.1.6...HEAD
+[Unreleased]: https://github.com/homeland-live/awtrix-light-hub/compare/v0.1.7...HEAD
+[0.1.7]: https://github.com/homeland-live/awtrix-light-hub/compare/v0.1.6...v0.1.7
 [0.1.6]: https://github.com/homeland-live/awtrix-light-hub/compare/v0.1.5...v0.1.6
 [0.1.5]: https://github.com/homeland-live/awtrix-light-hub/compare/v0.1.4...v0.1.5
 [0.1.4]: https://github.com/homeland-live/awtrix-light-hub/compare/v0.1.3...v0.1.4
