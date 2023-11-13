@@ -9,8 +9,8 @@ import (
 	"github.com/rs/zerolog/log"
 	"github.com/stretchr/objx"
 
-	"github.com/awtrix-light/hub/internal/db"
-	"github.com/awtrix-light/hub/internal/irisutil"
+	"github.com/homeland-live/awtrix-light-hub/internal/db"
+	"github.com/homeland-live/awtrix-light-hub/internal/irisutil"
 )
 
 // ListNodesHandler handles `/nodes` http get requests

@@ -9,7 +9,7 @@
 ### Docker
 
 ```console
-docker run -p 8080:8081 --name awtrix-hub -v $(pwd)./:/app/data --rm ghcr.io/awtrix-light/hub
+docker run -p 8080:8081 --name awtrix-hub -v $(pwd)./:/app/data --rm ghcr.io/homeland-live/awtrix-light-hub
 ```
 
 ### Docker Compose

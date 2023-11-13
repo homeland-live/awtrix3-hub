@@ -8,10 +8,10 @@ import (
 	"github.com/kataras/iris/v12/middleware/recover"
 	"github.com/rs/zerolog/log"
 
-	"github.com/awtrix-light/hub/internal/irisutil"
-	"github.com/awtrix-light/hub/internal/web/api"
-	"github.com/awtrix-light/hub/internal/web/awtrix"
-	"github.com/awtrix-light/hub/internal/web/ui"
+	"github.com/homeland-live/awtrix-light-hub/internal/irisutil"
+	"github.com/homeland-live/awtrix-light-hub/internal/web/api"
+	"github.com/homeland-live/awtrix-light-hub/internal/web/awtrix"
+	"github.com/homeland-live/awtrix-light-hub/internal/web/ui"
 )
 
 // DefaultPort is default http port

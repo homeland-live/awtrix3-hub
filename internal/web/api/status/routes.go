@@ -5,7 +5,7 @@ import (
 	"github.com/avakarev/go-util/buildmeta"
 	"github.com/kataras/iris/v12"
 
-	"github.com/awtrix-light/hub/internal/irisutil"
+	"github.com/homeland-live/awtrix-light-hub/internal/irisutil"
 )
 
 // Routes adds event api routes to the iris app

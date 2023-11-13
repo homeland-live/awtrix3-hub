@@ -7,9 +7,10 @@ import (
 	"net/http"
 
 	"github.com/avakarev/go-util/httputil"
-	"github.com/awtrix-light/hub/internal/irisutil"
 	"github.com/kataras/iris/v12"
 	"github.com/rs/zerolog/log"
+
+	"github.com/homeland-live/awtrix-light-hub/internal/irisutil"
 )
 
 const awtrixLightReleaseURL = "https://api.github.com/repos/Blueforcer/awtrix-light/releases/latest"

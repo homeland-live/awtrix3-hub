@@ -4,10 +4,10 @@ package api
 import (
 	"github.com/kataras/iris/v12"
 
-	"github.com/awtrix-light/hub/internal/web/api/awtrixlight"
-	"github.com/awtrix-light/hub/internal/web/api/health"
-	"github.com/awtrix-light/hub/internal/web/api/node"
-	"github.com/awtrix-light/hub/internal/web/api/status"
+	"github.com/homeland-live/awtrix-light-hub/internal/web/api/awtrixlight"
+	"github.com/homeland-live/awtrix-light-hub/internal/web/api/health"
+	"github.com/homeland-live/awtrix-light-hub/internal/web/api/node"
+	"github.com/homeland-live/awtrix-light-hub/internal/web/api/status"
 )
 
 // Routes adds api routes to the iris app
