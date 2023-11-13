@@ -1,4 +1,4 @@
-module github.com/awtrix-light/hub
+module github.com/homeland-live/awtrix-light-hub
 
 go 1.21.3
 
