@@ -6,11 +6,7 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/avakarev/go-util/httputil"
-	"github.com/kataras/iris/v12"
-	"github.com/rs/zerolog/log"
-
-	"github.com/homeland-live/awtrix-light-hub/internal/irisutil"
+	"github.com/gofiber/fiber/v2"
 )
 
 const awtrixLightReleaseURL = "https://api.github.com/repos/Blueforcer/awtrix-light/releases/latest"
@@ -37,17 +33,13 @@ func reqRelease() (*release, error) {
 
 }
 
-// Routes adds health api routes to the iris app
-func Routes(api iris.Party) {
-	api.Get("/v1/awtrix-light/release", func(ctx iris.Context) {
+// Routes adds health api routes to the fiber
+func Routes(api fiber.Router) {
+	api.Get("/v1/awtrix-light/release", func(c *fiber.Ctx) error {
 		rel, err := reqRelease()
 		if err != nil {
-			log.Error().Err(err).Send()
-			irisutil.WriteErrJSON(httputil.NewErrFrom(err), ctx)
-			return
+			return err
 		}
-		if err := ctx.JSON(iris.Map{"release": rel}); err != nil {
-			log.Error().Err(err).Send()
-		}
+		return c.JSON(fiber.Map{"release": rel})
 	})
 }

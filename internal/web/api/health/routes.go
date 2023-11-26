@@ -2,15 +2,12 @@
 package health
 
 import (
-	"github.com/kataras/iris/v12"
-	"github.com/rs/zerolog/log"
+	"github.com/gofiber/fiber/v2"
 )
 
-// Routes adds health api routes to the iris app
-func Routes(api iris.Party) {
-	api.Get("/v1/health", func(ctx iris.Context) {
-		if err := ctx.JSON(iris.Map{"healthy": true}); err != nil {
-			log.Error().Err(err).Send()
-		}
+// Routes adds health api routes to the fiber
+func Routes(api fiber.Router) {
+	api.Get("/v1/health", func(c *fiber.Ctx) error {
+		return c.JSON(fiber.Map{"healthy": true})
 	})
 }

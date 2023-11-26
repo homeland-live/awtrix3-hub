@@ -2,92 +2,68 @@ package node
 
 import (
 	"fmt"
-	"net/http"
 
-	"github.com/avakarev/go-util/httputil"
-	"github.com/kataras/iris/v12"
-	"github.com/rs/zerolog/log"
+	"github.com/gofiber/fiber/v2"
 	"github.com/stretchr/objx"
 
 	"github.com/homeland-live/awtrix-light-hub/internal/db"
-	"github.com/homeland-live/awtrix-light-hub/internal/irisutil"
 )
 
 // ListNodesHandler handles `/nodes` http get requests
-func ListNodesHandler(ctx iris.Context) {
+func ListNodesHandler(c *fiber.Ctx) error {
 	nodes := db.ListNodes()
-	irisutil.WriteJSON(iris.Map{"nodes": nodes}, ctx)
+	return c.JSON(fiber.Map{"nodes": nodes})
 }
 
 // CreateNodeHandler handles `/nodes` http post requests
-func CreateNodeHandler(ctx iris.Context) {
+func CreateNodeHandler(c *fiber.Ctx) error {
 	var n db.Node
-	if err := ctx.ReadJSON(&n); err != nil {
-		log.Error().Err(err).Send()
-		irisutil.WriteErrJSON(httputil.NewErr(http.StatusBadRequest, err.Error()), ctx)
-		return
+	if err := c.BodyParser(&n); err != nil {
+		return fiber.NewError(fiber.StatusBadRequest, err.Error())
 	}
 
 	if err := db.CreateNode(&n); err != nil {
-		log.Error().Err(err).Send()
-		irisutil.WriteErrJSON(httputil.NewErrFrom(err), ctx)
-		return
+		return err
 	}
 
-	ctx.StatusCode(http.StatusCreated)
-	irisutil.WriteJSON(iris.Map{"node": n}, ctx)
+	return c.Status(fiber.StatusCreated).JSON(fiber.Map{"node": n})
 }
 
 // GetNodeHandler handles `/nodes/:id` http get requests
-func GetNodeHandler(ctx iris.Context) {
-	id := ctx.Params().Get("id")
+func GetNodeHandler(c *fiber.Ctx) error {
+	id := c.Params("id")
 	n := db.FindNodeByID(id)
 	if n == nil {
-		irisutil.WriteErrJSON(
-			httputil.NewErr(
-				http.StatusNotFound,
-				fmt.Sprintf("no node found with given id %s", id),
-			), ctx)
-		return
+		return fiber.NewError(
+			fiber.StatusNotFound,
+			fmt.Sprintf("no node found with given id %s", id),
+		)
 	}
-	irisutil.WriteJSON(iris.Map{"node": n}, ctx)
+	return c.JSON(fiber.Map{"node": n})
 }
 
 // UpdateNodeHandler handles `/nodes/:id` http patch requests
-func UpdateNodeHandler(ctx iris.Context) {
-	id := ctx.Params().Get("id")
+func UpdateNodeHandler(c *fiber.Ctx) error {
+	id := c.Params("id")
 	n := db.FindNodeByID(id)
 	if n == nil {
-		irisutil.WriteErrJSON(
-			httputil.NewErr(
-				http.StatusNotFound,
-				fmt.Sprintf("no node found with given id %s", id),
-			), ctx)
-		return
+		return fiber.NewError(fiber.StatusNotFound, fmt.Sprintf("no node found with given id %s", id))
 	}
 	data := objx.Map{}
-	if err := ctx.ReadJSON(&data); err != nil {
-		log.Error().Err(err).Send()
-		irisutil.WriteErrJSON(httputil.NewErr(http.StatusBadRequest, err.Error()), ctx)
-		return
+	if err := c.BodyParser(&n); err != nil {
+		return fiber.NewError(fiber.StatusBadRequest, err.Error())
 	}
 	if err := db.UpdateNode(n, data); err != nil {
-		log.Error().Err(err).Send()
-		irisutil.WriteErrJSON(httputil.NewErrFrom(err), ctx)
-		return
+		return err
 	}
-	irisutil.WriteJSON(iris.Map{"node": n}, ctx)
+	return c.JSON(fiber.Map{"node": n})
 }
 
 // DeleteNodeHandler handles `/nodes/:id` http delete requests
-func DeleteNodeHandler(ctx iris.Context) {
-	id := ctx.Params().Get("id")
+func DeleteNodeHandler(c *fiber.Ctx) error {
+	id := c.Params("id")
 	if err := db.DeleteNode(id); err != nil {
-		log.Error().Err(err).Send()
-		irisutil.WriteErrJSON(httputil.NewErrFrom(err), ctx)
-		return
+		return err
 	}
-
-	ctx.StatusCode(http.StatusOK)
-	irisutil.WriteJSON(iris.Map{}, ctx)
+	return c.Status(fiber.StatusOK).JSON(fiber.Map{})
 }

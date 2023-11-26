@@ -3,16 +3,12 @@ package status
 
 import (
 	"github.com/avakarev/go-util/buildmeta"
-	"github.com/kataras/iris/v12"
-
-	"github.com/homeland-live/awtrix-light-hub/internal/irisutil"
+	"github.com/gofiber/fiber/v2"
 )
 
-// Routes adds event api routes to the iris app
-func Routes(api iris.Party) {
-	api.PartyFunc("/v1/status", func(status iris.Party) {
-		status.Get("/buildinfo", func(ctx iris.Context) {
-			irisutil.WriteJSON(buildmeta.Fields(), ctx)
-		})
+// Routes adds event api routes to the fiber
+func Routes(api fiber.Router) {
+	api.Get("/v1/status/buildinfo", func(c *fiber.Ctx) error {
+		return c.JSON(buildmeta.Fields())
 	})
 }

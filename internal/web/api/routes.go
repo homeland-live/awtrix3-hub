@@ -2,7 +2,7 @@
 package api
 
 import (
-	"github.com/kataras/iris/v12"
+	"github.com/gofiber/fiber/v2"
 
 	"github.com/homeland-live/awtrix-light-hub/internal/web/api/awtrixlight"
 	"github.com/homeland-live/awtrix-light-hub/internal/web/api/health"
@@ -10,12 +10,12 @@ import (
 	"github.com/homeland-live/awtrix-light-hub/internal/web/api/status"
 )
 
-// Routes adds api routes to the iris app
-func Routes(app *iris.Application) {
-	app.PartyFunc("/api", func(api iris.Party) {
-		health.Routes(api)
-		status.Routes(api)
-		node.Routes(api)
-		awtrixlight.Routes(api)
-	})
+// Routes adds api routes to the fiber
+func Routes(app *fiber.App) {
+	api := app.Group("/api")
+
+	health.Routes(api)
+	status.Routes(api)
+	node.Routes(api)
+	awtrixlight.Routes(api)
 }

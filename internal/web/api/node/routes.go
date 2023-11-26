@@ -2,18 +2,17 @@
 package node
 
 import (
-	"github.com/kataras/iris/v12"
+	"github.com/gofiber/fiber/v2"
 )
 
-// Routes adds node api routes to the iris app
-func Routes(api iris.Party) {
-	api.PartyFunc("/v1/nodes", func(nodes iris.Party) {
-		nodes.Get("/", ListNodesHandler)
-		nodes.Post("/", CreateNodeHandler)
-		nodes.PartyFunc("/{id:string format(uuid)}", func(node iris.Party) {
-			node.Get("/", GetNodeHandler)
-			node.Patch("/", UpdateNodeHandler)
-			node.Delete("/", DeleteNodeHandler)
-		})
-	})
+// Routes adds node api routes to the fiber
+func Routes(api fiber.Router) {
+	nodes := api.Group("/v1/nodes")
+	nodes.Get("/", ListNodesHandler)
+	nodes.Post("/", CreateNodeHandler)
+
+	node := nodes.Group("/:id")
+	node.Get("/", GetNodeHandler)
+	node.Patch("/", UpdateNodeHandler)
+	node.Delete("/", DeleteNodeHandler)
 }
