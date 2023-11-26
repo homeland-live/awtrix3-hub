@@ -19,6 +19,7 @@
 
 <script lang="ts">
 import { defineComponent, type PropType } from 'vue';
+import { DateTime } from 'luxon';
 import TimeAgo from '@/components/TimeAgo.vue';
 
 export default defineComponent({
@@ -30,7 +31,7 @@ export default defineComponent({
   components: { TimeAgo },
   methods: {
     isTime(v: unknown): boolean {
-      return typeof v === 'string' && !Number.isNaN(Date.parse(v));
+      return typeof v === 'string' && DateTime.fromISO(v).isValid;
     },
   },
 });
