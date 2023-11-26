@@ -2,13 +2,15 @@
 package web
 
 import (
+	"errors"
 	"os"
 
-	"github.com/kataras/iris/v12"
-	"github.com/kataras/iris/v12/middleware/recover"
+	"github.com/avakarev/go-util/httputil"
+	"github.com/gofiber/contrib/fiberzerolog"
+	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/recover"
 	"github.com/rs/zerolog/log"
 
-	"github.com/homeland-live/awtrix-light-hub/internal/irisutil"
 	"github.com/homeland-live/awtrix-light-hub/internal/web/api"
 	"github.com/homeland-live/awtrix-light-hub/internal/web/awtrix"
 	"github.com/homeland-live/awtrix-light-hub/internal/web/ui"
@@ -21,25 +23,26 @@ var port string
 
 // Serve starts an HTTP server
 func Serve() error {
-	app := iris.New()
-	app.Configure(
-		iris.WithoutPathCorrection,
-		iris.WithoutStartupLog,
-	)
-	app.Logger().Handle(irisutil.LogHandler)
+	app := fiber.New(fiber.Config{
+		DisableStartupMessage: true,
+		ErrorHandler: func(c *fiber.Ctx, err error) error {
+			httpErr := httputil.NewErrFrom(err)
+
+			var e *fiber.Error
+			if errors.As(err, &e) {
+				httpErr.Error.Code = e.Code
+			}
+
+			return c.Status(httpErr.Error.Code).JSON(httpErr)
+		},
+	})
 	app.Use(recover.New())
-
-	// logs successful requests
-	app.Use(irisutil.LogMiddleware())
-
-	// logs panicked requests
-	app.OnAnyErrorCode(irisutil.ErrMiddleware)
+	app.Use(fiberzerolog.New())
 
 	api.Routes(app)
 	ui.Routes(app)
 	awtrix.Routes(app)
 
-	irisutil.LogRoutes(app)
 	log.Info().Str("url", "http://localhost:"+port).Msg("starting web server")
 	return app.Listen(":" + port)
 }

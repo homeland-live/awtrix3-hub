@@ -3,35 +3,21 @@ package awtrix
 
 import (
 	"fmt"
-	"net"
-	"net/http"
-	"net/http/httputil"
-	"net/url"
 	"time"
 
-	"github.com/kataras/iris/v12"
+	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/proxy"
+	"github.com/valyala/fasthttp"
 )
 
-// Routes adds awtrix api proxy route to the iris app
-func Routes(app *iris.Application) {
-	app.Any("/awtrix/{ipv4}/{path:path}", func(ctx iris.Context) {
-		targetHost, _ := url.Parse(fmt.Sprintf("http://%s", ctx.Params().Get("ipv4")))
-
-		proxy := httputil.NewSingleHostReverseProxy(targetHost)
-
-		stdDirector := proxy.Director
-		proxy.Director = func(req *http.Request) {
-			stdDirector(req)
-			req.URL.Path = "/" + ctx.Params().Get("path")
-		}
-
-		proxy.Transport = &http.Transport{
-			Proxy: http.ProxyFromEnvironment,
-			DialContext: (&net.Dialer{
-				Timeout: 1000 * time.Millisecond,
-			}).DialContext,
-		}
-
-		proxy.ServeHTTP(ctx.ResponseWriter(), ctx.Request())
+// Routes adds awtrix api proxy route to the fiber
+func Routes(app *fiber.App) {
+	proxy.WithClient(&fasthttp.Client{
+		NoDefaultUserAgentHeader: true,
+		DisablePathNormalizing:   true,
+	})
+	app.All("/awtrix/:ipv4/*", func(c *fiber.Ctx) error {
+		url := fmt.Sprintf("http://%s/%s", c.Params("ipv4"), c.Params("*"))
+		return proxy.DoTimeout(c, url, 1*time.Second)
 	})
 }

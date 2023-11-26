@@ -2,13 +2,13 @@
 package ui
 
 import (
-	"github.com/kataras/iris/v12"
+	"github.com/gofiber/fiber/v2"
 )
 
-// Routes adds ui routes to the iris app
-func Routes(app *iris.Application) {
-	app.HandleDir("/ui", "ui/dist")
-	app.Get("/", func(ctx iris.Context) {
-		ctx.Redirect("/ui", iris.StatusTemporaryRedirect)
+// Routes adds ui routes to the fiber
+func Routes(app *fiber.App) {
+	app.Static("/ui", "ui/dist")
+	app.Get("/", func(c *fiber.Ctx) error {
+		return c.Redirect("/ui", fiber.StatusTemporaryRedirect)
 	})
 }
