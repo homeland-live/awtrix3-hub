@@ -8,6 +8,7 @@ LDFLAGS += -X ${GO_META_MOD}.BuildTimeUTC=$(shell date -u +"%Y-%m-%dT%H:%M:%SZ")
 ifdef CGO_ENABLED
 LDFLAGS += -linkmode external
 LDFLAGS += -extldflags "-static"
+export CGO_CFLAGS = "-D_LARGEFILE64_SOURCE" # https://github.com/mattn/go-sqlite3/issues/1164
 endif
 
 lint:
@@ -26,7 +27,7 @@ sec:
 
 test:
 	@echo ">> Running tests..."
-	@go test -v -race ./...
+	@export LOG_LEVEL=info && go test -v -race ./...
 .PHONY: test
 
 setup-ci:
