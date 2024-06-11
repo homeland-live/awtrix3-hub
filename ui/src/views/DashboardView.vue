@@ -63,7 +63,7 @@
     <div class="col-6">
       <BaseAlert v-if="awtrixStore.error" color="danger">
         <h6 class="alert-heading">
-          There is an issue with communication to "{{ nodeStore.activeNode?.name }}" awtrix-light node.
+          There is an issue with communication to "{{ nodeStore.activeNode?.name }}" awtrix3 node.
         </h6>
         <p class="mb-0">Error {{ awtrixStore.error.code }}: {{ awtrixStore.error.msg }}</p>
       </BaseAlert>

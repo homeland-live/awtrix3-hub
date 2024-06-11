@@ -32,11 +32,11 @@ export function getStats(ipv4: string): Promise<Stats> {
   return getJ(`/awtrix/${ipv4}/api/stats`);
 }
 
-// https://github.com/Blueforcer/awtrix-light/blob/main/docs/api.md#change-settings
+// https://github.com/Blueforcer/awtrix3/blob/main/docs/api.md#change-settings
 export interface Settings {
   ATIME: number; // Duration an app is displayed in seconds
   TEFF: number; // Choose between app transition effects, 0-10
-                // see https://github.com/Blueforcer/awtrix-light/blob/main/docs/api.md
+                // see https://github.com/Blueforcer/awtrix3/blob/main/docs/api.md
   TSPEED: number;// Time taken for the transition to the next app in milliseconds
   TCOL: number; // Global text color
   TMODE: number; // Changes the time app style, 0-4
@@ -52,9 +52,9 @@ export interface Settings {
   CCORRECTION: string; // Color correction for the matrix
   CTEMP: string; // Color temperature for the matrix
   TFORMAT: string; // Time format for the TimeApp,
-                   // see https://github.com/Blueforcer/awtrix-light/blob/main/docs/api.md
+                   // see https://github.com/Blueforcer/awtrix3/blob/main/docs/api.md
   DFORMAT: string; // Date format for the DateApp
-                   // see https://github.com/Blueforcer/awtrix-light/blob/main/docs/api.md
+                   // see https://github.com/Blueforcer/awtrix3/blob/main/docs/api.md
   SOM: boolean; // Start the week on Monday
   BLOCKN: boolean; // Block physical navigation keys (still sends input to MQTT)
   UPPERCASE: boolean; // Display text in uppercase
@@ -105,7 +105,7 @@ export interface Release {
 }
 
 export function getLatestRelease(): Promise<{release?: Release, error?: Err}> {
-  return getJ('/api/v1/awtrix-light/release');
+  return getJ('/api/v1/awtrix3/release');
 }
 
 export function prevApp(ipv4: string): Promise<boolean> {

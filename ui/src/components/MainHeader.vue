@@ -3,7 +3,7 @@
     <CContainer lg>
       <CNavbarBrand class="mb-0 h1" component="span">
         <i class="bi bi-diagram-3" />
-        AwtrixLightHub
+        Awtrix3Hub
       </CNavbarBrand>
       <CNavbarToggler @click="visible = !visible" />
       <CCollapse class="navbar-collapse" :visible="visible">

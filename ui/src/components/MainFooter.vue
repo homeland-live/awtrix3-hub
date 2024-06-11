@@ -2,7 +2,7 @@
   <footer class="footer">
     <div class="container-lg">
       <div>
-        © 2023 AwtrixLightHub
+        © 2024 Awtrix3Hub
       </div>
     </div>
   </footer>

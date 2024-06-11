@@ -1,4 +1,4 @@
-# awtrix-light-hub-ui
+# awtrix3-hub-ui
 
 ## Customize configuration
 
