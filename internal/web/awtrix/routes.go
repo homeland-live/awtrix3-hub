@@ -3,6 +3,7 @@ package awtrix
 
 import (
 	"fmt"
+	"strings"
 	"time"
 
 	"github.com/gofiber/fiber/v2"
@@ -17,7 +18,18 @@ func Routes(app *fiber.App) {
 		DisablePathNormalizing:   true,
 	})
 	app.All("/awtrix/:ipv4/*", func(c *fiber.Ctx) error {
-		url := fmt.Sprintf("http://%s/%s", c.Params("ipv4"), c.Params("*"))
-		return proxy.DoTimeout(c, url, 1*time.Second)
+		ipv4 := c.Params("ipv4")
+		path := c.Params("*")
+		url := fmt.Sprintf("http://%s/%s", ipv4, path)
+		if err := proxy.DoTimeout(c, url, 2*time.Second); err != nil {
+			return err
+		}
+		if ctype := string(c.Response().Header.ContentType()); strings.HasPrefix(ctype, "text/html") {
+			if path == "fullscreen" {
+				resp := c.Response()
+				resp.SetBodyString(strings.ReplaceAll(string(resp.Body()), "/api/screen", fmt.Sprintf("/awtrix/%s/api/screen", ipv4)))
+			}
+		}
+		return nil
 	})
 }

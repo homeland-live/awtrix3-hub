@@ -3,7 +3,7 @@
     <div class="card-header d-flex justify-content-between pe-2">
       <span class="d-flex align-items-center text-muted">
         LiveView
-        <a v-if="nodeStore.activeNode" :href="`http://${nodeStore.activeNode.ipv4}/fullscreen`" target="_blank">
+        <a v-if="nodeStore.activeNode" :href="`/awtrix/${nodeStore.activeNode.ipv4}/fullscreen`" target="_blank">
           <i class="bi bi-box-arrow-up-right ms-2" />
         </a>
       </span>
@@ -20,7 +20,7 @@
     <div class="card-body p-0">
       <iframe
         v-if="nodeStore.activeNode && awtrixStore.liveViewEnabled"
-        :src="`http://${nodeStore.activeNode.ipv4}/fullscreen`"
+        :src="`/awtrix/${nodeStore.activeNode.ipv4}/fullscreen`"
         class="border border-2"
         width="100%"
         title="Display LiveView" />
