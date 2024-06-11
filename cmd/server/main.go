@@ -6,8 +6,8 @@ import (
 	"github.com/avakarev/go-util/zerologutil"
 	"github.com/rs/zerolog/log"
 
-	"github.com/homeland-live/awtrix-light-hub/internal/db"
-	"github.com/homeland-live/awtrix-light-hub/internal/web"
+	"github.com/homeland-live/awtrix3-hub/internal/db"
+	"github.com/homeland-live/awtrix3-hub/internal/web"
 )
 
 func main() {

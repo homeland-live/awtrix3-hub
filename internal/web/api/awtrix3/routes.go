@@ -1,5 +1,5 @@
-// Package awtrixlight defines and handles /awtrix-light/* routes
-package awtrixlight
+// Package awtrix3 defines and handles /awtrix3/* routes
+package awtrix3
 
 import (
 	"encoding/json"
@@ -9,7 +9,7 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
-const awtrixLightReleaseURL = "https://api.github.com/repos/Blueforcer/awtrix-light/releases/latest"
+const awtrix3ReleaseURL = "https://api.github.com/repos/Blueforcer/awtrix3/releases/latest"
 
 type release struct {
 	Tag string `json:"tag_name"`
@@ -17,7 +17,7 @@ type release struct {
 }
 
 func reqRelease() (*release, error) {
-	resp, err := http.Get(awtrixLightReleaseURL)
+	resp, err := http.Get(awtrix3ReleaseURL)
 
 	if err != nil {
 		return nil, err
@@ -35,7 +35,7 @@ func reqRelease() (*release, error) {
 
 // Routes adds health api routes to the fiber
 func Routes(api fiber.Router) {
-	api.Get("/v1/awtrix-light/release", func(c *fiber.Ctx) error {
+	api.Get("/v1/awtrix3/release", func(c *fiber.Ctx) error {
 		rel, err := reqRelease()
 		if err != nil {
 			return err
