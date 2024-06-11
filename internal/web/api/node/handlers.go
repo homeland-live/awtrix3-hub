@@ -6,7 +6,7 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/stretchr/objx"
 
-	"github.com/homeland-live/awtrix-light-hub/internal/db"
+	"github.com/homeland-live/awtrix3-hub/internal/db"
 )
 
 // ListNodesHandler handles `/nodes` http get requests

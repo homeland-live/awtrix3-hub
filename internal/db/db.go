@@ -21,7 +21,7 @@ func Session() *gormutil.DB {
 // Init initializes db
 func Init() error {
 	dsn := "./data/hub.db"
-	if fd := os.Getenv("AWTRIX_LIGHT_HUB_DSN"); fd != "" {
+	if fd := os.Getenv("AWTRIX3_HUB_DSN"); fd != "" {
 		dsn = fd
 	}
 	sqlitedb, err := gormutil.Open(sqlite.Open(dsn))

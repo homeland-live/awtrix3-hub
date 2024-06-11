@@ -11,9 +11,9 @@ import (
 	"github.com/gofiber/fiber/v2/middleware/recover"
 	"github.com/rs/zerolog/log"
 
-	"github.com/homeland-live/awtrix-light-hub/internal/web/api"
-	"github.com/homeland-live/awtrix-light-hub/internal/web/awtrix"
-	"github.com/homeland-live/awtrix-light-hub/internal/web/ui"
+	"github.com/homeland-live/awtrix3-hub/internal/web/api"
+	"github.com/homeland-live/awtrix3-hub/internal/web/awtrix"
+	"github.com/homeland-live/awtrix3-hub/internal/web/ui"
 )
 
 // DefaultPort is default http port

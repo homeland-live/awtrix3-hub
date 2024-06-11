@@ -3,7 +3,7 @@ version: "3.9"
 services:
   hub:
     restart: unless-stopped
-    image: ghcr.io/homeland-live/awtrix-light-hub
+    image: ghcr.io/homeland-live/awtrix3-hub
     container_name: awtrix-hub
     ports:
       - "8080:8080"
