@@ -2,7 +2,7 @@
   <div>
     <div v-show="!isEditing" class="text-nowrap text-truncate align-items-center">
       <BtnIcon icon="pencil" @click="edit" />
-      <span :class="{ small: small }">{{ maskedValue }}</span>
+      <span :class="{ small }">{{ maskedValue }}</span>
     </div>
     <div v-show="isEditing" class="input-group">
       <input

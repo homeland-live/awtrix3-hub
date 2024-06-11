@@ -83,7 +83,7 @@
     <ConfirmationModal
       v-if="isDeleteModalVisible && nodeStore.activeNode"
       title="Delete node"
-      :confirmation="'Are you sure you want to delete ' + `${nodeStore.activeNode?.name}` + '?'"
+      :confirmation="`Are you sure you want to delete ${nodeStore.activeNode?.name}?`"
       btnTitle="Yes, remove this node"
       @close="hideDeleteModal"
       @confirm="confirmDelete" />
