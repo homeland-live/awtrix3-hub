@@ -1,5 +1,5 @@
 <template>
-  <BaseAlert :msg="'error ' + err.code + ': ' + err.msg" color="danger" />
+  <BaseAlert :msg="`error ${err.code}: ${err.msg}`" color="danger" />
 </template>
 
 <script lang="ts">
