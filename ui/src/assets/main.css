@@ -1,0 +1,32 @@
+.card, .dropdown-menu, .footer, .header, .sidebar {
+  box-shadow: rgba(50, 50, 93, .02) 0 2px 5px -1px, rgba(0, 0, 0, .05) 0 1px 3px -1px;
+}
+
+html:not([dir="rtl"]) .wrapper {
+  padding-left: var(--cui-sidebar-occupy-start, 0);
+  padding-right: var(--cui-sidebar-occupy-end, 0);
+}
+
+.wrapper {
+  width: 100%;
+  will-change: auto;
+  transition: padding .15s;
+}
+
+.footer, .header {
+  border: 0;
+}
+
+.dropdown-menu:has(> .list-group) {
+  --cui-dropdown-border-width: 0;
+  --cui-dropdown-padding-y: 0;
+}
+
+.dropdown-menu .list-group {
+  max-height: 300px;
+  overflow-y: scroll;
+}
+
+.list-group .list-group-item.active .text-muted {
+  color: var(--cui-list-group-active-color,rgba(255,255,255,.87)) !important;
+}

@@ -84,18 +84,3 @@ export default defineComponent({
   },
 });
 </script>
-
-<style scoped>
-.dropdown-menu {
-  --cui-dropdown-border-width: 0;
-  padding-top: 0;
-  padding-bottom: 0;
-}
-.list-group {
-  max-height: 300px;
-  overflow-y: scroll;
-}
-.list-group-item.active .text-muted {
-  color: var(--cui-list-group-active-color,rgba(255,255,255,.87)) !important;
-}
-</style>

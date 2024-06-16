@@ -198,11 +198,3 @@ export default defineComponent({
   },
 });
 </script>
-
-<style scoped>
-.dropdown-menu {
-  --cui-dropdown-border-width: 0;
-  padding-top: 0;
-  padding-bottom: 0;
-}
-</style>
