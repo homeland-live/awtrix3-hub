@@ -37,7 +37,7 @@
           @click="dismissNotification" />
         <CDropdown v-if="awtrixStore.hasSettings" placement="bottom-end" class="me-2">
           <CDropdownToggle size="sm" class="btn-outline-secondary">
-            <i class="bi bi-power" />
+            <i class="bi bi-lightning" />
           </CDropdownToggle>
           <CDropdownMenu>
             <button class="dropdown-item text-danger" type="button" @click="reboot">
