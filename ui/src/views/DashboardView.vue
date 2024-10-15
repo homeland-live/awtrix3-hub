@@ -32,7 +32,7 @@
       <div class="float-end">
         <BtnIcon
           v-if="awtrixStore.hasSettings"
-          icon="send-slash"
+          icon="eraser"
           class="btn-outline-secondary me-2"
           @click="dismissNotification" />
         <CDropdown v-if="awtrixStore.hasSettings" placement="bottom-end" class="me-2">
