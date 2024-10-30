@@ -9,7 +9,8 @@
           type="checkbox"
           role="switch"
           :checked="awtrixStore.settings?.MATP"
-          @change="awtrixStore.toggleSetting('MATP')">
+          @change="awtrixStore.toggleSetting('MATP')"
+        >
       </div>
     </div>
     <div class="card-body small">
@@ -23,8 +24,9 @@
             v-if="awtrixStore.hasSettings && !awtrixStore.settings?.ABRI"
             icon="chevron-left"
             class="border-0"
+            :disabled="currentBrightness === brightnessMin"
             @click="decrementBrightness"
-            :disabled="currentBrightness === brightnessMin" />
+          />
           <span class="small align-middle">
             {{ currentBrightness }} / {{ brightnessMax }}
           </span>
@@ -32,8 +34,9 @@
             v-if="awtrixStore.hasSettings && !awtrixStore.settings?.ABRI"
             icon="chevron-right"
             class="border-0 pe-0"
+            :disabled="currentBrightness === brightnessMax"
             @click="incrementBrightness"
-            :disabled="currentBrightness === brightnessMax" />
+          />
         </span>
       </div>
       <input
@@ -43,7 +46,8 @@
         :min="brightnessMin"
         :max="brightnessMax"
         :value="currentBrightness"
-        @change="setBrightness">
+        @change="setBrightness"
+      >
       <div class="d-flex justify-content-between align-items-center">
         <span class="d-flex align-items-center text-muted">
           <i class="bi bi-brightness-low fs-4 pe-2" />
@@ -56,7 +60,8 @@
             type="checkbox"
             role="switch"
             :checked="awtrixStore.settings?.ABRI"
-            @change="awtrixStore.toggleAutoBrightness()">
+            @change="awtrixStore.toggleAutoBrightness()"
+          >
         </div>
       </div>
       <div class="d-flex justify-content-between align-items-center">
@@ -67,7 +72,8 @@
         <HexColorPicker
           v-if="awtrixStore.hasSettings"
           :value="awtrixStore.globalTextColorHex"
-          @change="setGlobalTextColor" />
+          @change="setGlobalTextColor"
+        />
       </div>
       <div class="d-flex justify-content-between align-items-center">
         <span class="d-flex align-items-center text-muted">
@@ -81,7 +87,8 @@
             type="checkbox"
             role="switch"
             :checked="awtrixStore.settings?.UPPERCASE"
-            @change="awtrixStore.toggleSetting('UPPERCASE')">
+            @change="awtrixStore.toggleSetting('UPPERCASE')"
+          >
         </div>
       </div>
     </div>
@@ -120,6 +127,9 @@ export default defineComponent({
       useAwtrixStore, // sets this.awtrixStore
     ),
   },
+  mounted() {
+    this.nodeStore.init();
+  },
   methods: {
     setBrightness(event: Event) {
       const input = event.target as HTMLInputElement;
@@ -134,9 +144,6 @@ export default defineComponent({
     setGlobalTextColor(color: string) {
       this.awtrixStore.setColor('TCOL', color);
     },
-  },
-  mounted() {
-    this.nodeStore.init();
   },
 });
 </script>

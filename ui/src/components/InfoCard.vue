@@ -24,11 +24,11 @@ import TimeAgo from '@/components/TimeAgo.vue';
 
 export default defineComponent({
   name: 'InfoCard',
+  components: { TimeAgo },
   props: {
     title: { type: String, required: true },
     obj: { type: Object as PropType<Record<string, unknown>>, default: () => ({}) },
   },
-  components: { TimeAgo },
   methods: {
     isTime(v: unknown): boolean {
       return typeof v === 'string' && DateTime.fromISO(v).isValid;

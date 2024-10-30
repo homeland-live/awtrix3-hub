@@ -1,11 +1,17 @@
 <template>
   <BaseAlert v-if="nodeStore.error" color="danger">
-    <h6 class="alert-heading">There is an issue with retrieving active node details.</h6>
-    <p class="mb-0">Error {{ nodeStore.error.code }}: {{ nodeStore.error.msg }}</p>
+    <h6 class="alert-heading">
+      There is an issue with retrieving active node details.
+    </h6>
+    <p class="mb-0">
+      Error {{ nodeStore.error.code }}: {{ nodeStore.error.msg }}
+    </p>
   </BaseAlert>
   <div v-else-if="!nodeStore.nodes.length" class="p-3">
     There are no nodes yet,
-    <button type="button" class="btn btn-link align-baseline p-0" @click="showUpsertModal">add</button> one.
+    <button type="button" class="btn btn-link align-baseline p-0" @click="showUpsertModal">
+      add
+    </button> one.
   </div>
   <div v-else-if="!nodeStore.activeNode" class="alert alert-secondary" role="alert">
     There is no node selected.
@@ -23,7 +29,8 @@
         :href="newRelease.html_url"
         target="_blank"
         class="badge bg-success mx-1"
-        style="text-decoration: none">
+        style="text-decoration: none"
+      >
         {{ newRelease.tag_name }} available
         <i class="bi bi-box-arrow-up-right ps-1" />
       </a>
@@ -34,7 +41,8 @@
           v-if="awtrixStore.hasSettings"
           icon="eraser"
           class="btn-outline-secondary me-2"
-          @click="dismissNotification" />
+          @click="dismissNotification"
+        />
         <CDropdown v-if="awtrixStore.hasSettings" placement="bottom-end" class="me-2">
           <CDropdownToggle size="sm" class="btn-outline-secondary">
             <i class="bi bi-lightning" />
@@ -65,7 +73,9 @@
         <h6 class="alert-heading">
           There is an issue with communication to "{{ nodeStore.activeNode?.name }}" awtrix3 node.
         </h6>
-        <p class="mb-0">Error {{ awtrixStore.error.code }}: {{ awtrixStore.error.msg }}</p>
+        <p class="mb-0">
+          Error {{ awtrixStore.error.code }}: {{ awtrixStore.error.msg }}
+        </p>
       </BaseAlert>
       <LiveViewCard v-if="awtrixStore.hasSettings" />
     </div>
@@ -79,14 +89,16 @@
       v-if="isUpsertModalVisible"
       :node="nodeStore?.activeNode || {}"
       @toast="onToast"
-      @close="hideUpsertModal" />
+      @close="hideUpsertModal"
+    />
     <ConfirmationModal
       v-if="isDeleteModalVisible && nodeStore.activeNode"
       title="Delete node"
       :confirmation="`Are you sure you want to delete ${nodeStore.activeNode?.name}?`"
-      btnTitle="Yes, remove this node"
+      btn-title="Yes, remove this node"
       @close="hideDeleteModal"
-      @confirm="confirmDelete" />
+      @confirm="confirmDelete"
+    />
   </teleport>
 </template>
 
@@ -147,6 +159,9 @@ export default defineComponent({
       useAwtrixStore, // sets this.awtrixStore
     ),
   },
+  mounted() {
+    this.nodeStore.init();
+  },
   methods: {
     showUpsertModal() {
       this.isUpsertModalVisible = true;
@@ -169,7 +184,7 @@ export default defineComponent({
       }
       this.nodeStore.deleteNode(this.nodeStore.activeNode.id).then((err) => {
         if (err) {
-          this.$emit('toast', { title: `Error ${err.code}`, body: err.msg });
+          this.toasts.push({ title: `Error ${err.code}`, body: err.msg });
         }
       });
     },
@@ -208,9 +223,6 @@ export default defineComponent({
     onToast(toast: Toast) {
       this.toasts.push(toast);
     },
-  },
-  mounted() {
-    this.nodeStore.init();
   },
 });
 </script>

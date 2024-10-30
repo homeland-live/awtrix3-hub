@@ -15,8 +15,11 @@
           class="dropdown-item list-group-item list-group-item-action"
           :class="{ active: nodeStore.activeNode?.id === n.id }"
           type="button"
-          @click="onSelect(n)">
-          <p class="mb-1">{{ n.name }}</p>
+          @click="onSelect(n)"
+        >
+          <p class="mb-1">
+            {{ n.name }}
+          </p>
           <small class="text-muted d-flex flex-row-reverse">{{ n.ipv4 }}</small>
         </button>
       </CListGroup>
@@ -28,7 +31,8 @@
       :node="{}"
       @toast="onToast"
       @upsert="onSelect"
-      @close="hideUpsertModal" />
+      @close="hideUpsertModal"
+    />
   </teleport>
 </template>
 
@@ -47,7 +51,6 @@ import { useNodeStore } from '@/stores/node';
 
 export default defineComponent({
   name: 'NodeListMenu',
-  emits: ['toast', 'select'],
   components: {
     CDropdown,
     CDropdownToggle,
@@ -55,6 +58,7 @@ export default defineComponent({
     CListGroup,
     NodeUpsertModal,
   },
+  emits: ['toast', 'select'],
   data() {
     return {
       isUpsertModalVisible: ref<boolean>(false),
@@ -64,6 +68,9 @@ export default defineComponent({
     ...mapStores(
       useNodeStore, // sets this.nodeStore
     ),
+  },
+  mounted() {
+    this.nodeStore.init();
   },
   methods: {
     showUpsertModal() {
@@ -78,9 +85,6 @@ export default defineComponent({
     onToast(toast: Toast) {
       this.$emit('toast', toast);
     },
-  },
-  mounted() {
-    this.nodeStore.init();
   },
 });
 </script>

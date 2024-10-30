@@ -6,18 +6,21 @@
     </div>
     <div v-show="isEditing" class="input-group">
       <select
+        ref="select"
         :value="value"
         :size="options.length"
         class="form-select"
-        ref="select"
         @blur="cancel"
         @keyup.esc="cancel"
-        @change="save">
+        @change="save"
+      >
         <option v-for="k in options" :key="k" :disabled="isPending">
           {{ k }}
         </option>
       </select>
-      <div class="invalid-feedback d-flex flex-row-reverse">{{ error }}</div>
+      <div class="invalid-feedback d-flex flex-row-reverse">
+        {{ error }}
+      </div>
     </div>
     <div v-show="isEditing && !error" class="form-text">
       Choose one of the options to save or press `Escape` to cancel editing.
@@ -31,12 +34,12 @@ import BtnIcon from '@/components/coreui/BtnIcon.vue';
 
 export default defineComponent({
   name: 'EditableSelect',
+  components: { BtnIcon },
   props: {
     value: { type: String, required: true },
     options: { type: Array as PropType<string[]>, required: true },
   },
   emits: ['change'],
-  components: { BtnIcon },
   data() {
     return {
       error: ref<string>(''),
