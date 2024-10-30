@@ -17,9 +17,9 @@
     "ci": "run-p lint type-check test"
   },
   "dependencies": {
-    "@coreui/vue": "^5.4.0",
+    "@coreui/vue": "^5.4.1",
     "luxon": "^3.5.0",
-    "pinia": "^2.2.4",
+    "pinia": "^2.2.5",
     "s-ago": "^2.2.0",
     "tinycolor2": "^1.6.0",
     "vue": "^3.5.12",
@@ -31,7 +31,7 @@
     "@tsconfig/node22": "^22.0.0",
     "@types/jsdom": "^21.1.7",
     "@types/luxon": "^3.4.2",
-    "@types/node": "^22.7.5",
+    "@types/node": "^22.8.4",
     "@types/tinycolor2": "^1.4.6",
     "@vitejs/plugin-vue": "^5.1.4",
     "@vue/eslint-config-airbnb": "^8.0.0",
@@ -39,12 +39,12 @@
     "@vue/test-utils": "^2.4.6",
     "@vue/tsconfig": "^0.5.1",
     "eslint": "^8.57.1",
-    "eslint-plugin-vue": "^9.29.0",
+    "eslint-plugin-vue": "^9.30.0",
     "jsdom": "^25.0.1",
-    "npm-run-all2": "^6.2.3",
-    "typescript": "^5.5.4",
-    "vite": "^5.4.8",
-    "vitest": "^2.1.2",
-    "vue-tsc": "^2.1.6"
+    "npm-run-all2": "^7.0.1",
+    "typescript": "^5.6.3",
+    "vite": "^5.4.10",
+    "vitest": "^2.1.4",
+    "vue-tsc": "^2.1.8"
   }
 }
