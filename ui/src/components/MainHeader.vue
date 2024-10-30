@@ -9,10 +9,14 @@
       <CCollapse class="navbar-collapse" :visible="visible">
         <CNavbarNav class="me-auto" as="ul">
           <CNavItem as="li">
-            <router-link to="/dashboard" class="nav-link">Dashboard</router-link>
+            <router-link to="/dashboard" class="nav-link">
+              Dashboard
+            </router-link>
           </CNavItem>
           <CNavItem as="li">
-            <router-link to="/about" class="nav-link">About</router-link>
+            <router-link to="/about" class="nav-link">
+              About
+            </router-link>
           </CNavItem>
         </CNavbarNav>
         <NodeListMenu @toast="onToast" @select="nodeStore.setActiveNode" />
@@ -39,7 +43,6 @@ import type { Toast } from '@/types/coreui';
 
 export default defineComponent({
   name: 'MainHeader',
-  emits: ['toast'],
   components: {
     CNavbar,
     CContainer,
@@ -50,6 +53,7 @@ export default defineComponent({
     CNavItem,
     NodeListMenu,
   },
+  emits: ['toast'],
   data() {
     return {
       visible: ref<boolean>(false),
@@ -60,13 +64,13 @@ export default defineComponent({
       useNodeStore, // sets this.nodeStore
     ),
   },
+  mounted() {
+    this.nodeStore.init();
+  },
   methods: {
     onToast(toast: Toast) {
       this.$emit('toast', toast);
     },
-  },
-  mounted() {
-    this.nodeStore.init();
   },
 });
 </script>

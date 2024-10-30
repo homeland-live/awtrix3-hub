@@ -1,21 +1,23 @@
 <template>
   <BaseModal ref="modal" :scrollable="false" :keyboard="false" @close="$emit('close')">
-    <template v-slot:title>
+    <template #title>
       <div class="d-flex align-items-center">
         <i class="bi bi-app fs-4 pe-2" /> Generic App Settings
         <BtnIcon
           v-if="awtrixStore.hasSettings"
           icon="rewind-circle"
           class="fs-5 ps-3"
-          @click="awtrixStore.prevApp" />
+          @click="awtrixStore.prevApp"
+        />
         <BtnIcon
           v-if="awtrixStore.hasSettings"
           icon="fast-forward-circle"
           class="fs-5 ps-0"
-          @click="awtrixStore.nextApp" />
+          @click="awtrixStore.nextApp"
+        />
       </div>
     </template>
-    <template v-slot:body>
+    <template #body>
       <div class="row mb-3">
         <label class="col-4 col-form-label col-form-label-sm fw-semibold">Auto Transition</label>
         <div class="col-8 form-check form-switch my-auto">
@@ -25,7 +27,8 @@
             type="checkbox"
             role="switch"
             :checked="awtrixStore.settings?.ATRANS"
-            @change="awtrixStore.toggleSetting('ATRANS')">
+            @change="awtrixStore.toggleSetting('ATRANS')"
+          >
         </div>
       </div>
       <div class="row mb-3">
@@ -44,7 +47,8 @@
                   class="dropdown-item list-group-item list-group-item-action small"
                   :class="{ active: te.value === awtrixStore.settings?.TEFF }"
                   type="button"
-                  @click="setEffect(te.value)">
+                  @click="setEffect(te.value)"
+                >
                   {{ te.label }}
                 </button>
               </CListGroup>
@@ -59,14 +63,16 @@
             v-if="awtrixStore.hasSettings"
             icon="chevron-left"
             class="border-0 ps-0"
+            :disabled="currentSpeed <= speedMin"
             @click="decrementSpeed"
-            :disabled="currentSpeed <= speedMin" />
+          />
           <span class="small align-middle">{{ currentSpeed }} ms</span>
           <BtnIcon
             v-if="awtrixStore.hasSettings"
             icon="chevron-right"
             class="border-0"
-            @click="incrementSpeed" />
+            @click="incrementSpeed"
+          />
         </div>
       </div>
       <div class="row mb-3">
@@ -76,19 +82,23 @@
             v-if="awtrixStore.hasSettings"
             icon="chevron-left"
             class="border-0 ps-0"
+            :disabled="currentTime <= timeMin"
             @click="decrementTime"
-            :disabled="currentTime <= timeMin" />
+          />
           <span class="small align-middle">{{ currentTime }} s</span>
           <BtnIcon
             v-if="awtrixStore.hasSettings"
             icon="chevron-right"
             class="border-0"
-            @click="incrementTime" />
+            @click="incrementTime"
+          />
         </div>
       </div>
     </template>
-    <template v-slot:footer>
-      <button type="button" class="btn btn-light" @click="close">Close</button>
+    <template #footer>
+      <button type="button" class="btn btn-light" @click="close">
+        Close
+      </button>
     </template>
   </BaseModal>
 </template>
@@ -114,17 +124,11 @@ import {
   APP_TIME_MIN,
 } from '@/stores/awtrix';
 
-interface TRANSITION_EFFECT {
-  value: number;
-  label: string;
-}
-
 const TRANSITION_SPEED_STEP = 100;
 const APP_TIME_STEP = 1;
 
 export default defineComponent({
   name: 'AppGeneralSettingsModal',
-  emits: ['close', 'toast'],
   components: {
     CDropdown,
     CDropdownToggle,
@@ -133,6 +137,7 @@ export default defineComponent({
     BaseModal,
     BtnIcon,
   },
+  emits: ['close', 'toast'],
   data() {
     return {
       speedMin: TRANSITION_SPEED_MIN,
@@ -153,7 +158,7 @@ export default defineComponent({
     };
   },
   computed: {
-    currentEffect(): TRANSITION_EFFECT {
+    currentEffect(): { value: number; label: string; } {
       const effect = this.awtrixStore.settings?.TEFF;
       if (effect !== undefined) {
         return this.transitionEffects[effect];
@@ -172,6 +177,9 @@ export default defineComponent({
       useNodeStore, // sets this.nodeStore
       useAwtrixStore, // sets this.awtrixStore
     ),
+  },
+  mounted() {
+    this.nodeStore.init();
   },
   methods: {
     close() {
@@ -192,9 +200,6 @@ export default defineComponent({
     decrementTime() {
       this.awtrixStore.setSetting('ATIME', this.currentTime - APP_TIME_STEP);
     },
-  },
-  mounted() {
-    this.nodeStore.init();
   },
 });
 </script>

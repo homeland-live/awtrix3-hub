@@ -7,12 +7,14 @@
           v-if="awtrixStore.hasSettings"
           icon="rewind-circle"
           class="fs-6 ps-2 py-0"
-          @click="awtrixStore.prevApp" />
+          @click="awtrixStore.prevApp"
+        />
         <BtnIcon
           v-if="awtrixStore.hasSettings"
           icon="fast-forward-circle"
           class="fs-6 px-0 py-0"
-          @click="awtrixStore.nextApp" />
+          @click="awtrixStore.nextApp"
+        />
       </span>
       <BtnIcon v-if="awtrixStore.hasSettings" icon="sliders" class="fs-6 py-0" @click="showGeneralSettingsModal" />
     </div>
@@ -27,14 +29,16 @@
           <HexColorPicker
             v-if="awtrixStore.hasSettings"
             :value="awtrixStore.appTimeTextColorHex"
-            @change="setTimeTextColor" />
+            @change="setTimeTextColor"
+          />
           <input
             v-if="awtrixStore.hasSettings"
             class="form-check-input float-none m-0"
             type="checkbox"
             role="switch"
             :checked="awtrixStore.settings?.TIM"
-            @change="toggle('TIM')">
+            @change="toggle('TIM')"
+          >
         </div>
       </div>
       <div class="d-flex justify-content-between align-items-center">
@@ -47,14 +51,16 @@
           <HexColorPicker
             v-if="awtrixStore.hasSettings"
             :value="awtrixStore.appDateTextColorHex"
-            @change="setDateTextColor" />
+            @change="setDateTextColor"
+          />
           <input
             v-if="awtrixStore.hasSettings"
             class="form-check-input float-none m-0"
             type="checkbox"
             role="switch"
             :checked="awtrixStore.settings?.DAT"
-            @change="toggle('DAT')">
+            @change="toggle('DAT')"
+          >
         </div>
       </div>
       <div class="d-flex justify-content-between align-items-center">
@@ -66,14 +72,16 @@
           <HexColorPicker
             v-if="awtrixStore.hasSettings"
             :value="awtrixStore.appTempTextColorHex"
-            @change="setTempTextColor" />
+            @change="setTempTextColor"
+          />
           <input
             v-if="awtrixStore.hasSettings"
             class="form-check-input float-none m-0"
             type="checkbox"
             role="switch"
             :checked="awtrixStore.settings?.TEMP"
-            @change="toggle('TEMP')">
+            @change="toggle('TEMP')"
+          >
         </div>
       </div>
       <div class="d-flex justify-content-between align-items-center">
@@ -85,14 +93,16 @@
           <HexColorPicker
             v-if="awtrixStore.hasSettings"
             :value="awtrixStore.appHumTextColorHex"
-            @change="setHumTextColor" />
+            @change="setHumTextColor"
+          />
           <input
             v-if="awtrixStore.hasSettings"
             class="form-check-input float-none m-0"
             type="checkbox"
             role="switch"
             :checked="awtrixStore.settings?.HUM"
-            @change="toggle('HUM')">
+            @change="toggle('HUM')"
+          >
         </div>
       </div>
       <div class="d-flex justify-content-between align-items-center">
@@ -104,14 +114,16 @@
           <HexColorPicker
             v-if="awtrixStore.hasSettings"
             :value="awtrixStore.appBatTextColorHex"
-            @change="setBatTextColor" />
+            @change="setBatTextColor"
+          />
           <input
             v-if="awtrixStore.hasSettings"
             class="form-check-input float-none m-0"
             type="checkbox"
             role="switch"
             :checked="awtrixStore.settings?.BAT"
-            @change="toggle('BAT')">
+            @change="toggle('BAT')"
+          >
         </div>
       </div>
     </div>
@@ -120,15 +132,18 @@
     <AppGeneralSettingsModal
       v-if="isGeneralSettingsModalVisible && awtrixStore.hasSettings"
       @toast="onToast"
-      @close="hideGeneralSettingsModal" />
+      @close="hideGeneralSettingsModal"
+    />
     <AppTimeSettingsModal
       v-if="isTimeSettingsModalVisible && awtrixStore.hasSettings"
       @toast="onToast"
-      @close="hideTimeSettingsModal" />
+      @close="hideTimeSettingsModal"
+    />
     <AppDateSettingsModal
       v-if="isDateSettingsModalVisible && awtrixStore.hasSettings"
       @toast="onToast"
-      @close="hideDateSettingsModal" />
+      @close="hideDateSettingsModal"
+    />
   </teleport>
 </template>
 
@@ -148,7 +163,6 @@ type AppFlag = 'TIM' | 'DAT' | 'TEMP' | 'HUM' | 'BAT';
 
 export default defineComponent({
   name: 'NativeAppsCard',
-  emits: ['toast'],
   components: {
     BtnIcon,
     AppGeneralSettingsModal,
@@ -156,6 +170,7 @@ export default defineComponent({
     AppDateSettingsModal,
     HexColorPicker,
   },
+  emits: ['toast'],
   data() {
     return {
       isGeneralSettingsModalVisible: ref<boolean>(false),
@@ -168,6 +183,9 @@ export default defineComponent({
       useNodeStore, // sets this.nodeStore
       useAwtrixStore, // sets this.awtrixStore
     ),
+  },
+  mounted() {
+    this.nodeStore.init();
   },
   methods: {
     onToast(toast: Toast) {
@@ -218,9 +236,6 @@ export default defineComponent({
     setBatTextColor(color: string) {
       this.awtrixStore.setColor('BAT_COL', color);
     },
-  },
-  mounted() {
-    this.nodeStore.init();
   },
 });
 </script>

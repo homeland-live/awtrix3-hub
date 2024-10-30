@@ -6,17 +6,20 @@
     </div>
     <div v-show="isEditing" class="input-group">
       <input
+        ref="input"
+        v-model="newValue"
         class="form-control form-control-sm"
         :class="{ 'is-invalid': error }"
         type="text"
         :disabled="isPending"
-        v-model="newValue"
         @input="input"
         @blur="cancel"
         @keyup.esc="cancel"
         @keyup.enter="save"
-        ref="input">
-      <div class="invalid-feedback d-flex flex-row-reverse">{{ error }}</div>
+      >
+      <div class="invalid-feedback d-flex flex-row-reverse">
+        {{ error }}
+      </div>
     </div>
     <div v-if="hinted" v-show="isEditing && !error" class="form-text">
       Press `Enter` to save or `Escape` to cancel editing.
@@ -31,6 +34,7 @@ import { mask } from '@/util/string';
 
 export default defineComponent({
   name: 'EditableInput',
+  components: { BtnIcon },
   props: {
     value: { type: String, required: true },
     hinted: { type: Boolean, default: true },
@@ -38,7 +42,6 @@ export default defineComponent({
     small: { type: Boolean, default: false },
   },
   emits: ['change'],
-  components: { BtnIcon },
   data() {
     return {
       error: ref<string>(''),

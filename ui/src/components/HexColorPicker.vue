@@ -1,11 +1,12 @@
 <template>
   <ColorPicker
+    v-model:pure-color="model"
     format="hex"
     shape="circle"
     disable-alpha
     disable-history
-    v-model:pureColor="model"
-    @pureColorChange="change" />
+    @pure-color-change="change"
+  />
 </template>
 
 <script lang="ts">
@@ -15,11 +16,11 @@ import 'vue3-colorpicker/style.css';
 
 export default defineComponent({
   name: 'HexColorPicker',
-  emits: ['change'],
   components: { ColorPicker },
   props: {
     value: { type: String, required: true },
   },
+  emits: ['change'],
   data() {
     return {
       model: ref<string>(this.value),

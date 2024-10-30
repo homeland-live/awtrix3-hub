@@ -28,19 +28,6 @@ export default defineComponent({
       return this.absoluteTime;
     },
   },
-  methods: {
-    updateRelativeTime(t: string) {
-      if (this.relativeTime !== t) {
-        this.relativeTime = t;
-      }
-    },
-    fmt(n: number): string {
-      if (n < 10) {
-        return `0${n}`;
-      }
-      return `${n}`;
-    },
-  },
   mounted() {
     if (!this.time) {
       return;
@@ -64,6 +51,19 @@ export default defineComponent({
     if (this.timer) {
       this.timer.update(this.time);
     }
+  },
+  methods: {
+    updateRelativeTime(t: string) {
+      if (this.relativeTime !== t) {
+        this.relativeTime = t;
+      }
+    },
+    fmt(n: number): string {
+      if (n < 10) {
+        return `0${n}`;
+      }
+      return `${n}`;
+    },
   },
 });
 </script>

@@ -1,11 +1,11 @@
 <template>
   <BaseModal ref="modal" :scrollable="false" :keyboard="false" @close="$emit('close')">
-    <template v-slot:title>
+    <template #title>
       <div class="d-flex align-items-center">
         <i class="bi bi-calendar-date fs-4 pe-2" /> Date App Settings
       </div>
     </template>
-    <template v-slot:body>
+    <template #body>
       <div class="row mb-3">
         <label class="col-4 col-form-label col-form-label-sm fw-semibold">Format</label>
         <div class="col-3 ps-0">
@@ -22,7 +22,8 @@
                   class="dropdown-item list-group-item list-group-item-action d-flex justify-content-between small"
                   :class="{ active: fp.format === awtrixStore.settings?.DFORMAT }"
                   type="button"
-                  @click="setFormat(fp.format)">
+                  @click="setFormat(fp.format)"
+                >
                   {{ fp.format }}
                   <small class="text-muted ms-5">{{ fp.example }}</small>
                 </button>
@@ -43,7 +44,8 @@
             type="checkbox"
             role="switch"
             :checked="awtrixStore.settings?.WD"
-            @change="awtrixStore.toggleSetting('WD')">
+            @change="awtrixStore.toggleSetting('WD')"
+          >
           <label class="form-check-label small">Enable</label>
         </div>
       </div>
@@ -55,14 +57,16 @@
               <HexColorPicker
                 v-if="awtrixStore.hasSettings"
                 :value="awtrixStore.activeWeekdayColorHex"
-                @change="setActiveWeekdayColor" />
+                @change="setActiveWeekdayColor"
+              />
               <span class="small">Active</span>
             </div>
             <div class="col-5">
               <HexColorPicker
                 v-if="awtrixStore.hasSettings"
                 :value="awtrixStore.inactiveWeekdayColorHex"
-                @change="setInactiveWeekdayColor" />
+                @change="setInactiveWeekdayColor"
+              />
               <span class="small">Inactive</span>
             </div>
             <div class="col-2" />
@@ -75,24 +79,26 @@
           <div class="row">
             <div class="col-4 form-check form-check-inline">
               <input
+                id="date-som-true"
                 class="form-check-input"
                 type="radio"
                 name="date-som"
-                id="date-som-true"
                 value="true"
                 :checked="awtrixStore.settings?.SOM === true"
-                @change="awtrixStore.toggleSetting('SOM')">
+                @change="awtrixStore.toggleSetting('SOM')"
+              >
               <label class="form-check-label small" for="date-som-true">Monday</label>
             </div>
             <div class="col-4 form-check form-check-inline">
               <input
+                id="date-som-false"
                 class="form-check-input"
                 type="radio"
                 name="date-som"
-                id="date-som-false"
                 :checked="awtrixStore.settings?.SOM === false"
                 value="false"
-                @change="awtrixStore.toggleSetting('SOM')">
+                @change="awtrixStore.toggleSetting('SOM')"
+              >
               <label class="form-check-label small" for="date-som-false">Sunday</label>
             </div>
             <div class="col-4" />
@@ -105,8 +111,10 @@
         </div>
       </div>
     </template>
-    <template v-slot:footer>
-      <button type="button" class="btn btn-light" @click="close">Close</button>
+    <template #footer>
+      <button type="button" class="btn btn-light" @click="close">
+        Close
+      </button>
     </template>
   </BaseModal>
 </template>
@@ -129,7 +137,6 @@ import type { EditableChangeEvent } from '@/types/coreui';
 
 export default defineComponent({
   name: 'AppDateSettingsModal',
-  emits: ['close', 'toast'],
   components: {
     CDropdown,
     CDropdownToggle,
@@ -139,6 +146,7 @@ export default defineComponent({
     EditableInput,
     HexColorPicker,
   },
+  emits: ['close', 'toast'],
   data() {
     return {
       formatPresets: [
@@ -159,6 +167,9 @@ export default defineComponent({
       useNodeStore, // sets this.nodeStore
       useAwtrixStore, // sets this.awtrixStore
     ),
+  },
+  mounted() {
+    this.nodeStore.init();
   },
   methods: {
     close() {
@@ -185,9 +196,6 @@ export default defineComponent({
     setInactiveWeekdayColor(color: string) {
       this.awtrixStore.setColor('WDCI', color);
     },
-  },
-  mounted() {
-    this.nodeStore.init();
   },
 });
 </script>

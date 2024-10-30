@@ -1,5 +1,5 @@
 <template>
-  <div class="modal fade" tabindex="-1" ref="modal">
+  <div ref="modal" class="modal fade" tabindex="-1">
     <div class="modal-dialog" :class="dialogClassList">
       <div class="modal-content">
         <div class="modal-header">
@@ -25,7 +25,6 @@ import { modal, getModalInstance } from '@/util/coreui';
 
 export default defineComponent({
   name: 'BaseModal',
-  emits: ['close'],
   props: {
     centered: {
       type: Boolean,
@@ -45,6 +44,7 @@ export default defineComponent({
       default: true,
     },
   },
+  emits: ['close'],
   computed: {
     dialogClassList(): string[] {
       const list = [];
@@ -60,15 +60,15 @@ export default defineComponent({
       return list;
     },
   },
-  methods: {
-    close() {
-      getModalInstance(this.$refs.modal as Element).hide();
-    },
-  },
   mounted() {
     const el = this.$refs.modal as Element;
     modal(el, { keyboard: this.keyboard }).show();
     el.addEventListener('hidden.coreui.modal', () => this.$emit('close'));
+  },
+  methods: {
+    close() {
+      getModalInstance(this.$refs.modal as Element).hide();
+    },
   },
 });
 </script>

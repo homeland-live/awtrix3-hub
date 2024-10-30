@@ -14,7 +14,8 @@
           type="checkbox"
           role="switch"
           :checked="awtrixStore.liveViewEnabled"
-          @change="awtrixStore.toggleLiveView">
+          @change="awtrixStore.toggleLiveView"
+        >
       </div>
     </div>
     <div class="card-body p-0">
@@ -23,7 +24,8 @@
         :src="`/awtrix/${nodeStore.activeNode.ipv4}/fullscreen`"
         class="border border-2"
         width="100%"
-        title="Display LiveView" />
+        title="Display LiveView"
+      />
     </div>
   </div>
 </template>
