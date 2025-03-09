@@ -1,8 +1,8 @@
 module github.com/homeland-live/awtrix3-hub
 
-go 1.23
+go 1.24
 
-toolchain go1.23.2
+toolchain go1.24.1
 
 require (
 	github.com/avakarev/go-util v1.3.5
