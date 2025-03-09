@@ -20,8 +20,7 @@ export type State = {
 
 const ls = new LocalStore('node');
 
-export const useNodeStore = defineStore({
-  id: 'node',
+export const useNodeStore = defineStore('node', {
   state: (): State => ({
     isLoading: false,
     initialized: false,
