@@ -45,8 +45,7 @@ const ls = new LocalStore('awtrix');
 
 type PickProps<T, TFilter> = { [K in keyof T as (T[K] extends TFilter ? K : never)]: T[K] }
 
-export const useAwtrixStore = defineStore({
-  id: 'awtrix',
+export const useAwtrixStore = defineStore('awtrix', {
   state: (): State => ({
     isLoading: false,
     initialized: false,
