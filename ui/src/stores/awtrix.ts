@@ -20,14 +20,14 @@ import { LocalStore } from '@/util/store';
 import { intToHex, hexToInt } from '@/util/color';
 
 export type State = {
-  isLoading: boolean,
-  initialized: boolean,
-  ipv4: string | undefined,
-  stats: Partial<Stats>,
-  settings: Partial<Settings>,
-  status: Partial<Status>,
-  release: Release | undefined,
-  liveViewEnabled: boolean,
+  isLoading: boolean;
+  initialized: boolean;
+  ipv4: string | undefined;
+  stats: Partial<Stats>;
+  settings: Partial<Settings>;
+  status: Partial<Status>;
+  release: Release | undefined;
+  liveViewEnabled: boolean;
 };
 
 export const BRIGHTNESS_MIN = 0;
@@ -43,7 +43,7 @@ export const APP_TIME_MIN = 1;
 
 const ls = new LocalStore('awtrix');
 
-type PickProps<T, TFilter> = { [K in keyof T as (T[K] extends TFilter ? K : never)]: T[K] }
+type PickProps<T, TFilter> = { [K in keyof T as T[K] extends TFilter ? K : never]: T[K] };
 
 export const useAwtrixStore = defineStore('awtrix', {
   state: (): State => ({
@@ -130,17 +130,19 @@ export const useAwtrixStore = defineStore('awtrix', {
         getSettings(this.ipv4),
         getStatus(this.ipv4),
         getLatestRelease(),
-      ]).then(([stats, settings, status, releaseResp]) => {
-        this.isLoading = false;
-        this.stats = stats;
-        this.settings = settings;
-        this.status = status;
-        if (releaseResp.release) {
-          this.release = releaseResp.release;
-        }
-      }).then(() => {
-        this.liveViewEnabled = ls.readB('liveViewEnabled');
-      });
+      ])
+        .then(([stats, settings, status, releaseResp]) => {
+          this.isLoading = false;
+          this.stats = stats;
+          this.settings = settings;
+          this.status = status;
+          if (releaseResp.release) {
+            this.release = releaseResp.release;
+          }
+        })
+        .then(() => {
+          this.liveViewEnabled = ls.readB('liveViewEnabled');
+        });
     },
     reload(ipv4?: string): Promise<void> {
       this.$reset();
@@ -153,27 +155,25 @@ export const useAwtrixStore = defineStore('awtrix', {
       if (!this.hasSettings || !this.ipv4) {
         return Promise.resolve(false);
       }
-      return updateSettings(this.ipv4, { [key]: value })
-        .then((success) => {
-          if (success && this.hasSettings) {
-            this.settings = { ...this.settings, [key]: value };
-            return true;
-          }
-          return false;
-        });
+      return updateSettings(this.ipv4, { [key]: value }).then((success) => {
+        if (success && this.hasSettings) {
+          this.settings = { ...this.settings, [key]: value };
+          return true;
+        }
+        return false;
+      });
     },
     setColor(key: keyof Settings, value: string): Promise<boolean> {
       if (!this.hasSettings || !this.ipv4) {
         return Promise.resolve(false);
       }
-      return updateSettings(this.ipv4, { [key]: value })
-        .then((success) => {
-          if (success && this.hasSettings) {
-            this.settings = { ...this.settings, [key]: hexToInt(value) };
-            return true;
-          }
-          return false;
-        });
+      return updateSettings(this.ipv4, { [key]: value }).then((success) => {
+        if (success && this.hasSettings) {
+          this.settings = { ...this.settings, [key]: hexToInt(value) };
+          return true;
+        }
+        return false;
+      });
     },
     toggleSetting(key: keyof PickProps<Settings, boolean>): Promise<boolean> {
       return this.setSetting(key, !this.settings[key]);
@@ -187,14 +187,13 @@ export const useAwtrixStore = defineStore('awtrix', {
       });
     },
     toggleAutoBrightness(): Promise<boolean> {
-      return this.toggleSetting('ABRI')
-        .then((success) => {
-          if (this.settings.ABRI) {
-            // update state of auto-adjusted brightness
-            setTimeout(this.syncBrightness, 500);
-          }
-          return success;
-        });
+      return this.toggleSetting('ABRI').then((success) => {
+        if (this.settings.ABRI) {
+          // update state of auto-adjusted brightness
+          setTimeout(this.syncBrightness, 500);
+        }
+        return success;
+      });
     },
     toggleLiveView(): void {
       this.liveViewEnabled = !this.liveViewEnabled;

@@ -28,7 +28,7 @@
             role="switch"
             :checked="awtrixStore.settings?.ATRANS"
             @change="awtrixStore.toggleSetting('ATRANS')"
-          >
+          />
         </div>
       </div>
       <div class="row mb-3">
@@ -96,9 +96,7 @@
       </div>
     </template>
     <template #footer>
-      <button type="button" class="btn btn-light" @click="close">
-        Close
-      </button>
+      <button type="button" class="btn btn-light" @click="close">Close</button>
     </template>
   </BaseModal>
 </template>
@@ -106,6 +104,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import { mapStores } from 'pinia';
+// prettier-ignore
 import {
   CDropdown,
   CDropdownToggle,
@@ -158,7 +157,7 @@ export default defineComponent({
     };
   },
   computed: {
-    currentEffect(): { value: number; label: string; } {
+    currentEffect(): { value: number; label: string } {
       const effect = this.awtrixStore.settings?.TEFF;
       if (effect !== undefined) {
         return this.transitionEffects[effect];

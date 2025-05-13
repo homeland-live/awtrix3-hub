@@ -9,9 +9,7 @@
           <i class="bi bi-battery-half fs-3 pe-2" />
           Battery
         </span>
-        <span v-if="awtrixStore.hasStats">
-          {{ awtrixStore.stats?.bat }}%
-        </span>
+        <span v-if="awtrixStore.hasStats">{{ awtrixStore.stats?.bat }}%</span>
       </div>
       <div class="d-flex justify-content-between align-items-center">
         <span class="d-flex align-items-center text-muted">
@@ -51,18 +49,14 @@
           <i class="bi bi-brightness-alt-high fs-4 pe-2" />
           Illuminance
         </span>
-        <span v-if="awtrixStore.hasStats">
-          {{ awtrixStore.stats?.lux }} lux
-        </span>
+        <span v-if="awtrixStore.hasStats">{{ awtrixStore.stats?.lux }} lux</span>
       </div>
       <div class="d-flex justify-content-between align-items-center">
         <span class="d-flex align-items-center text-muted">
           <i class="bi bi-thermometer fs-4 pe-2" />
           Temperature
         </span>
-        <span v-if="awtrixStore.hasStats">
-          {{ awtrixStore.stats?.temp }} ℃
-        </span>
+        <span v-if="awtrixStore.hasStats">{{ awtrixStore.stats?.temp }} ℃</span>
       </div>
       <div class="d-flex justify-content-between align-items-center">
         <span class="d-flex align-items-center text-muted">
@@ -78,9 +72,7 @@
           <i class="bi bi-reception-3 fs-4 pe-2" />
           Wi-Fi signal
         </span>
-        <span v-if="awtrixStore.hasStats">
-          {{ awtrixStore.stats?.wifi_signal }} dBm
-        </span>
+        <span v-if="awtrixStore.hasStats">{{ awtrixStore.stats?.wifi_signal }} dBm</span>
       </div>
     </div>
   </div>

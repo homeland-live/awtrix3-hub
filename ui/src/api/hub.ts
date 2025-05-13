@@ -1,4 +1,4 @@
-import { getJ, postJ, patchJ, delJ } from '@/api'; // eslint-disable-line object-curly-newline
+import { getJ, postJ, patchJ, delJ } from '@/api';
 
 export interface ErrItem {
   subject: string;
@@ -36,18 +36,18 @@ export interface Node {
   updatedAt: string;
 }
 
-export function listNodes(): Promise<{nodes?: Node[], error?: Err}> {
+export function listNodes(): Promise<{ nodes?: Node[]; error?: Err }> {
   return getJ('/api/v1/nodes');
 }
 
-export function createNode(data: Record<string, unknown>): Promise<{node?: Node, error?: Err}> {
+export function createNode(data: Record<string, unknown>): Promise<{ node?: Node; error?: Err }> {
   return postJ('/api/v1/nodes', data);
 }
 
-export function updateNode(data: Record<string, unknown>): Promise<{node?: Node, error?: Err}> {
+export function updateNode(data: Record<string, unknown>): Promise<{ node?: Node; error?: Err }> {
   return patchJ(`/api/v1/nodes/${data.id}`, data);
 }
 
-export function deleteNode(id: string): Promise<{error?: Err}> {
+export function deleteNode(id: string): Promise<{ error?: Err }> {
   return delJ(`/api/v1/nodes/${id}`);
 }

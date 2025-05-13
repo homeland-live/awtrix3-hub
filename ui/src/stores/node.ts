@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia';
 import { useAwtrixStore } from '@/stores/awtrix';
+// prettier-ignore
 import {
   listNodes,
   createNode,
@@ -11,11 +12,11 @@ import {
 import { LocalStore } from '@/util/store';
 
 export type State = {
-  isLoading: boolean,
-  initialized: boolean,
-  error: Err | undefined,
-  nodes: Node[],
-  activeNode: Node | undefined,
+  isLoading: boolean;
+  initialized: boolean;
+  error: Err | undefined;
+  nodes: Node[];
+  activeNode: Node | undefined;
 };
 
 const ls = new LocalStore('node');
@@ -35,20 +36,22 @@ export const useNodeStore = defineStore('node', {
       }
       this.initialized = true;
       this.isLoading = true;
-      return listNodes().then((data) => {
-        this.isLoading = false;
-        if (data.error) {
-          this.error = data.error;
-          return;
-        }
-        this.nodes = data.nodes || [];
-      }).then(() => {
-        const activeId = ls.readS('activeId');
-        this.activeNode = this.nodes.find((item) => item.id === activeId);
-        if (this.activeNode) {
-          useAwtrixStore().reload(this.activeNode.ipv4);
-        }
-      });
+      return listNodes()
+        .then((data) => {
+          this.isLoading = false;
+          if (data.error) {
+            this.error = data.error;
+            return;
+          }
+          this.nodes = data.nodes || [];
+        })
+        .then(() => {
+          const activeId = ls.readS('activeId');
+          this.activeNode = this.nodes.find((item) => item.id === activeId);
+          if (this.activeNode) {
+            useAwtrixStore().reload(this.activeNode.ipv4);
+          }
+        });
     },
     reload(): Promise<void> {
       this.$reset();
@@ -64,7 +67,7 @@ export const useNodeStore = defineStore('node', {
       this.activeNode = undefined;
       ls.writeS('activeId', '');
     },
-    createNode(payload: Record<string, unknown>): Promise<{node?: Node, error?: Err}> {
+    createNode(payload: Record<string, unknown>): Promise<{ node?: Node; error?: Err }> {
       return createNode(payload).then((data) => {
         if (data.node) {
           this.nodes.push(data.node);
@@ -72,7 +75,7 @@ export const useNodeStore = defineStore('node', {
         return data;
       });
     },
-    updateNode(payload: Record<string, unknown>): Promise<{node?: Node, error?: Err}> {
+    updateNode(payload: Record<string, unknown>): Promise<{ node?: Node; error?: Err }> {
       return updateNode(payload).then((data) => {
         if (data.node) {
           const n = this.nodes.find((item) => item.id === data.node?.id);
@@ -85,7 +88,7 @@ export const useNodeStore = defineStore('node', {
         return data;
       });
     },
-    upsertNode(payload: Record<string, unknown>): Promise<{node?: Node, error?: Err}> {
+    upsertNode(payload: Record<string, unknown>): Promise<{ node?: Node; error?: Err }> {
       const fn = !payload.id ? this.createNode : this.updateNode;
       return fn(payload);
     },

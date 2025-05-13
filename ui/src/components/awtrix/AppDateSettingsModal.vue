@@ -45,7 +45,7 @@
             role="switch"
             :checked="awtrixStore.settings?.WD"
             @change="awtrixStore.toggleSetting('WD')"
-          >
+          />
           <label class="form-check-label small">Enable</label>
         </div>
       </div>
@@ -86,7 +86,7 @@
                 value="true"
                 :checked="awtrixStore.settings?.SOM === true"
                 @change="awtrixStore.toggleSetting('SOM')"
-              >
+              />
               <label class="form-check-label small" for="date-som-true">Monday</label>
             </div>
             <div class="col-4 form-check form-check-inline">
@@ -98,7 +98,7 @@
                 :checked="awtrixStore.settings?.SOM === false"
                 value="false"
                 @change="awtrixStore.toggleSetting('SOM')"
-              >
+              />
               <label class="form-check-label small" for="date-som-false">Sunday</label>
             </div>
             <div class="col-4" />
@@ -106,15 +106,11 @@
         </div>
       </div>
       <div class="row">
-        <div class="form-text">
-          Note: any week / weekday changes also affect time app.
-        </div>
+        <div class="form-text">Note: any week / weekday changes also affect time app.</div>
       </div>
     </template>
     <template #footer>
-      <button type="button" class="btn btn-light" @click="close">
-        Close
-      </button>
+      <button type="button" class="btn btn-light" @click="close">Close</button>
     </template>
   </BaseModal>
 </template>
@@ -122,6 +118,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import { mapStores } from 'pinia';
+// prettier-ignore
 import {
   CDropdown,
   CDropdownToggle,

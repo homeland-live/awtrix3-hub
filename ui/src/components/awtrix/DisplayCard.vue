@@ -10,7 +10,7 @@
           role="switch"
           :checked="awtrixStore.settings?.MATP"
           @change="awtrixStore.toggleSetting('MATP')"
-        >
+        />
       </div>
     </div>
     <div class="card-body small">
@@ -27,9 +27,7 @@
             :disabled="currentBrightness === brightnessMin"
             @click="decrementBrightness"
           />
-          <span class="small align-middle">
-            {{ currentBrightness }} / {{ brightnessMax }}
-          </span>
+          <span class="small align-middle">{{ currentBrightness }} / {{ brightnessMax }}</span>
           <BtnIcon
             v-if="awtrixStore.hasSettings && !awtrixStore.settings?.ABRI"
             icon="chevron-right"
@@ -47,7 +45,7 @@
         :max="brightnessMax"
         :value="currentBrightness"
         @change="setBrightness"
-      >
+      />
       <div class="d-flex justify-content-between align-items-center">
         <span class="d-flex align-items-center text-muted">
           <i class="bi bi-brightness-low fs-4 pe-2" />
@@ -61,7 +59,7 @@
             role="switch"
             :checked="awtrixStore.settings?.ABRI"
             @change="awtrixStore.toggleAutoBrightness()"
-          >
+          />
         </div>
       </div>
       <div class="d-flex justify-content-between align-items-center">
@@ -88,7 +86,7 @@
             role="switch"
             :checked="awtrixStore.settings?.UPPERCASE"
             @change="awtrixStore.toggleSetting('UPPERCASE')"
-          >
+          />
         </div>
       </div>
     </div>
@@ -101,11 +99,7 @@ import { mapStores } from 'pinia';
 import BtnIcon from '@/components/coreui/BtnIcon.vue';
 import HexColorPicker from '@/components/HexColorPicker.vue';
 import { useNodeStore } from '@/stores/node';
-import {
-  useAwtrixStore,
-  BRIGHTNESS_MIN,
-  BRIGHTNESS_MAX,
-} from '@/stores/awtrix';
+import { useAwtrixStore, BRIGHTNESS_MIN, BRIGHTNESS_MAX } from '@/stores/awtrix';
 
 const BRIGHTNESS_STEP = 1;
 

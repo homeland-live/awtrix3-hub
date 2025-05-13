@@ -1,8 +1,14 @@
-.card, .dropdown-menu, .footer, .header, .sidebar {
-  box-shadow: rgba(50, 50, 93, .02) 0 2px 5px -1px, rgba(0, 0, 0, .05) 0 1px 3px -1px;
+.card,
+.dropdown-menu,
+.footer,
+.header,
+.sidebar {
+  box-shadow:
+    rgba(50, 50, 93, 0.02) 0 2px 5px -1px,
+    rgba(0, 0, 0, 0.05) 0 1px 3px -1px;
 }
 
-html:not([dir="rtl"]) .wrapper {
+html:not([dir='rtl']) .wrapper {
   padding-left: var(--cui-sidebar-occupy-start, 0);
   padding-right: var(--cui-sidebar-occupy-end, 0);
 }
@@ -10,10 +16,11 @@ html:not([dir="rtl"]) .wrapper {
 .wrapper {
   width: 100%;
   will-change: auto;
-  transition: padding .15s;
+  transition: padding 0.15s;
 }
 
-.footer, .header {
+.footer,
+.header {
   border: 0;
 }
 
@@ -28,5 +35,5 @@ html:not([dir="rtl"]) .wrapper {
 }
 
 .list-group .list-group-item.active .text-muted {
-  color: var(--cui-list-group-active-color,rgba(255,255,255,.87)) !important;
+  color: var(--cui-list-group-active-color, rgba(255, 255, 255, 0.87)) !important;
 }

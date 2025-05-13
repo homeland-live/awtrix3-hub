@@ -1,7 +1,15 @@
 <template>
   <div class="alert" :class="[colorClass, dismissibleClass]" role="alert">
-    <div><slot>{{ msg }}</slot></div>
-    <button v-if="dismissible" type="button" data-coreui-dismiss="alert" aria-label="Close" class="btn-close" />
+    <div>
+      <slot>{{ msg }}</slot>
+    </div>
+    <button
+      v-if="dismissible"
+      type="button"
+      data-coreui-dismiss="alert"
+      aria-label="Close"
+      class="btn-close"
+    />
   </div>
 </template>
 
@@ -20,7 +28,9 @@ export default defineComponent({
       return `alert-${this.color}`;
     },
     dismissibleClass(): string {
-      if (this.dismissible) { return 'alert-dismissible'; }
+      if (this.dismissible) {
+        return 'alert-dismissible';
+      }
       return '';
     },
   },

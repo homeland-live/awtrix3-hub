@@ -16,7 +16,12 @@
           @click="awtrixStore.nextApp"
         />
       </span>
-      <BtnIcon v-if="awtrixStore.hasSettings" icon="sliders" class="fs-6 py-0" @click="showGeneralSettingsModal" />
+      <BtnIcon
+        v-if="awtrixStore.hasSettings"
+        icon="sliders"
+        class="fs-6 py-0"
+        @click="showGeneralSettingsModal"
+      />
     </div>
     <div class="card-body small">
       <div class="d-flex justify-content-between align-items-center">
@@ -38,7 +43,7 @@
             role="switch"
             :checked="awtrixStore.settings?.TIM"
             @change="toggle('TIM')"
-          >
+          />
         </div>
       </div>
       <div class="d-flex justify-content-between align-items-center">
@@ -60,7 +65,7 @@
             role="switch"
             :checked="awtrixStore.settings?.DAT"
             @change="toggle('DAT')"
-          >
+          />
         </div>
       </div>
       <div class="d-flex justify-content-between align-items-center">
@@ -81,7 +86,7 @@
             role="switch"
             :checked="awtrixStore.settings?.TEMP"
             @change="toggle('TEMP')"
-          >
+          />
         </div>
       </div>
       <div class="d-flex justify-content-between align-items-center">
@@ -102,7 +107,7 @@
             role="switch"
             :checked="awtrixStore.settings?.HUM"
             @change="toggle('HUM')"
-          >
+          />
         </div>
       </div>
       <div class="d-flex justify-content-between align-items-center">
@@ -123,7 +128,7 @@
             role="switch"
             :checked="awtrixStore.settings?.BAT"
             @change="toggle('BAT')"
-          >
+          />
         </div>
       </div>
     </div>

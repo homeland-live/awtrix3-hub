@@ -14,11 +14,12 @@ describe('version', () => {
     });
 
     it('extracts font-awesome@6 version string from the css asset link', () => {
-      const url = 'https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.0.0-beta2/css/fontawesome.min.css';
+      const url =
+        'https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.0.0-beta2/css/fontawesome.min.css';
       expect(extractVersionFromUrl(url, 'fontawesome-free')).toEqual('6.0.0-beta2');
     });
 
-    it('returns `n/a` when it can\'t extract the version', () => {
+    it("returns `n/a` when it can't extract the version", () => {
       expect(extractVersionFromUrl('foo', 'bar')).toEqual('n/a');
     });
   });

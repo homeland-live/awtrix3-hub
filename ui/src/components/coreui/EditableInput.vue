@@ -16,7 +16,7 @@
         @blur="cancel"
         @keyup.esc="cancel"
         @keyup.enter="save"
-      >
+      />
       <div class="invalid-feedback d-flex flex-row-reverse">
         {{ error }}
       </div>

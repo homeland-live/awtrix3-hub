@@ -1,9 +1,7 @@
 <template>
   <footer class="footer">
     <div class="container-lg">
-      <div>
-        © 2024 Awtrix3Hub
-      </div>
+      <div>&copy; {{ new Date().getFullYear() }} Awtrix3Hub</div>
     </div>
   </footer>
 </template>

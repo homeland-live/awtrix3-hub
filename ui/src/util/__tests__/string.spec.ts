@@ -1,9 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import {
-  maskRight,
-  maskLeft,
-  mask,
-} from '@/util/string';
+import { maskRight, maskLeft, mask } from '@/util/string';
 
 describe('string', () => {
   describe('maskRight', () => {

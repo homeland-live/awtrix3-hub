@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { hexToInt, intToHex, rgbToInt, intToRgb } from '@/util/color'; // eslint-disable-line object-curly-newline
+import { hexToInt, intToHex, rgbToInt, intToRgb } from '@/util/color';
 
 describe('color', () => {
   describe('hexToInt', () => {

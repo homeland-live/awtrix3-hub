@@ -43,8 +43,8 @@ export class AgoTimer {
     this.id = 0;
   }
 
-  // eslint-disable-next-line class-methods-use-this
-  getInterval(elapsed: number): number { // in miliseconds
+  getInterval(elapsed: number): number {
+    // in miliseconds
     if (elapsed < OneMin) return 5 * OneSec;
     if (elapsed < 2 * OneMin) return 10 * OneSec;
     if (elapsed < 5 * OneMin) return 20 * OneSec;

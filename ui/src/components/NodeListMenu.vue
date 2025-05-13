@@ -5,7 +5,11 @@
     </CDropdownToggle>
     <CDropdownMenu>
       <CListGroup>
-        <button class="dropdown-item list-group-item list-group-item-action" type="button" @click="showUpsertModal">
+        <button
+          class="dropdown-item list-group-item list-group-item-action"
+          type="button"
+          @click="showUpsertModal"
+        >
           <i class="bi bi-plus-lg pe-1" />
           Add node
         </button>
@@ -39,6 +43,7 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
 import { mapStores } from 'pinia';
+// prettier-ignore
 import {
   CDropdown,
   CDropdownToggle,

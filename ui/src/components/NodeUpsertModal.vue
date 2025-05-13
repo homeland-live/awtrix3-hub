@@ -1,12 +1,8 @@
 <template>
   <BaseModal ref="modal" @close="$emit('close')">
     <template #title>
-      <template v-if="isCreating">
-        Create new
-      </template>
-      <template v-else>
-        Edit
-      </template>
+      <template v-if="isCreating">Create new</template>
+      <template v-else>Edit</template>
       node
     </template>
     <template #body>
@@ -44,16 +40,10 @@
       </div>
     </template>
     <template #footer>
-      <button type="button" class="btn btn-light" @click="close">
-        Close
-      </button>
+      <button type="button" class="btn btn-light" @click="close">Close</button>
       <button type="button" class="btn btn-primary" @click="upsert">
-        <template v-if="isCreating">
-          Create
-        </template>
-        <template v-else>
-          Update
-        </template>
+        <template v-if="isCreating">Create</template>
+        <template v-else>Update</template>
       </button>
     </template>
   </BaseModal>
