@@ -7,11 +7,7 @@
       {{ confirmation }}
     </template>
     <template #footer>
-      <button
-        type="button"
-        class="btn btn-danger"
-        @click="confirm"
-      >
+      <button type="button" class="btn btn-danger" @click="confirm">
         {{ btnTitle }}
       </button>
     </template>

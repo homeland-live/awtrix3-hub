@@ -1,4 +1,4 @@
-import { beforeEach, afterEach, describe, it, expect, vi } from 'vitest'; // eslint-disable-line object-curly-newline
+import { beforeEach, afterEach, describe, it, expect, vi } from 'vitest';
 import { secondsSince, fmtSeconds } from '@/util/time';
 
 describe('time', () => {
@@ -25,10 +25,10 @@ describe('time', () => {
       expect(fmtSeconds(60)).toBe('1m 0s');
       expect(fmtSeconds(60 + 1)).toBe('1m 1s');
       expect(fmtSeconds(60 * 60)).toBe('1h 0s');
-      expect(fmtSeconds((60 * 60) + 1)).toBe('1h 1s');
-      expect(fmtSeconds((60 * 60) + 60)).toBe('1h 1m 0s');
-      expect(fmtSeconds((60 * 60) + 60 + 1)).toBe('1h 1m 1s');
-      expect(fmtSeconds((60 * 60 * 24) + (60 * 60) + 60 + 1)).toBe('1d 1h 1m 1s');
+      expect(fmtSeconds(60 * 60 + 1)).toBe('1h 1s');
+      expect(fmtSeconds(60 * 60 + 60)).toBe('1h 1m 0s');
+      expect(fmtSeconds(60 * 60 + 60 + 1)).toBe('1h 1m 1s');
+      expect(fmtSeconds(60 * 60 * 24 + 60 * 60 + 60 + 1)).toBe('1d 1h 1m 1s');
     });
   });
 });

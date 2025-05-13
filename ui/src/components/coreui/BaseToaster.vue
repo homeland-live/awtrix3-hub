@@ -15,8 +15,12 @@
 
 <script lang="ts">
 import { defineComponent, type PropType } from 'vue';
+// prettier-ignore
 import {
-  CToaster, CToast, CToastHeader, CToastBody,
+  CToaster,
+  CToast,
+  CToastHeader,
+  CToastBody,
 } from '@coreui/vue';
 import type { Toast } from '@/types/coreui';
 

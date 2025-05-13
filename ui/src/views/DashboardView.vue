@@ -1,17 +1,14 @@
 <template>
   <BaseAlert v-if="nodeStore.error" color="danger">
-    <h6 class="alert-heading">
-      There is an issue with retrieving active node details.
-    </h6>
-    <p class="mb-0">
-      Error {{ nodeStore.error.code }}: {{ nodeStore.error.msg }}
-    </p>
+    <h6 class="alert-heading">There is an issue with retrieving active node details.</h6>
+    <p class="mb-0">Error {{ nodeStore.error.code }}: {{ nodeStore.error.msg }}</p>
   </BaseAlert>
   <div v-else-if="!nodeStore.nodes.length" class="p-3">
     There are no nodes yet,
     <button type="button" class="btn btn-link align-baseline p-0" @click="showUpsertModal">
       add
-    </button> one.
+    </button>
+    one.
   </div>
   <div v-else-if="!nodeStore.activeNode" class="alert alert-secondary" role="alert">
     There is no node selected.
@@ -73,9 +70,7 @@
         <h6 class="alert-heading">
           There is an issue with communication to "{{ nodeStore.activeNode?.name }}" awtrix3 node.
         </h6>
-        <p class="mb-0">
-          Error {{ awtrixStore.error.code }}: {{ awtrixStore.error.msg }}
-        </p>
+        <p class="mb-0">Error {{ awtrixStore.error.code }}: {{ awtrixStore.error.msg }}</p>
       </BaseAlert>
       <LiveViewCard v-if="awtrixStore.hasSettings" />
     </div>
@@ -192,33 +187,31 @@ export default defineComponent({
       this.awtrixStore.dismissNotification();
     },
     reboot() {
-      this.awtrixStore.reboot()
-        .then((success) => {
-          if (success) {
-            this.toasts.push({
-              title: 'Reboot',
-              body: `Node ${this.nodeStore?.activeNode?.name} is performing reboot.
+      this.awtrixStore.reboot().then((success) => {
+        if (success) {
+          this.toasts.push({
+            title: 'Reboot',
+            body: `Node ${this.nodeStore?.activeNode?.name} is performing reboot.
                 Please, refresh page when reboot is done.`,
-              icon: 'bell',
-              iconColor: 'warning',
-            });
-          }
-        });
+            icon: 'bell',
+            iconColor: 'warning',
+          });
+        }
+      });
     },
     resetSettings() {
-      this.awtrixStore.resetSettings()
-        .then((success) => {
-          if (success) {
-            this.toasts.push({
-              title: 'Reset Settings',
-              body: `Node ${this.nodeStore?.activeNode?.name} has reset its settings.
+      this.awtrixStore.resetSettings().then((success) => {
+        if (success) {
+          this.toasts.push({
+            title: 'Reset Settings',
+            body: `Node ${this.nodeStore?.activeNode?.name} has reset its settings.
                 It does not reset the flash files and WiFi Settings.
                 Please, refresh page when reboot is done.`,
-              icon: 'bell',
-              iconColor: 'warning',
-            });
-          }
-        });
+            icon: 'bell',
+            iconColor: 'warning',
+          });
+        }
+      });
     },
     onToast(toast: Toast) {
       this.toasts.push(toast);

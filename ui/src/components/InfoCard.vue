@@ -4,15 +4,16 @@
       <span class="text-muted">{{ title }}</span>
     </div>
     <div class="card-body">
-      <p class="card-text">
+      <div class="card-text">
         <ul class="list-group list-group-flush">
           <li v-for="(v, k) in obj" :key="k" class="list-group-item">
-            <span class="text-muted">{{ k }}</span>:
+            <span class="text-muted">{{ k }}</span>
+            :
             <TimeAgo v-if="isTime(v)" :time="String(v)" />
             <span v-else>{{ v || 'n/a' }}</span>
           </li>
         </ul>
-      </p>
+      </div>
     </div>
   </div>
 </template>

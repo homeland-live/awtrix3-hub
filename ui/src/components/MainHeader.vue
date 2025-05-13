@@ -9,14 +9,10 @@
       <CCollapse class="navbar-collapse" :visible="visible">
         <CNavbarNav class="me-auto" as="ul">
           <CNavItem as="li">
-            <router-link to="/dashboard" class="nav-link">
-              Dashboard
-            </router-link>
+            <router-link to="/dashboard" class="nav-link">Dashboard</router-link>
           </CNavItem>
           <CNavItem as="li">
-            <router-link to="/about" class="nav-link">
-              About
-            </router-link>
+            <router-link to="/about" class="nav-link">About</router-link>
           </CNavItem>
         </CNavbarNav>
         <NodeListMenu @toast="onToast" @select="nodeStore.setActiveNode" />

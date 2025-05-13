@@ -3,7 +3,11 @@
     <div class="card-header d-flex justify-content-between pe-2">
       <span class="d-flex align-items-center text-muted">
         LiveView
-        <a v-if="nodeStore.activeNode" :href="`/awtrix/${nodeStore.activeNode.ipv4}/fullscreen`" target="_blank">
+        <a
+          v-if="nodeStore.activeNode"
+          :href="`/awtrix/${nodeStore.activeNode.ipv4}/fullscreen`"
+          target="_blank"
+        >
           <i class="bi bi-box-arrow-up-right ms-2" />
         </a>
       </span>
@@ -15,7 +19,7 @@
           role="switch"
           :checked="awtrixStore.liveViewEnabled"
           @change="awtrixStore.toggleLiveView"
-        >
+        />
       </div>
     </div>
     <div class="card-body p-0">
