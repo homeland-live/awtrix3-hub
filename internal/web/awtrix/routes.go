@@ -6,8 +6,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/gofiber/fiber/v2"
-	"github.com/gofiber/fiber/v2/middleware/proxy"
+	"github.com/gofiber/fiber/v3"
+	"github.com/gofiber/fiber/v3/middleware/proxy"
 	"github.com/valyala/fasthttp"
 )
 
@@ -17,7 +17,7 @@ func Routes(app *fiber.App) {
 		NoDefaultUserAgentHeader: true,
 		DisablePathNormalizing:   true,
 	})
-	app.All("/awtrix/:ipv4/*", func(c *fiber.Ctx) error {
+	app.All("/awtrix/:ipv4/*", func(c fiber.Ctx) error {
 		ipv4 := c.Params("ipv4")
 		path := c.Params("*")
 		url := fmt.Sprintf("http://%s/%s", ipv4, path)

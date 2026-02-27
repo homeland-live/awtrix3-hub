@@ -2,7 +2,7 @@
 package api
 
 import (
-	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v3"
 
 	"github.com/homeland-live/awtrix3-hub/internal/web/api/awtrix3"
 	"github.com/homeland-live/awtrix3-hub/internal/web/api/health"
