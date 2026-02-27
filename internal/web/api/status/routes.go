@@ -9,6 +9,6 @@ import (
 // Routes adds event api routes to the fiber
 func Routes(api fiber.Router) {
 	api.Get("/v1/status/buildinfo", func(c *fiber.Ctx) error {
-		return c.JSON(buildmeta.Fields())
+		return c.JSON(buildmeta.New())
 	})
 }

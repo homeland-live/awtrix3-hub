@@ -29,3 +29,4 @@ warningCode = 2
 [rule.unused-parameter]
 [rule.var-declaration]
 [rule.var-naming]
+    arguments = [[], [], [{ skipPackageNameChecks = true }]]

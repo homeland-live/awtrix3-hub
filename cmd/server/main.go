@@ -12,7 +12,7 @@ import (
 
 func main() {
 	zerologutil.MustInit()
-	log.Info().Fields(buildmeta.Fields()).Msg("build meta")
+	log.Info().Interface("buildmeta", buildmeta.New()).Send()
 	db.MustInit()
 	web.MustInit()
 
