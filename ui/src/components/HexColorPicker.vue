@@ -1,14 +1,3 @@
-<template>
-  <ColorPicker
-    v-model:pure-color="model"
-    format="hex"
-    shape="circle"
-    disable-alpha
-    disable-history
-    @pure-color-change="change"
-  />
-</template>
-
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
 import { ColorPicker } from 'vue3-colorpicker';
@@ -38,3 +27,14 @@ export default defineComponent({
   },
 });
 </script>
+
+<template>
+  <ColorPicker
+    v-model:pure-color="model"
+    format="hex"
+    shape="circle"
+    disable-alpha
+    disable-history
+    @pure-color-change="change"
+  />
+</template>

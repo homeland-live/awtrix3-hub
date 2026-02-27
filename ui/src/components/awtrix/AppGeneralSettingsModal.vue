@@ -1,3 +1,109 @@
+<script lang="ts">
+import { defineComponent } from 'vue';
+import { mapStores } from 'pinia';
+// prettier-ignore
+import {
+  CDropdown,
+  CDropdownToggle,
+  CDropdownMenu,
+  CListGroup,
+} from '@coreui/vue';
+import BaseModal from '@/components/coreui/BaseModal.vue';
+import BtnIcon from '@/components/coreui/BtnIcon.vue';
+import { useNodeStore } from '@/stores/node';
+import {
+  useAwtrixStore,
+  TRANSITION_EFFECT_DEFAULT,
+  TRANSITION_SPEED_DEFAULT,
+  TRANSITION_SPEED_MIN,
+  APP_TIME_DEFAULT,
+  APP_TIME_MIN,
+} from '@/stores/awtrix';
+
+const TRANSITION_SPEED_STEP = 100;
+const APP_TIME_STEP = 1;
+
+type TransitionEffect = { value: number; label: string };
+
+const ALL_TRANSITION_EFFECTS: TransitionEffect[] = [
+  { value: 0, label: 'Random' },
+  { value: 1, label: 'Slide' },
+  { value: 2, label: 'Dim' },
+  { value: 3, label: 'Zoom' },
+  { value: 4, label: 'Rotate' },
+  { value: 5, label: 'Pixelate' },
+  { value: 6, label: 'Curtain' },
+  { value: 7, label: 'Ripple' },
+  { value: 8, label: 'Blink' },
+  { value: 9, label: 'Reload' },
+  { value: 10, label: 'Fade' },
+];
+
+export default defineComponent({
+  name: 'AppGeneralSettingsModal',
+  components: {
+    CDropdown,
+    CDropdownToggle,
+    CDropdownMenu,
+    CListGroup,
+    BaseModal,
+    BtnIcon,
+  },
+  emits: ['close', 'toast'],
+  data() {
+    return {
+      speedMin: TRANSITION_SPEED_MIN,
+      timeMin: APP_TIME_MIN,
+      transitionEffects: ALL_TRANSITION_EFFECTS,
+    };
+  },
+  computed: {
+    currentEffect(): { value: number; label: string } {
+      const effect = this.awtrixStore.settings?.TEFF;
+      if (effect !== undefined && ALL_TRANSITION_EFFECTS[effect] !== undefined) {
+        return ALL_TRANSITION_EFFECTS[effect];
+      }
+      return ALL_TRANSITION_EFFECTS[TRANSITION_EFFECT_DEFAULT] as TransitionEffect;
+    },
+    currentSpeed(): number {
+      const speed = this.awtrixStore.settings?.TSPEED;
+      return speed !== undefined ? speed : TRANSITION_SPEED_DEFAULT;
+    },
+    currentTime(): number {
+      const time = this.awtrixStore.settings?.ATIME;
+      return time !== undefined ? time : APP_TIME_DEFAULT;
+    },
+    ...mapStores(
+      useNodeStore, // sets this.nodeStore
+      useAwtrixStore, // sets this.awtrixStore
+    ),
+  },
+  mounted() {
+    this.nodeStore.init();
+  },
+  methods: {
+    close() {
+      (this.$refs.modal as typeof BaseModal).close();
+    },
+    setEffect(effect: number) {
+      this.awtrixStore.setSetting('TEFF', effect);
+    },
+    incrementSpeed() {
+      this.awtrixStore.setSetting('TSPEED', this.currentSpeed + TRANSITION_SPEED_STEP);
+    },
+    decrementSpeed() {
+      this.awtrixStore.setSetting('TSPEED', this.currentSpeed - TRANSITION_SPEED_STEP);
+    },
+    incrementTime() {
+      this.awtrixStore.setSetting('ATIME', this.currentTime + APP_TIME_STEP);
+    },
+    decrementTime() {
+      this.awtrixStore.setSetting('ATIME', this.currentTime - APP_TIME_STEP);
+    },
+  },
+});
+</script>
+
 <template>
   <BaseModal ref="modal" :scrollable="false" :keyboard="false" @close="$emit('close')">
     <template #title>
@@ -100,105 +206,3 @@
     </template>
   </BaseModal>
 </template>
-
-<script lang="ts">
-import { defineComponent } from 'vue';
-import { mapStores } from 'pinia';
-// prettier-ignore
-import {
-  CDropdown,
-  CDropdownToggle,
-  CDropdownMenu,
-  CListGroup,
-} from '@coreui/vue';
-import BaseModal from '@/components/coreui/BaseModal.vue';
-import BtnIcon from '@/components/coreui/BtnIcon.vue';
-import { useNodeStore } from '@/stores/node';
-import {
-  useAwtrixStore,
-  TRANSITION_EFFECT_DEFAULT,
-  TRANSITION_SPEED_DEFAULT,
-  TRANSITION_SPEED_MIN,
-  APP_TIME_DEFAULT,
-  APP_TIME_MIN,
-} from '@/stores/awtrix';
-
-const TRANSITION_SPEED_STEP = 100;
-const APP_TIME_STEP = 1;
-
-export default defineComponent({
-  name: 'AppGeneralSettingsModal',
-  components: {
-    CDropdown,
-    CDropdownToggle,
-    CDropdownMenu,
-    CListGroup,
-    BaseModal,
-    BtnIcon,
-  },
-  emits: ['close', 'toast'],
-  data() {
-    return {
-      speedMin: TRANSITION_SPEED_MIN,
-      timeMin: APP_TIME_MIN,
-      transitionEffects: [
-        { value: 0, label: 'Random' },
-        { value: 1, label: 'Slide' },
-        { value: 2, label: 'Dim' },
-        { value: 3, label: 'Zoom' },
-        { value: 4, label: 'Rotate' },
-        { value: 5, label: 'Pixelate' },
-        { value: 6, label: 'Curtain' },
-        { value: 7, label: 'Ripple' },
-        { value: 8, label: 'Blink' },
-        { value: 9, label: 'Reload' },
-        { value: 10, label: 'Fade' },
-      ],
-    };
-  },
-  computed: {
-    currentEffect(): { value: number; label: string } {
-      const effect = this.awtrixStore.settings?.TEFF;
-      if (effect !== undefined) {
-        return this.transitionEffects[effect];
-      }
-      return this.transitionEffects[TRANSITION_EFFECT_DEFAULT];
-    },
-    currentSpeed(): number {
-      const speed = this.awtrixStore.settings?.TSPEED;
-      return speed !== undefined ? speed : TRANSITION_SPEED_DEFAULT;
-    },
-    currentTime(): number {
-      const time = this.awtrixStore.settings?.ATIME;
-      return time !== undefined ? time : APP_TIME_DEFAULT;
-    },
-    ...mapStores(
-      useNodeStore, // sets this.nodeStore
-      useAwtrixStore, // sets this.awtrixStore
-    ),
-  },
-  mounted() {
-    this.nodeStore.init();
-  },
-  methods: {
-    close() {
-      (this.$refs.modal as typeof BaseModal).close();
-    },
-    setEffect(effect: number) {
-      this.awtrixStore.setSetting('TEFF', effect);
-    },
-    incrementSpeed() {
-      this.awtrixStore.setSetting('TSPEED', this.currentSpeed + TRANSITION_SPEED_STEP);
-    },
-    decrementSpeed() {
-      this.awtrixStore.setSetting('TSPEED', this.currentSpeed - TRANSITION_SPEED_STEP);
-    },
-    incrementTime() {
-      this.awtrixStore.setSetting('ATIME', this.currentTime + APP_TIME_STEP);
-    },
-    decrementTime() {
-      this.awtrixStore.setSetting('ATIME', this.currentTime - APP_TIME_STEP);
-    },
-  },
-});
-</script>

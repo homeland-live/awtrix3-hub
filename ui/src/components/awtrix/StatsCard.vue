@@ -1,3 +1,49 @@
+<script lang="ts">
+import { defineComponent } from 'vue';
+import { mapStores } from 'pinia';
+import { CProgress, CProgressBar } from '@coreui/vue';
+import { useAwtrixStore } from '@/stores/awtrix';
+import { fmtSeconds } from '@/util/time';
+
+export default defineComponent({
+  name: 'StatsCard',
+  components: { CProgress, CProgressBar },
+  computed: {
+    totalBytes(): number {
+      return this.parseBytes(this.awtrixStore.status?.totalBytes || '');
+    },
+    usedBytes(): number {
+      return this.parseBytes(this.awtrixStore.status?.usedBytes || '');
+    },
+    ...mapStores(
+      useAwtrixStore, // sets this.awtrixStore
+    ),
+  },
+  methods: {
+    fmtUptime: fmtSeconds,
+    parseBytes(str: string): number {
+      if (!str) {
+        return 0;
+      }
+      const num = parseInt(str, 10);
+      if (!Number.isInteger(num)) {
+        return 0;
+      }
+      return num;
+    },
+    storageUsage(totalBytes: number, usedBytes: number): string {
+      return `${usedBytes / 1024} KiB / ${totalBytes / 1024} KiB`;
+    },
+    storageUsageProgress(totalBytes: number, usedBytes: number): number {
+      if (totalBytes === 0) {
+        return 0;
+      }
+      return (usedBytes / totalBytes) * 100;
+    },
+  },
+});
+</script>
+
 <template>
   <div class="card">
     <div class="card-header">
@@ -77,49 +123,3 @@
     </div>
   </div>
 </template>
-
-<script lang="ts">
-import { defineComponent } from 'vue';
-import { mapStores } from 'pinia';
-import { CProgress, CProgressBar } from '@coreui/vue';
-import { useAwtrixStore } from '@/stores/awtrix';
-import { fmtSeconds } from '@/util/time';
-
-export default defineComponent({
-  name: 'StatsCard',
-  components: { CProgress, CProgressBar },
-  computed: {
-    totalBytes(): number {
-      return this.parseBytes(this.awtrixStore.status?.totalBytes || '');
-    },
-    usedBytes(): number {
-      return this.parseBytes(this.awtrixStore.status?.usedBytes || '');
-    },
-    ...mapStores(
-      useAwtrixStore, // sets this.awtrixStore
-    ),
-  },
-  methods: {
-    fmtUptime: fmtSeconds,
-    parseBytes(str: string): number {
-      if (!str) {
-        return 0;
-      }
-      const num = parseInt(str, 10);
-      if (!Number.isInteger(num)) {
-        return 0;
-      }
-      return num;
-    },
-    storageUsage(totalBytes: number, usedBytes: number): string {
-      return `${usedBytes / 1024} KiB / ${totalBytes / 1024} KiB`;
-    },
-    storageUsageProgress(totalBytes: number, usedBytes: number): number {
-      if (totalBytes === 0) {
-        return 0;
-      }
-      return (usedBytes / totalBytes) * 100;
-    },
-  },
-});
-</script>

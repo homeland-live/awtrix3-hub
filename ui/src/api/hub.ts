@@ -11,6 +11,10 @@ export interface Err {
   items?: ErrItem[];
 }
 
+export function getUiDeps(): Promise<Record<string, string>> {
+  return getJ(`/ui/deps.json?t=${Date.now()}`);
+}
+
 export interface BuildInfo {
   compiler: string;
   os: string;
@@ -24,7 +28,7 @@ export interface BuildInfo {
   serverTimezone: string;
 }
 
-export function getBuildInfo(): Promise<BuildInfo> {
+export function getStatusBuildInfo(): Promise<BuildInfo> {
   return getJ('/api/v1/status/buildinfo');
 }
 

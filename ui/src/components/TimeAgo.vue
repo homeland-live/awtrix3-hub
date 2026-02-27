@@ -1,8 +1,3 @@
-<template>
-  <span v-if="time" :title="time" @click="isModeRelative = !isModeRelative">{{ displayTime }}</span>
-  <span v-else>n/a</span>
-</template>
-
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
 import { AgoTimer } from '@/util/time';
@@ -67,3 +62,8 @@ export default defineComponent({
   },
 });
 </script>
+
+<template>
+  <span v-if="time" :title="time" @click="isModeRelative = !isModeRelative">{{ displayTime }}</span>
+  <span v-else>n/a</span>
+</template>
