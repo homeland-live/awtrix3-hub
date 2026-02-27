@@ -1,4 +1,4 @@
-ARG GO_VERSION=1.24
+ARG GO_VERSION=1.26
 ARG NODE_VERSION=22.15
 
 FROM golang:${GO_VERSION}-alpine AS server-builder
