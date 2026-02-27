@@ -6,9 +6,9 @@ import (
 	"os"
 
 	"github.com/avakarev/go-util/httputil"
-	"github.com/gofiber/contrib/fiberzerolog"
-	"github.com/gofiber/fiber/v2"
-	"github.com/gofiber/fiber/v2/middleware/recover"
+	"github.com/gofiber/contrib/v3/zerolog"
+	"github.com/gofiber/fiber/v3"
+	"github.com/gofiber/fiber/v3/middleware/recover"
 	"github.com/rs/zerolog/log"
 
 	"github.com/homeland-live/awtrix3-hub/internal/web/api"
@@ -24,27 +24,32 @@ var port string
 // Serve starts an HTTP server
 func Serve() error {
 	app := fiber.New(fiber.Config{
-		DisableStartupMessage: true,
-		ErrorHandler: func(c *fiber.Ctx, err error) error {
+		ErrorHandler: func(c fiber.Ctx, err error) error {
 			httpErr := httputil.NewErrFrom(err)
-
 			var e *fiber.Error
 			if errors.As(err, &e) {
 				httpErr.Error.Code = e.Code
 			}
-
 			return c.Status(httpErr.Error.Code).JSON(httpErr)
 		},
 	})
 	app.Use(recover.New())
-	app.Use(fiberzerolog.New())
+	app.Use(zerolog.New(zerolog.Config{
+		Fields: []string{
+			zerolog.FieldLatency,
+			zerolog.FieldStatus,
+			zerolog.FieldMethod,
+			zerolog.FieldURL,
+			zerolog.FieldError,
+		},
+	}))
 
 	api.Routes(app)
 	ui.Routes(app)
 	awtrix.Routes(app)
 
-	log.Info().Str("url", "http://localhost:"+port).Msg("starting web server")
-	return app.Listen(":" + port)
+	log.Info().Str("url", "http://localhost:"+port).Uint32("handlers", app.HandlersCount()).Msg("starting web server")
+	return app.Listen(":"+port, fiber.ListenConfig{DisableStartupMessage: true})
 }
 
 // Init initializes web

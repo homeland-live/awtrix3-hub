@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v3"
 )
 
 const awtrix3ReleaseURL = "https://api.github.com/repos/Blueforcer/awtrix3/releases/latest"
@@ -35,7 +35,7 @@ func reqRelease() (*release, error) {
 
 // Routes adds health api routes to the fiber
 func Routes(api fiber.Router) {
-	api.Get("/v1/awtrix3/release", func(c *fiber.Ctx) error {
+	api.Get("/v1/awtrix3/release", func(c fiber.Ctx) error {
 		rel, err := reqRelease()
 		if err != nil {
 			return err

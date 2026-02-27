@@ -3,22 +3,22 @@ package node
 import (
 	"fmt"
 
-	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v3"
 	"github.com/stretchr/objx"
 
 	"github.com/homeland-live/awtrix3-hub/internal/db"
 )
 
 // ListNodesHandler handles `/nodes` http get requests
-func ListNodesHandler(c *fiber.Ctx) error {
+func ListNodesHandler(c fiber.Ctx) error {
 	nodes := db.ListNodes()
 	return c.JSON(fiber.Map{"nodes": nodes})
 }
 
 // CreateNodeHandler handles `/nodes` http post requests
-func CreateNodeHandler(c *fiber.Ctx) error {
+func CreateNodeHandler(c fiber.Ctx) error {
 	var n db.Node
-	if err := c.BodyParser(&n); err != nil {
+	if err := c.Bind().Body(&n); err != nil {
 		return fiber.NewError(fiber.StatusBadRequest, err.Error())
 	}
 
@@ -30,7 +30,7 @@ func CreateNodeHandler(c *fiber.Ctx) error {
 }
 
 // GetNodeHandler handles `/nodes/:id` http get requests
-func GetNodeHandler(c *fiber.Ctx) error {
+func GetNodeHandler(c fiber.Ctx) error {
 	id := c.Params("id")
 	n := db.FindNodeByID(id)
 	if n == nil {
@@ -43,14 +43,14 @@ func GetNodeHandler(c *fiber.Ctx) error {
 }
 
 // UpdateNodeHandler handles `/nodes/:id` http patch requests
-func UpdateNodeHandler(c *fiber.Ctx) error {
+func UpdateNodeHandler(c fiber.Ctx) error {
 	id := c.Params("id")
 	n := db.FindNodeByID(id)
 	if n == nil {
 		return fiber.NewError(fiber.StatusNotFound, fmt.Sprintf("no node found with given id %s", id))
 	}
 	data := objx.Map{}
-	if err := c.BodyParser(&n); err != nil {
+	if err := c.Bind().Body(&n); err != nil {
 		return fiber.NewError(fiber.StatusBadRequest, err.Error())
 	}
 	if err := db.UpdateNode(n, data); err != nil {
@@ -60,7 +60,7 @@ func UpdateNodeHandler(c *fiber.Ctx) error {
 }
 
 // DeleteNodeHandler handles `/nodes/:id` http delete requests
-func DeleteNodeHandler(c *fiber.Ctx) error {
+func DeleteNodeHandler(c fiber.Ctx) error {
 	id := c.Params("id")
 	if err := db.DeleteNode(id); err != nil {
 		return err

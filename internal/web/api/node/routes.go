@@ -2,7 +2,7 @@
 package node
 
 import (
-	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v3"
 )
 
 // Routes adds node api routes to the fiber
