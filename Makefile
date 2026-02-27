@@ -11,6 +11,10 @@ LDFLAGS += -extldflags "-static"
 export CGO_CFLAGS = "-D_LARGEFILE64_SOURCE" # https://github.com/mattn/go-sqlite3/issues/1164
 endif
 
+ifneq (,$(wildcard .env))
+include .env
+endif
+
 lint:
 	@echo ">> Running revive..."
 	@revive -config .revive.toml -formatter friendly ./...
