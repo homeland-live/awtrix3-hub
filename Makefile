@@ -31,7 +31,7 @@ sec:
 
 test:
 	@echo ">> Running tests..."
-	@export LOG_LEVEL=info && go test -v -race ./...
+	@go test -v -race ./...
 .PHONY: test
 
 setup-ci:
@@ -45,12 +45,18 @@ build:
 	@echo ">> Building ./bin/server..."
 	@go build -a -ldflags '${LDFLAGS}' -tags 'sqlite_json' -o ./bin/server ./cmd/server
 
-run-server: build
+server-run: build
 	@while [ ! -f ./ui/dist/index.html ]; do sleep 0.2; done
 	@./bin/server
 
-run-ui:
+ui-clean:
+	@echo "deleting ./ui/dist"
+	@rm -rf ./ui/dist
+	@mkdir -p ./ui/dist
+
+ui-run:
+	@npm install --prefix ./ui
 	@npm run --prefix ./ui watch
 
-dev:
-	@( make run-server & make run-ui ) | cat
+dev: ui-clean
+	@( make server-run & make ui-run ) | cat

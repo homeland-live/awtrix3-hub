@@ -1,3 +1,101 @@
+<script lang="ts">
+import { defineComponent } from 'vue';
+import { mapStores } from 'pinia';
+// prettier-ignore
+import {
+  CDropdown,
+  CDropdownToggle,
+  CDropdownMenu,
+  CListGroup,
+} from '@coreui/vue';
+import BaseModal from '@/components/coreui/BaseModal.vue';
+import EditableInput from '@/components/coreui/EditableInput.vue';
+import HexColorPicker from '@/components/HexColorPicker.vue';
+import { useNodeStore } from '@/stores/node';
+import { useAwtrixStore, TIME_APP_MODE_DEFAULT } from '@/stores/awtrix';
+import type { EditableChangeEvent } from '@/types/coreui';
+
+export default defineComponent({
+  name: 'AppTimeSettingsModal',
+  components: {
+    CDropdown,
+    CDropdownToggle,
+    CDropdownMenu,
+    CListGroup,
+    BaseModal,
+    EditableInput,
+    HexColorPicker,
+  },
+  emits: ['close', 'toast'],
+  data() {
+    return {
+      formatPresets: [
+        { format: '%H:%M:%S', example: '13:30:45' },
+        { format: '%l:%M:%S', example: '1:30:45 ' },
+        { format: '%H:%M', example: '13:30' },
+        { format: '%H %M', example: '13.30', blinking: true },
+        { format: '%l:%M', example: '1:30' },
+        { format: '%l %M', example: '1:30', blinking: true },
+        { format: '%l:%M %p', example: '1:30 PM' },
+        { format: '%l %M %p', example: '1:30 PM', blinking: true },
+      ],
+      modes: [0, 1, 2, 3, 4],
+    };
+  },
+  computed: {
+    currentMode(): number {
+      const mode = this.awtrixStore.settings?.TMODE;
+      return mode !== undefined ? mode : TIME_APP_MODE_DEFAULT;
+    },
+    ...mapStores(
+      useNodeStore, // sets this.nodeStore
+      useAwtrixStore, // sets this.awtrixStore
+    ),
+  },
+  mounted() {
+    this.nodeStore.init();
+  },
+  methods: {
+    close() {
+      (this.$refs.modal as typeof BaseModal).close();
+    },
+    updateFormat(e: EditableChangeEvent<string>) {
+      this.awtrixStore.setSetting('TFORMAT', e.value).then((success) => {
+        if (!success) {
+          return e.reject('remote node did not save new format');
+        }
+        return e.confirm();
+      });
+    },
+    setFormat(f: string) {
+      this.awtrixStore.setSetting('TFORMAT', f).then((success) => {
+        if (!success) {
+          this.$emit('toast', { title: 'Error', body: 'remote node did not save new format' });
+        }
+      });
+    },
+    setMode(mode: number) {
+      this.awtrixStore.setSetting('TMODE', mode);
+    },
+    setHeaderColor(color: string) {
+      this.awtrixStore.setColor('CHCOL', color);
+    },
+    setBodyColor(color: string) {
+      this.awtrixStore.setColor('CBCOL', color);
+    },
+    setTextColor(color: string) {
+      this.awtrixStore.setColor('CTCOL', color);
+    },
+    setActiveWeekdayColor(color: string) {
+      this.awtrixStore.setColor('WDCA', color);
+    },
+    setInactiveWeekdayColor(color: string) {
+      this.awtrixStore.setColor('WDCI', color);
+    },
+  },
+});
+</script>
+
 <template>
   <BaseModal ref="modal" :scrollable="false" :keyboard="false" @close="$emit('close')">
     <template #title>
@@ -173,104 +271,6 @@
     </template>
   </BaseModal>
 </template>
-
-<script lang="ts">
-import { defineComponent } from 'vue';
-import { mapStores } from 'pinia';
-// prettier-ignore
-import {
-  CDropdown,
-  CDropdownToggle,
-  CDropdownMenu,
-  CListGroup,
-} from '@coreui/vue';
-import BaseModal from '@/components/coreui/BaseModal.vue';
-import EditableInput from '@/components/coreui/EditableInput.vue';
-import HexColorPicker from '@/components/HexColorPicker.vue';
-import { useNodeStore } from '@/stores/node';
-import { useAwtrixStore, TIME_APP_MODE_DEFAULT } from '@/stores/awtrix';
-import type { EditableChangeEvent } from '@/types/coreui';
-
-export default defineComponent({
-  name: 'AppTimeSettingsModal',
-  components: {
-    CDropdown,
-    CDropdownToggle,
-    CDropdownMenu,
-    CListGroup,
-    BaseModal,
-    EditableInput,
-    HexColorPicker,
-  },
-  emits: ['close', 'toast'],
-  data() {
-    return {
-      formatPresets: [
-        { format: '%H:%M:%S', example: '13:30:45' },
-        { format: '%l:%M:%S', example: '1:30:45 ' },
-        { format: '%H:%M', example: '13:30' },
-        { format: '%H %M', example: '13.30', blinking: true },
-        { format: '%l:%M', example: '1:30' },
-        { format: '%l %M', example: '1:30', blinking: true },
-        { format: '%l:%M %p', example: '1:30 PM' },
-        { format: '%l %M %p', example: '1:30 PM', blinking: true },
-      ],
-      modes: [0, 1, 2, 3, 4],
-    };
-  },
-  computed: {
-    currentMode(): number {
-      const mode = this.awtrixStore.settings?.TMODE;
-      return mode !== undefined ? mode : TIME_APP_MODE_DEFAULT;
-    },
-    ...mapStores(
-      useNodeStore, // sets this.nodeStore
-      useAwtrixStore, // sets this.awtrixStore
-    ),
-  },
-  mounted() {
-    this.nodeStore.init();
-  },
-  methods: {
-    close() {
-      (this.$refs.modal as typeof BaseModal).close();
-    },
-    updateFormat(e: EditableChangeEvent<string>) {
-      this.awtrixStore.setSetting('TFORMAT', e.value).then((success) => {
-        if (!success) {
-          return e.reject('remote node did not save new format');
-        }
-        return e.confirm();
-      });
-    },
-    setFormat(f: string) {
-      this.awtrixStore.setSetting('TFORMAT', f).then((success) => {
-        if (!success) {
-          this.$emit('toast', { title: 'Error', body: 'remote node did not save new format' });
-        }
-      });
-    },
-    setMode(mode: number) {
-      this.awtrixStore.setSetting('TMODE', mode);
-    },
-    setHeaderColor(color: string) {
-      this.awtrixStore.setColor('CHCOL', color);
-    },
-    setBodyColor(color: string) {
-      this.awtrixStore.setColor('CBCOL', color);
-    },
-    setTextColor(color: string) {
-      this.awtrixStore.setColor('CTCOL', color);
-    },
-    setActiveWeekdayColor(color: string) {
-      this.awtrixStore.setColor('WDCA', color);
-    },
-    setInactiveWeekdayColor(color: string) {
-      this.awtrixStore.setColor('WDCI', color);
-    },
-  },
-});
-</script>
 
 <style scoped>
 :deep(.vc-color-wrap) {

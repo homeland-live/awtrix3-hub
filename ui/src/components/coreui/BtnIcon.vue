@@ -1,9 +1,3 @@
-<template>
-  <button type="button" class="btn" :class="[sizeClass, alignClass]">
-    <i class="bi" :class="iconClass" />
-  </button>
-</template>
-
 <script lang="ts">
 import { defineComponent } from 'vue';
 
@@ -33,3 +27,9 @@ export default defineComponent({
   },
 });
 </script>
+
+<template>
+  <button type="button" class="btn" :class="[sizeClass, alignClass]">
+    <i class="bi" :class="iconClass" />
+  </button>
+</template>

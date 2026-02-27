@@ -1,12 +1,3 @@
-<template>
-  <MainHeader @toast="onToast" />
-  <div class="container-lg flex-grow-1 my-3">
-    <router-view />
-  </div>
-  <MainFooter />
-  <BaseToaster :toasts="toasts" />
-</template>
-
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
 import BaseToaster from '@/components/coreui/BaseToaster.vue';
@@ -29,3 +20,16 @@ export default defineComponent({
   },
 });
 </script>
+
+<template>
+  <div class="wrapper d-flex flex-column min-vh-100">
+    <MainHeader @toast="onToast" />
+    <div class="body flex-grow-1">
+      <div class="container-lg">
+        <router-view />
+      </div>
+    </div>
+    <MainFooter />
+  </div>
+  <BaseToaster :toasts="toasts" />
+</template>

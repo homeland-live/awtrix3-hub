@@ -1,7 +1,3 @@
-<template>
-  <BaseAlert :msg="`error ${err.code}: ${err.msg}`" color="danger" />
-</template>
-
 <script lang="ts">
 import { defineComponent, type PropType } from 'vue';
 import type { Err } from '@/api/hub';
@@ -15,3 +11,7 @@ export default defineComponent({
   },
 });
 </script>
+
+<template>
+  <BaseAlert :msg="`error ${err.code}: ${err.msg}`" color="danger" />
+</template>

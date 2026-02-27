@@ -1,18 +1,16 @@
-import { createRouter, createWebHashHistory, type RouteRecordRaw } from 'vue-router';
-import AboutView from '@/views/AboutView.vue';
+import { createRouter, createWebHashHistory } from 'vue-router';
 import DashboardView from '@/views/DashboardView.vue';
-
-const routes: Array<RouteRecordRaw> = [
-  { path: '/', name: 'IndexView', redirect: { name: 'DashboardView' } },
-  { path: '/about', name: 'AboutView', component: AboutView },
-  { path: '/dashboard', name: 'DashboardView', component: DashboardView },
-  { path: '/:pathMatch(.*)*', redirect: '/' },
-];
+import StatusBuildView from '@/views/StatusBuildView.vue';
 
 const router = createRouter({
-  history: createWebHashHistory(),
+  history: createWebHashHistory(import.meta.env.BASE_URL),
   linkActiveClass: 'active',
-  routes,
+  routes: [
+    { path: '/', name: 'IndexView', redirect: { name: 'DashboardView' } },
+    { path: '/dashboard', name: 'DashboardView', component: DashboardView },
+    { path: '/status/build', name: 'StatusBuildView', component: StatusBuildView },
+    { path: '/:pathMatch(.*)*', redirect: '/' },
+  ],
 });
 
 export default router;

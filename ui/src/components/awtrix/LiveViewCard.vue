@@ -1,3 +1,23 @@
+<script lang="ts">
+import { defineComponent } from 'vue';
+import { mapStores } from 'pinia';
+import { useNodeStore } from '@/stores/node';
+import { useAwtrixStore } from '@/stores/awtrix';
+
+export default defineComponent({
+  name: 'LiveViewCard',
+  computed: {
+    ...mapStores(
+      useNodeStore, // sets this.nodeStore
+      useAwtrixStore, // sets this.awtrixStore
+    ),
+  },
+  mounted() {
+    this.nodeStore.init();
+  },
+});
+</script>
+
 <template>
   <div class="card">
     <div class="card-header d-flex justify-content-between pe-2">
@@ -33,23 +53,3 @@
     </div>
   </div>
 </template>
-
-<script lang="ts">
-import { defineComponent } from 'vue';
-import { mapStores } from 'pinia';
-import { useNodeStore } from '@/stores/node';
-import { useAwtrixStore } from '@/stores/awtrix';
-
-export default defineComponent({
-  name: 'LiveViewCard',
-  computed: {
-    ...mapStores(
-      useNodeStore, // sets this.nodeStore
-      useAwtrixStore, // sets this.awtrixStore
-    ),
-  },
-  mounted() {
-    this.nodeStore.init();
-  },
-});
-</script>

@@ -1,74 +1,59 @@
-<template>
-  <div ref="modal" class="modal fade" tabindex="-1">
-    <div class="modal-dialog" :class="dialogClassList">
-      <div class="modal-content">
-        <div class="modal-header">
-          <div class="modal-title">
-            <slot name="title" />
-          </div>
-          <button type="button" class="btn-close" aria-label="Close" @click="close" />
-        </div>
-        <div class="modal-body">
-          <slot name="body" />
-        </div>
-        <div class="modal-footer">
-          <slot name="footer" />
-        </div>
-      </div>
-    </div>
-  </div>
-</template>
+<script setup lang="ts">
+import { ref, onMounted } from 'vue';
+import { CModal } from '@coreui/vue';
 
-<script lang="ts">
-import { defineComponent } from 'vue';
-import { modal, getModalInstance } from '@/util/coreui';
+withDefaults(
+  defineProps<{
+    size?: 'sm' | '' | 'lg' | 'xl';
+    alignment?: 'center' | 'top';
+    scrollable?: boolean;
+  }>(),
+  {
+    size: '',
+    alignment: 'center',
+    scrollable: true,
+  },
+);
 
-export default defineComponent({
-  name: 'BaseModal',
-  props: {
-    centered: {
-      type: Boolean,
-      default: true,
-    },
-    scrollable: {
-      type: Boolean,
-      default: true,
-    },
-    size: {
-      type: String,
-      default: '',
-      validator: (value: string) => ['', 'sm', 'lg', 'xl'].includes(value),
-    },
-    keyboard: {
-      type: Boolean,
-      default: true,
-    },
-  },
-  emits: ['close'],
-  computed: {
-    dialogClassList(): string[] {
-      const list = [];
-      if (this.centered) {
-        list.push('modal-dialog-centered');
-      }
-      if (this.scrollable) {
-        list.push('modal-dialog-scrollable');
-      }
-      if (this.size) {
-        list.push(`modal-${this.size}`);
-      }
-      return list;
-    },
-  },
-  mounted() {
-    const el = this.$refs.modal as Element;
-    modal(el, { keyboard: this.keyboard }).show();
-    el.addEventListener('hidden.coreui.modal', () => this.$emit('close'));
-  },
-  methods: {
-    close() {
-      getModalInstance(this.$refs.modal as Element).hide();
-    },
-  },
+const emit = defineEmits<{
+  (e: 'close'): void;
+}>();
+
+const visible = ref<boolean>(false);
+
+onMounted(() => {
+  visible.value = true;
 });
+
+function close() {
+  visible.value = false;
+  setTimeout(() => emit('close'), 250);
+}
+
+defineExpose({ close });
 </script>
+
+<template>
+  <CModal
+    :visible="visible"
+    :alignment="alignment"
+    :scrollable="scrollable"
+    :size="size"
+    @close="close"
+  >
+    <div class="modal-header">
+      <div class="modal-title">
+        <slot name="title" />
+      </div>
+      <button type="button" class="btn-close" aria-label="Close" @click="close" />
+    </div>
+    <div class="modal-body">
+      <slot name="body" />
+    </div>
+    <div class="modal-footer">
+      <slot name="footer">
+        <button type="button" class="btn btn-secondary" @click="close">Close</button>
+      </slot>
+    </div>
+  </CModal>
+</template>

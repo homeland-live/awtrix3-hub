@@ -1,3 +1,52 @@
+<script lang="ts">
+import { defineComponent } from 'vue';
+import { mapStores } from 'pinia';
+import BtnIcon from '@/components/coreui/BtnIcon.vue';
+import HexColorPicker from '@/components/HexColorPicker.vue';
+import { useNodeStore } from '@/stores/node';
+import { useAwtrixStore, BRIGHTNESS_MIN, BRIGHTNESS_MAX } from '@/stores/awtrix';
+
+const BRIGHTNESS_STEP = 1;
+
+export default defineComponent({
+  name: 'DisplayCard',
+  components: { BtnIcon, HexColorPicker },
+  data() {
+    return {
+      brightnessMin: BRIGHTNESS_MIN,
+      brightnessMax: BRIGHTNESS_MAX,
+    };
+  },
+  computed: {
+    currentBrightness(): number {
+      return this.awtrixStore.settings?.BRI || this.brightnessMin;
+    },
+    ...mapStores(
+      useNodeStore, // sets this.nodeStore
+      useAwtrixStore, // sets this.awtrixStore
+    ),
+  },
+  mounted() {
+    this.nodeStore.init();
+  },
+  methods: {
+    setBrightness(event: Event) {
+      const input = event.target as HTMLInputElement;
+      this.awtrixStore.setSetting('BRI', parseInt(input.value, 10));
+    },
+    incrementBrightness() {
+      this.awtrixStore.setSetting('BRI', this.currentBrightness + BRIGHTNESS_STEP);
+    },
+    decrementBrightness() {
+      this.awtrixStore.setSetting('BRI', this.currentBrightness - BRIGHTNESS_STEP);
+    },
+    setGlobalTextColor(color: string) {
+      this.awtrixStore.setColor('TCOL', color);
+    },
+  },
+});
+</script>
+
 <template>
   <div class="card">
     <div class="card-header d-flex justify-content-between pe-2">
@@ -92,55 +141,6 @@
     </div>
   </div>
 </template>
-
-<script lang="ts">
-import { defineComponent } from 'vue';
-import { mapStores } from 'pinia';
-import BtnIcon from '@/components/coreui/BtnIcon.vue';
-import HexColorPicker from '@/components/HexColorPicker.vue';
-import { useNodeStore } from '@/stores/node';
-import { useAwtrixStore, BRIGHTNESS_MIN, BRIGHTNESS_MAX } from '@/stores/awtrix';
-
-const BRIGHTNESS_STEP = 1;
-
-export default defineComponent({
-  name: 'DisplayCard',
-  components: { BtnIcon, HexColorPicker },
-  data() {
-    return {
-      brightnessMin: BRIGHTNESS_MIN,
-      brightnessMax: BRIGHTNESS_MAX,
-    };
-  },
-  computed: {
-    currentBrightness(): number {
-      return this.awtrixStore.settings?.BRI || this.brightnessMin;
-    },
-    ...mapStores(
-      useNodeStore, // sets this.nodeStore
-      useAwtrixStore, // sets this.awtrixStore
-    ),
-  },
-  mounted() {
-    this.nodeStore.init();
-  },
-  methods: {
-    setBrightness(event: Event) {
-      const input = event.target as HTMLInputElement;
-      this.awtrixStore.setSetting('BRI', parseInt(input.value, 10));
-    },
-    incrementBrightness() {
-      this.awtrixStore.setSetting('BRI', this.currentBrightness + BRIGHTNESS_STEP);
-    },
-    decrementBrightness() {
-      this.awtrixStore.setSetting('BRI', this.currentBrightness - BRIGHTNESS_STEP);
-    },
-    setGlobalTextColor(color: string) {
-      this.awtrixStore.setColor('TCOL', color);
-    },
-  },
-});
-</script>
 
 <style scoped>
 :deep(.vc-color-wrap) {

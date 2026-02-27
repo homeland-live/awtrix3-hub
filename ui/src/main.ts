@@ -1,10 +1,17 @@
-import './assets/main.css';
+// coreui
+import '@coreui/coreui/dist/css/coreui.min.css';
+// icons
+import 'bootstrap-icons/font/bootstrap-icons.min.css';
+// app
+import '@/assets/main.css';
 
 import { createApp } from 'vue';
 import { createPinia } from 'pinia';
 import App from '@/App.vue';
 import router from '@/router';
 
-const app = createApp(App);
-const pinia = createPinia();
-app.use(router).use(pinia).mount('#app');
+// prettier-ignore
+createApp(App)
+  .use(router)
+  .use(createPinia())
+  .mount('#app');

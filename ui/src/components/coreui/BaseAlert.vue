@@ -1,18 +1,3 @@
-<template>
-  <div class="alert" :class="[colorClass, dismissibleClass]" role="alert">
-    <div>
-      <slot>{{ msg }}</slot>
-    </div>
-    <button
-      v-if="dismissible"
-      type="button"
-      data-coreui-dismiss="alert"
-      aria-label="Close"
-      class="btn-close"
-    />
-  </div>
-</template>
-
 <script lang="ts">
 import { defineComponent } from 'vue';
 
@@ -36,3 +21,18 @@ export default defineComponent({
   },
 });
 </script>
+
+<template>
+  <div class="alert" :class="[colorClass, dismissibleClass]" role="alert">
+    <div>
+      <slot>{{ msg }}</slot>
+    </div>
+    <button
+      v-if="dismissible"
+      type="button"
+      data-coreui-dismiss="alert"
+      aria-label="Close"
+      class="btn-close"
+    />
+  </div>
+</template>

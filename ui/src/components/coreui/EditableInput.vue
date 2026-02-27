@@ -1,32 +1,3 @@
-<template>
-  <div>
-    <div v-show="!isEditing" class="text-nowrap text-truncate align-items-center">
-      <BtnIcon icon="pencil" @click="edit" />
-      <span :class="{ small }">{{ maskedValue }}</span>
-    </div>
-    <div v-show="isEditing" class="input-group">
-      <input
-        ref="input"
-        v-model="newValue"
-        class="form-control form-control-sm"
-        :class="{ 'is-invalid': error }"
-        type="text"
-        :disabled="isPending"
-        @input="input"
-        @blur="cancel"
-        @keyup.esc="cancel"
-        @keyup.enter="save"
-      />
-      <div class="invalid-feedback d-flex flex-row-reverse">
-        {{ error }}
-      </div>
-    </div>
-    <div v-if="hinted" v-show="isEditing && !error" class="form-text">
-      Press `Enter` to save or `Escape` to cancel editing.
-    </div>
-  </div>
-</template>
-
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
 import BtnIcon from '@/components/coreui/BtnIcon.vue';
@@ -114,3 +85,32 @@ export default defineComponent({
   },
 });
 </script>
+
+<template>
+  <div>
+    <div v-show="!isEditing" class="text-nowrap text-truncate align-items-center">
+      <BtnIcon icon="pencil" @click="edit" />
+      <span :class="{ small }">{{ maskedValue }}</span>
+    </div>
+    <div v-show="isEditing" class="input-group">
+      <input
+        ref="input"
+        v-model="newValue"
+        class="form-control form-control-sm"
+        :class="{ 'is-invalid': error }"
+        type="text"
+        :disabled="isPending"
+        @input="input"
+        @blur="cancel"
+        @keyup.esc="cancel"
+        @keyup.enter="save"
+      />
+      <div class="invalid-feedback d-flex flex-row-reverse">
+        {{ error }}
+      </div>
+    </div>
+    <div v-if="hinted" v-show="isEditing && !error" class="form-text">
+      Press `Enter` to save or `Escape` to cancel editing.
+    </div>
+  </div>
+</template>

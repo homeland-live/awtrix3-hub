@@ -1,33 +1,3 @@
-<template>
-  <div>
-    <div v-show="!isEditing" class="text-nowrap text-truncate">
-      <BtnIcon icon="pencil" @click="edit" />
-      <span>{{ value }}</span>
-    </div>
-    <div v-show="isEditing" class="input-group">
-      <select
-        ref="select"
-        :value="value"
-        :size="options.length"
-        class="form-select"
-        @blur="cancel"
-        @keyup.esc="cancel"
-        @change="save"
-      >
-        <option v-for="k in options" :key="k" :disabled="isPending">
-          {{ k }}
-        </option>
-      </select>
-      <div class="invalid-feedback d-flex flex-row-reverse">
-        {{ error }}
-      </div>
-    </div>
-    <div v-show="isEditing && !error" class="form-text">
-      Choose one of the options to save or press `Escape` to cancel editing.
-    </div>
-  </div>
-</template>
-
 <script lang="ts">
 import { defineComponent, ref, type PropType } from 'vue';
 import BtnIcon from '@/components/coreui/BtnIcon.vue';
@@ -82,3 +52,33 @@ export default defineComponent({
   },
 });
 </script>
+
+<template>
+  <div>
+    <div v-show="!isEditing" class="text-nowrap text-truncate">
+      <BtnIcon icon="pencil" @click="edit" />
+      <span>{{ value }}</span>
+    </div>
+    <div v-show="isEditing" class="input-group">
+      <select
+        ref="select"
+        :value="value"
+        :size="options.length"
+        class="form-select"
+        @blur="cancel"
+        @keyup.esc="cancel"
+        @change="save"
+      >
+        <option v-for="k in options" :key="k" :disabled="isPending">
+          {{ k }}
+        </option>
+      </select>
+      <div class="invalid-feedback d-flex flex-row-reverse">
+        {{ error }}
+      </div>
+    </div>
+    <div v-show="isEditing && !error" class="form-text">
+      Choose one of the options to save or press `Escape` to cancel editing.
+    </div>
+  </div>
+</template>

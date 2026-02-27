@@ -1,3 +1,85 @@
+<script lang="ts">
+import { defineComponent } from 'vue';
+import { mapStores } from 'pinia';
+// prettier-ignore
+import {
+  CDropdown,
+  CDropdownToggle,
+  CDropdownMenu,
+  CListGroup,
+} from '@coreui/vue';
+import BaseModal from '@/components/coreui/BaseModal.vue';
+import EditableInput from '@/components/coreui/EditableInput.vue';
+import HexColorPicker from '@/components/HexColorPicker.vue';
+import { useNodeStore } from '@/stores/node';
+import { useAwtrixStore } from '@/stores/awtrix';
+import type { EditableChangeEvent } from '@/types/coreui';
+
+export default defineComponent({
+  name: 'AppDateSettingsModal',
+  components: {
+    CDropdown,
+    CDropdownToggle,
+    CDropdownMenu,
+    CListGroup,
+    BaseModal,
+    EditableInput,
+    HexColorPicker,
+  },
+  emits: ['close', 'toast'],
+  data() {
+    return {
+      formatPresets: [
+        { format: '%d.%m.%y', example: '16.04.22' },
+        { format: '%d.%m', example: '16.04' },
+        { format: '%y-%m-%d', example: '22-04-16' },
+        { format: '%m-%d-%y', example: '04-16-22' },
+        { format: '%m-%d', example: '04-16' },
+        { format: '%m/%d/%y', example: '04/16/22' },
+        { format: '%m/%d', example: '04/16' },
+        { format: '%d/%m/%y', example: '16/04/22' },
+        { format: '%d/%m', example: '16/04' },
+      ],
+    };
+  },
+  computed: {
+    ...mapStores(
+      useNodeStore, // sets this.nodeStore
+      useAwtrixStore, // sets this.awtrixStore
+    ),
+  },
+  mounted() {
+    this.nodeStore.init();
+  },
+  methods: {
+    close() {
+      (this.$refs.modal as typeof BaseModal).close();
+    },
+    updateFormat(e: EditableChangeEvent<string>) {
+      this.awtrixStore.setSetting('DFORMAT', e.value).then((success) => {
+        if (!success) {
+          return e.reject('remote node did not save new format');
+        }
+        return e.confirm();
+      });
+    },
+    setFormat(f: string) {
+      this.awtrixStore.setSetting('DFORMAT', f).then((success) => {
+        if (!success) {
+          this.$emit('toast', { title: 'Error', body: 'remote node did not save new format' });
+        }
+      });
+    },
+    setActiveWeekdayColor(color: string) {
+      this.awtrixStore.setColor('WDCA', color);
+    },
+    setInactiveWeekdayColor(color: string) {
+      this.awtrixStore.setColor('WDCI', color);
+    },
+  },
+});
+</script>
+
 <template>
   <BaseModal ref="modal" :scrollable="false" :keyboard="false" @close="$emit('close')">
     <template #title>
@@ -114,88 +196,6 @@
     </template>
   </BaseModal>
 </template>
-
-<script lang="ts">
-import { defineComponent } from 'vue';
-import { mapStores } from 'pinia';
-// prettier-ignore
-import {
-  CDropdown,
-  CDropdownToggle,
-  CDropdownMenu,
-  CListGroup,
-} from '@coreui/vue';
-import BaseModal from '@/components/coreui/BaseModal.vue';
-import EditableInput from '@/components/coreui/EditableInput.vue';
-import HexColorPicker from '@/components/HexColorPicker.vue';
-import { useNodeStore } from '@/stores/node';
-import { useAwtrixStore } from '@/stores/awtrix';
-import type { EditableChangeEvent } from '@/types/coreui';
-
-export default defineComponent({
-  name: 'AppDateSettingsModal',
-  components: {
-    CDropdown,
-    CDropdownToggle,
-    CDropdownMenu,
-    CListGroup,
-    BaseModal,
-    EditableInput,
-    HexColorPicker,
-  },
-  emits: ['close', 'toast'],
-  data() {
-    return {
-      formatPresets: [
-        { format: '%d.%m.%y', example: '16.04.22' },
-        { format: '%d.%m', example: '16.04' },
-        { format: '%y-%m-%d', example: '22-04-16' },
-        { format: '%m-%d-%y', example: '04-16-22' },
-        { format: '%m-%d', example: '04-16' },
-        { format: '%m/%d/%y', example: '04/16/22' },
-        { format: '%m/%d', example: '04/16' },
-        { format: '%d/%m/%y', example: '16/04/22' },
-        { format: '%d/%m', example: '16/04' },
-      ],
-    };
-  },
-  computed: {
-    ...mapStores(
-      useNodeStore, // sets this.nodeStore
-      useAwtrixStore, // sets this.awtrixStore
-    ),
-  },
-  mounted() {
-    this.nodeStore.init();
-  },
-  methods: {
-    close() {
-      (this.$refs.modal as typeof BaseModal).close();
-    },
-    updateFormat(e: EditableChangeEvent<string>) {
-      this.awtrixStore.setSetting('DFORMAT', e.value).then((success) => {
-        if (!success) {
-          return e.reject('remote node did not save new format');
-        }
-        return e.confirm();
-      });
-    },
-    setFormat(f: string) {
-      this.awtrixStore.setSetting('DFORMAT', f).then((success) => {
-        if (!success) {
-          this.$emit('toast', { title: 'Error', body: 'remote node did not save new format' });
-        }
-      });
-    },
-    setActiveWeekdayColor(color: string) {
-      this.awtrixStore.setColor('WDCA', color);
-    },
-    setInactiveWeekdayColor(color: string) {
-      this.awtrixStore.setColor('WDCI', color);
-    },
-  },
-});
-</script>
 
 <style scoped>
 :deep(.vc-color-wrap) {
