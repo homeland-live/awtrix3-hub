@@ -59,4 +59,6 @@ ui-run:
 	@npm run --prefix ./ui watch
 
 dev: ui-clean
-	@( make server-run & make ui-run ) | cat
+	@go install github.com/mattn/goreman@latest
+	@echo "running Procfile by goreman $$(goreman version)"
+	@goreman -exit-on-error=true -rpc-server=false -set-ports=false start
