@@ -1,124 +1,106 @@
-<script lang="ts">
-import { defineComponent, ref } from 'vue';
-import { mapStores } from 'pinia';
+<script setup lang="ts">
+import { ref, computed, onMounted } from 'vue';
 import { CDropdown, CDropdownToggle, CDropdownMenu } from '@coreui/vue';
 import BaseToaster from '@/components/coreui/BaseToaster.vue';
 import BaseAlert from '@/components/coreui/BaseAlert.vue';
 import BtnIcon from '@/components/coreui/BtnIcon.vue';
-import type { Toast } from '@/types/coreui';
 import ConfirmationModal from '@/components/coreui/ConfirmationModal.vue';
 import NodeUpsertModal from '@/components/NodeUpsertModal.vue';
 import DisplayCard from '@/components/awtrix/DisplayCard.vue';
 import NativeAppsCard from '@/components/awtrix/NativeAppsCard.vue';
 import LiveViewCard from '@/components/awtrix/LiveViewCard.vue';
 import StatsCard from '@/components/awtrix/StatsCard.vue';
+import { type Toast } from '@/types/coreui';
 import { useNodeStore } from '@/stores/node';
 import { useAwtrixStore } from '@/stores/awtrix';
 import { type Release, type Stats } from '@/api/awtrix';
 import { gt } from '@/util/version';
 
-export default defineComponent({
-  name: 'DashboardView',
-  components: {
-    CDropdown,
-    CDropdownToggle,
-    CDropdownMenu,
-    BaseToaster,
-    BaseAlert,
-    BtnIcon,
-    ConfirmationModal,
-    NodeUpsertModal,
-    DisplayCard,
-    NativeAppsCard,
-    LiveViewCard,
-    StatsCard,
-  },
-  data() {
-    return {
-      toasts: ref<Toast[]>([]),
-      isUpsertModalVisible: ref<boolean>(false),
-      isDeleteModalVisible: ref<boolean>(false),
-    };
-  },
-  computed: {
-    newRelease(): Release | undefined {
-      if (!this.awtrixStore.release || !this.awtrixStore.hasStats) {
-        return undefined;
-      }
-      if (!gt(this.awtrixStore.release.tag_name, (this.awtrixStore.stats as Stats).version)) {
-        return undefined;
-      }
-      return this.awtrixStore.release;
-    },
-    ...mapStores(
-      useNodeStore, // sets this.nodeStore
-      useAwtrixStore, // sets this.awtrixStore
-    ),
-  },
-  mounted() {
-    this.nodeStore.init();
-  },
-  methods: {
-    showUpsertModal() {
-      this.isUpsertModalVisible = true;
-    },
-    hideUpsertModal() {
-      this.isUpsertModalVisible = false;
-    },
-    showDeleteModal() {
-      if (this.nodeStore.activeNode) {
-        this.isDeleteModalVisible = true;
-      }
-    },
-    hideDeleteModal() {
-      this.isDeleteModalVisible = false;
-    },
-    confirmDelete() {
-      this.isDeleteModalVisible = false;
-      if (!this.nodeStore.activeNode) {
-        return;
-      }
-      this.nodeStore.deleteNode(this.nodeStore.activeNode.id).then((err) => {
-        if (err) {
-          this.toasts.push({ title: `Error ${err.code}`, body: err.msg });
-        }
-      });
-    },
-    dismissNotification() {
-      this.awtrixStore.dismissNotification();
-    },
-    reboot() {
-      this.awtrixStore.reboot().then((success) => {
-        if (success) {
-          this.toasts.push({
-            title: 'Reboot',
-            body: `Node ${this.nodeStore?.activeNode?.name} is performing reboot.
+const nodeStore = useNodeStore();
+const awtrixStore = useAwtrixStore();
+
+const toasts = ref<Toast[]>([]);
+const isUpsertModalVisible = ref<boolean>(false);
+const isDeleteModalVisible = ref<boolean>(false);
+
+const newRelease = computed<Release | undefined>(() => {
+  if (!awtrixStore.release || !awtrixStore.hasStats) {
+    return undefined;
+  }
+  if (!gt(awtrixStore.release.tag_name, (awtrixStore.stats as Stats).version)) {
+    return undefined;
+  }
+  return awtrixStore.release;
+});
+
+onMounted(nodeStore.init);
+
+function showUpsertModal() {
+  isUpsertModalVisible.value = true;
+}
+
+function hideUpsertModal() {
+  isUpsertModalVisible.value = false;
+}
+
+function showDeleteModal() {
+  if (nodeStore.activeNode) {
+    isDeleteModalVisible.value = true;
+  }
+}
+
+function hideDeleteModal() {
+  isDeleteModalVisible.value = false;
+}
+
+function confirmDelete() {
+  isDeleteModalVisible.value = false;
+  if (!nodeStore.activeNode) {
+    return;
+  }
+  nodeStore.deleteNode(nodeStore.activeNode.id).then((err) => {
+    if (err) {
+      toasts.value.push({ title: `Error ${err.code}`, body: err.msg });
+    }
+  });
+}
+
+function dismissNotification() {
+  awtrixStore.dismissNotification();
+}
+
+function reboot() {
+  awtrixStore.reboot().then((success) => {
+    if (success) {
+      toasts.value.push({
+        title: 'Reboot',
+        body: `Node ${nodeStore?.activeNode?.name} is performing reboot.
                 Please, refresh page when reboot is done.`,
-            icon: 'bell',
-            iconColor: 'warning',
-          });
-        }
+        icon: 'bell',
+        iconColor: 'warning',
       });
-    },
-    resetSettings() {
-      this.awtrixStore.resetSettings().then((success) => {
-        if (success) {
-          this.toasts.push({
-            title: 'Reset Settings',
-            body: `Node ${this.nodeStore?.activeNode?.name} has reset its settings.
+    }
+  });
+}
+
+function resetSettings() {
+  awtrixStore.resetSettings().then((success) => {
+    if (success) {
+      toasts.value.push({
+        title: 'Reset Settings',
+        body: `Node ${nodeStore?.activeNode?.name} has reset its settings.
                 It does not reset the flash files and WiFi Settings.
                 Please, refresh page when reboot is done.`,
-            icon: 'bell',
-            iconColor: 'warning',
-          });
-        }
+        icon: 'bell',
+        iconColor: 'warning',
       });
-    },
-    onToast(toast: Toast) {
-      this.toasts.push(toast);
-    },
-  },
-});
+    }
+  });
+}
+
+function onToast(toast: Toast) {
+  toasts.value.push(toast);
+}
 </script>
 
 <template>

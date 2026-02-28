@@ -1,23 +1,34 @@
-<script lang="ts">
-import { defineComponent } from 'vue';
+<script setup lang="ts">
+import { useTemplateRef } from 'vue';
 import BaseModal from '@/components/coreui/BaseModal.vue';
 
-export default defineComponent({
-  name: 'ConfirmationModal',
-  components: { BaseModal },
-  props: {
-    title: { type: String, required: true },
-    confirmation: { type: String, required: true },
-    btnTitle: { type: String, required: true },
+withDefaults(
+  defineProps<{
+    title: string;
+    confirmation: string;
+    btnTitle?: string;
+  }>(),
+  {
+    btnTitle: 'Confirm',
   },
-  emits: ['close', 'confirm'],
-  methods: {
-    confirm() {
-      (this.$refs.modal as typeof BaseModal).close();
-      this.$emit('confirm');
-    },
-  },
-});
+);
+
+const emit = defineEmits<{
+  (e: 'close'): void;
+  (e: 'confirm'): void;
+}>();
+
+const modal = useTemplateRef('modal');
+
+function onClose() {
+  modal.value?.close();
+  emit('close');
+}
+
+function onConfirm() {
+  modal.value?.close();
+  emit('confirm');
+}
 </script>
 
 <template>
@@ -29,9 +40,8 @@ export default defineComponent({
       {{ confirmation }}
     </template>
     <template #footer>
-      <button type="button" class="btn btn-danger" @click="confirm">
-        {{ btnTitle }}
-      </button>
+      <button type="button" class="btn btn-secondary" @click="onClose">Cancel</button>
+      <button type="button" class="btn btn-warning" @click="onConfirm">{{ btnTitle }}</button>
     </template>
   </BaseModal>
 </template>

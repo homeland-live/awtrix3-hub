@@ -1,66 +1,57 @@
-<script lang="ts">
-import { defineComponent, ref } from 'vue';
+<script setup lang="ts">
+import { ref, computed, onMounted, onUnmounted, onUpdated } from 'vue';
 import { AgoTimer } from '@/util/time';
 
-export default defineComponent({
-  name: 'TimeAgo',
-  props: {
-    time: { type: String, default: '' },
-  },
-  data() {
-    return {
-      isModeRelative: ref<boolean>(true),
-      absoluteTime: ref<string>(''),
-      relativeTime: ref<string>(''),
-      timer: ref<AgoTimer | null>(null),
-    };
-  },
-  computed: {
-    displayTime(): string {
-      if (this.isModeRelative) {
-        return this.relativeTime;
-      }
-      return this.absoluteTime;
-    },
-  },
-  mounted() {
-    if (!this.time) {
-      return;
-    }
+const props = withDefaults(defineProps<{ time?: string }>(), { time: '' });
 
-    const d = new Date(this.time);
-    const date = `${d.getFullYear()}-${this.fmt(d.getMonth() + 1)}-${this.fmt(d.getDate())}`;
-    const time = `${this.fmt(d.getHours())}:${this.fmt(d.getMinutes())}:${this.fmt(d.getSeconds())}`;
-    this.absoluteTime = `${date} ${time}`;
+const isModeRelative = ref<boolean>(true);
+const absoluteTime = ref<string>('');
+const relativeTime = ref<string>('');
+const timer = ref<AgoTimer | null>(null);
 
-    this.timer = new AgoTimer(this.time, this.updateRelativeTime);
-    this.timer.start();
-  },
-  unmounted() {
-    if (this.timer) {
-      this.timer.stop();
-    }
-    this.timer = null;
-  },
-  updated() {
-    if (this.timer) {
-      this.timer.update(this.time);
-    }
-  },
-  methods: {
-    updateRelativeTime(t: string) {
-      if (this.relativeTime !== t) {
-        this.relativeTime = t;
-      }
-    },
-    fmt(n: number): string {
-      if (n < 10) {
-        return `0${n}`;
-      }
-      return `${n}`;
-    },
-  },
+const displayTime = computed<string>(() =>
+  isModeRelative.value ? relativeTime.value : absoluteTime.value,
+);
+
+onMounted(() => {
+  if (!props.time) {
+    return;
+  }
+
+  const d = new Date(props.time);
+  const date = `${d.getFullYear()}-${fmt(d.getMonth() + 1)}-${fmt(d.getDate())}`;
+  const time = `${fmt(d.getHours())}:${fmt(d.getMinutes())}:${fmt(d.getSeconds())}`;
+  absoluteTime.value = `${date} ${time}`;
+
+  timer.value = new AgoTimer(props.time, updateRelativeTime);
+  timer.value.start();
 });
+
+onUnmounted(() => {
+  if (timer.value) {
+    timer.value.stop();
+  }
+  timer.value = null;
+});
+
+onUpdated(() => {
+  if (timer.value) {
+    timer.value.update(props.time);
+  }
+});
+
+function updateRelativeTime(t: string) {
+  if (relativeTime.value !== t) {
+    relativeTime.value = t;
+  }
+}
+
+function fmt(n: number): string {
+  if (n < 10) {
+    return `0${n}`;
+  }
+  return `${n}`;
+}
 </script>
 
 <template>

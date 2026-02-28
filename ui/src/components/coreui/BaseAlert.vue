@@ -1,25 +1,21 @@
-<script lang="ts">
-import { defineComponent } from 'vue';
+<script setup lang="ts">
+import { computed } from 'vue';
 
-export default defineComponent({
-  name: 'BaseAlert',
-  props: {
-    dismissible: { type: Boolean, default: false },
-    color: { type: String, default: 'primary' },
-    msg: { type: String, default: '' },
+const props = withDefaults(
+  defineProps<{
+    dismissible?: boolean;
+    color?: string;
+    msg?: string;
+  }>(),
+  {
+    dismissible: false,
+    color: 'primary',
+    msg: '',
   },
-  computed: {
-    colorClass(): string {
-      return `alert-${this.color}`;
-    },
-    dismissibleClass(): string {
-      if (this.dismissible) {
-        return 'alert-dismissible';
-      }
-      return '';
-    },
-  },
-});
+);
+
+const colorClass = computed<string>(() => `alert-${props.color}`);
+const dismissibleClass = computed<string>(() => (props.dismissible ? 'alert-dismissible' : ''));
 </script>
 
 <template>

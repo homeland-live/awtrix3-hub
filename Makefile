@@ -52,7 +52,6 @@ server-run: build
 ui-clean:
 	@echo "deleting ./ui/dist"
 	@rm -rf ./ui/dist
-	@mkdir -p ./ui/dist
 
 ui-run:
 	@npm install --prefix ./ui

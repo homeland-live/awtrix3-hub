@@ -1,31 +1,26 @@
-<script lang="ts">
-import { defineComponent, ref } from 'vue';
+<script setup lang="ts">
+import { ref, watch } from 'vue';
 import { ColorPicker } from 'vue3-colorpicker';
 import 'vue3-colorpicker/style.css';
 
-export default defineComponent({
-  name: 'HexColorPicker',
-  components: { ColorPicker },
-  props: {
-    value: { type: String, required: true },
+const props = defineProps<{ value: string }>();
+
+const emit = defineEmits<{
+  (e: 'change', color: string): void;
+}>();
+
+const model = ref<string>(props.value);
+
+watch(
+  () => props.value,
+  (color: string) => {
+    model.value = color;
   },
-  emits: ['change'],
-  data() {
-    return {
-      model: ref<string>(this.value),
-    };
-  },
-  watch: {
-    value(color: string) {
-      this.model = color;
-    },
-  },
-  methods: {
-    change(color: string) {
-      this.$emit('change', color);
-    },
-  },
-});
+);
+
+function change(color: string) {
+  emit('change', color);
+}
 </script>
 
 <template>

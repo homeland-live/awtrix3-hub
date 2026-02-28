@@ -1,6 +1,5 @@
-<script lang="ts">
-import { defineComponent, ref } from 'vue';
-import { mapStores } from 'pinia';
+<script setup lang="ts">
+import { ref, onMounted } from 'vue';
 import BtnIcon from '@/components/coreui/BtnIcon.vue';
 import AppGeneralSettingsModal from '@/components/awtrix/AppGeneralSettingsModal.vue';
 import AppTimeSettingsModal from '@/components/awtrix/AppTimeSettingsModal.vue';
@@ -8,87 +7,83 @@ import AppDateSettingsModal from '@/components/awtrix/AppDateSettingsModal.vue';
 import HexColorPicker from '@/components/HexColorPicker.vue';
 import { useNodeStore } from '@/stores/node';
 import { useAwtrixStore } from '@/stores/awtrix';
-import type { Toast } from '@/types/coreui';
+import { type Toast } from '@/types/coreui';
 
 type AppFlag = 'TIM' | 'DAT' | 'TEMP' | 'HUM' | 'BAT';
 
-export default defineComponent({
-  name: 'NativeAppsCard',
-  components: {
-    BtnIcon,
-    AppGeneralSettingsModal,
-    AppTimeSettingsModal,
-    AppDateSettingsModal,
-    HexColorPicker,
-  },
-  emits: ['toast'],
-  data() {
-    return {
-      isGeneralSettingsModalVisible: ref<boolean>(false),
-      isTimeSettingsModalVisible: ref<boolean>(false),
-      isDateSettingsModalVisible: ref<boolean>(false),
-    };
-  },
-  computed: {
-    ...mapStores(
-      useNodeStore, // sets this.nodeStore
-      useAwtrixStore, // sets this.awtrixStore
-    ),
-  },
-  mounted() {
-    this.nodeStore.init();
-  },
-  methods: {
-    onToast(toast: Toast) {
-      this.$emit('toast', toast);
-    },
-    showGeneralSettingsModal() {
-      this.isGeneralSettingsModalVisible = true;
-    },
-    hideGeneralSettingsModal() {
-      this.isGeneralSettingsModalVisible = false;
-    },
-    toggle(setting: AppFlag) {
-      this.awtrixStore.toggleSetting(setting).then((success) => {
-        if (success) {
-          this.$emit('toast', {
-            title: 'Reboot required',
-            body: 'To apply native apps changes, reboot is required',
-            icon: 'bell',
-            iconColor: 'warning',
-          });
-        }
+const emit = defineEmits<{
+  (e: 'toast', t: Toast): void;
+}>();
+
+const nodeStore = useNodeStore();
+const awtrixStore = useAwtrixStore();
+
+const isGeneralSettingsModalVisible = ref<boolean>(false);
+const isTimeSettingsModalVisible = ref<boolean>(false);
+const isDateSettingsModalVisible = ref<boolean>(false);
+
+onMounted(nodeStore.init);
+
+function onToast(toast: Toast) {
+  emit('toast', toast);
+}
+
+function showGeneralSettingsModal() {
+  isGeneralSettingsModalVisible.value = true;
+}
+
+function hideGeneralSettingsModal() {
+  isGeneralSettingsModalVisible.value = false;
+}
+
+function toggle(setting: AppFlag) {
+  awtrixStore.toggleSetting(setting).then((success) => {
+    if (success) {
+      emit('toast', {
+        title: 'Reboot required',
+        body: 'To apply native apps changes, reboot is required',
+        icon: 'bell',
+        iconColor: 'warning',
       });
-    },
-    setTimeTextColor(color: string) {
-      this.awtrixStore.setColor('TIME_COL', color);
-    },
-    showTimeSettingsModal() {
-      this.isTimeSettingsModalVisible = true;
-    },
-    hideTimeSettingsModal() {
-      this.isTimeSettingsModalVisible = false;
-    },
-    setDateTextColor(color: string) {
-      this.awtrixStore.setColor('DATE_COL', color);
-    },
-    showDateSettingsModal() {
-      this.isDateSettingsModalVisible = true;
-    },
-    hideDateSettingsModal() {
-      this.isDateSettingsModalVisible = false;
-    },
-    setTempTextColor(color: string) {
-      this.awtrixStore.setColor('TEMP_COL', color);
-    },
-    setHumTextColor(color: string) {
-      this.awtrixStore.setColor('HUM_COL', color);
-    },
-    setBatTextColor(color: string) {
-      this.awtrixStore.setColor('BAT_COL', color);
-    },
-  },
-});
+    }
+  });
+}
+
+function setTimeTextColor(color: string) {
+  awtrixStore.setColor('TIME_COL', color);
+}
+
+function showTimeSettingsModal() {
+  isTimeSettingsModalVisible.value = true;
+}
+
+function hideTimeSettingsModal() {
+  isTimeSettingsModalVisible.value = false;
+}
+
+function setDateTextColor(color: string) {
+  awtrixStore.setColor('DATE_COL', color);
+}
+
+function showDateSettingsModal() {
+  isDateSettingsModalVisible.value = true;
+}
+
+function hideDateSettingsModal() {
+  isDateSettingsModalVisible.value = false;
+}
+
+function setTempTextColor(color: string) {
+  awtrixStore.setColor('TEMP_COL', color);
+}
+
+function setHumTextColor(color: string) {
+  awtrixStore.setColor('HUM_COL', color);
+}
+
+function setBatTextColor(color: string) {
+  awtrixStore.setColor('BAT_COL', color);
+}
 </script>
 
 <template>
