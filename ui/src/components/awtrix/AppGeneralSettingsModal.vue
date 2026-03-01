@@ -1,6 +1,5 @@
-<script lang="ts">
-import { defineComponent } from 'vue';
-import { mapStores } from 'pinia';
+<script setup lang="ts">
+import { computed, onMounted, useTemplateRef } from 'vue';
 // prettier-ignore
 import {
   CDropdown,
@@ -39,69 +38,60 @@ const ALL_TRANSITION_EFFECTS: TransitionEffect[] = [
   { value: 10, label: 'Fade' },
 ];
 
-export default defineComponent({
-  name: 'AppGeneralSettingsModal',
-  components: {
-    CDropdown,
-    CDropdownToggle,
-    CDropdownMenu,
-    CListGroup,
-    BaseModal,
-    BtnIcon,
-  },
-  emits: ['close', 'toast'],
-  data() {
-    return {
-      speedMin: TRANSITION_SPEED_MIN,
-      timeMin: APP_TIME_MIN,
-      transitionEffects: ALL_TRANSITION_EFFECTS,
-    };
-  },
-  computed: {
-    currentEffect(): { value: number; label: string } {
-      const effect = this.awtrixStore.settings?.TEFF;
-      if (effect !== undefined && ALL_TRANSITION_EFFECTS[effect] !== undefined) {
-        return ALL_TRANSITION_EFFECTS[effect];
-      }
-      return ALL_TRANSITION_EFFECTS[TRANSITION_EFFECT_DEFAULT] as TransitionEffect;
-    },
-    currentSpeed(): number {
-      const speed = this.awtrixStore.settings?.TSPEED;
-      return speed !== undefined ? speed : TRANSITION_SPEED_DEFAULT;
-    },
-    currentTime(): number {
-      const time = this.awtrixStore.settings?.ATIME;
-      return time !== undefined ? time : APP_TIME_DEFAULT;
-    },
-    ...mapStores(
-      useNodeStore, // sets this.nodeStore
-      useAwtrixStore, // sets this.awtrixStore
-    ),
-  },
-  mounted() {
-    this.nodeStore.init();
-  },
-  methods: {
-    close() {
-      (this.$refs.modal as typeof BaseModal).close();
-    },
-    setEffect(effect: number) {
-      this.awtrixStore.setSetting('TEFF', effect);
-    },
-    incrementSpeed() {
-      this.awtrixStore.setSetting('TSPEED', this.currentSpeed + TRANSITION_SPEED_STEP);
-    },
-    decrementSpeed() {
-      this.awtrixStore.setSetting('TSPEED', this.currentSpeed - TRANSITION_SPEED_STEP);
-    },
-    incrementTime() {
-      this.awtrixStore.setSetting('ATIME', this.currentTime + APP_TIME_STEP);
-    },
-    decrementTime() {
-      this.awtrixStore.setSetting('ATIME', this.currentTime - APP_TIME_STEP);
-    },
-  },
+defineEmits<{
+  (e: 'close'): void;
+}>();
+
+const modal = useTemplateRef('modal');
+
+const nodeStore = useNodeStore();
+const awtrixStore = useAwtrixStore();
+
+const currentEffect = computed<{ value: number; label: string }>(() => {
+  const effect = awtrixStore.settings?.TEFF;
+  if (effect !== undefined && ALL_TRANSITION_EFFECTS[effect] !== undefined) {
+    return ALL_TRANSITION_EFFECTS[effect];
+  }
+  return ALL_TRANSITION_EFFECTS[TRANSITION_EFFECT_DEFAULT] as TransitionEffect;
 });
+
+const currentSpeed = computed<number>(() => {
+  const speed = awtrixStore.settings?.TSPEED;
+  return speed !== undefined ? speed : TRANSITION_SPEED_DEFAULT;
+});
+
+const currentTime = computed<number>(() => {
+  const time = awtrixStore.settings?.ATIME;
+  return time !== undefined ? time : APP_TIME_DEFAULT;
+});
+
+onMounted(nodeStore.init);
+
+function close() {
+  if (modal.value) {
+    modal.value?.close();
+  }
+}
+
+function setEffect(effect: number) {
+  awtrixStore.setSetting('TEFF', effect);
+}
+
+function incrementSpeed() {
+  awtrixStore.setSetting('TSPEED', currentSpeed.value + TRANSITION_SPEED_STEP);
+}
+
+function decrementSpeed() {
+  awtrixStore.setSetting('TSPEED', currentSpeed.value - TRANSITION_SPEED_STEP);
+}
+
+function incrementTime() {
+  awtrixStore.setSetting('ATIME', currentTime.value + APP_TIME_STEP);
+}
+
+function decrementTime() {
+  awtrixStore.setSetting('ATIME', currentTime.value - APP_TIME_STEP);
+}
 </script>
 
 <template>
@@ -148,7 +138,7 @@ export default defineComponent({
             <CDropdownMenu>
               <CListGroup>
                 <button
-                  v-for="te in transitionEffects"
+                  v-for="te in ALL_TRANSITION_EFFECTS"
                   :key="te.value"
                   class="dropdown-item list-group-item list-group-item-action small"
                   :class="{ active: te.value === awtrixStore.settings?.TEFF }"
@@ -169,7 +159,7 @@ export default defineComponent({
             v-if="awtrixStore.hasSettings"
             icon="chevron-left"
             class="border-0 ps-0"
-            :disabled="currentSpeed <= speedMin"
+            :disabled="currentSpeed <= TRANSITION_SPEED_MIN"
             @click="decrementSpeed"
           />
           <span class="small align-middle">{{ currentSpeed }} ms</span>
@@ -188,7 +178,7 @@ export default defineComponent({
             v-if="awtrixStore.hasSettings"
             icon="chevron-left"
             class="border-0 ps-0"
-            :disabled="currentTime <= timeMin"
+            :disabled="currentTime <= APP_TIME_MIN"
             @click="decrementTime"
           />
           <span class="small align-middle">{{ currentTime }} s</span>

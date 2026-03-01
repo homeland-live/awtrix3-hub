@@ -1,5 +1,4 @@
-<script lang="ts">
-import { defineComponent, type PropType } from 'vue';
+<script setup lang="ts">
 // prettier-ignore
 import {
   CToaster,
@@ -7,29 +6,24 @@ import {
   CToastHeader,
   CToastBody,
 } from '@coreui/vue';
-import type { Toast } from '@/types/coreui';
+import { type Toast } from '@/types/coreui';
 
-export default defineComponent({
-  name: 'BaseToaster',
-  components: {
-    CToaster,
-    CToast,
-    CToastHeader,
-    CToastBody,
+withDefaults(
+  defineProps<{
+    toasts?: Toast[];
+  }>(),
+  {
+    toasts: () => [],
   },
-  props: {
-    toasts: { type: Array as PropType<Toast[]>, default: () => [] },
-  },
-  methods: {
-    iconClass(toast: Toast): string {
-      let classes = `bi-${toast.icon}`;
-      if (toast.iconColor) {
-        classes += ` text-${toast.iconColor}`;
-      }
-      return classes;
-    },
-  },
-});
+);
+
+function iconClass(toast: Toast): string {
+  let classes = `bi-${toast.icon}`;
+  if (toast.iconColor) {
+    classes += ` text-${toast.iconColor}`;
+  }
+  return classes;
+}
 </script>
 
 <template>

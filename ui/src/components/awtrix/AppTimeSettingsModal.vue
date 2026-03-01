@@ -1,6 +1,5 @@
-<script lang="ts">
-import { defineComponent } from 'vue';
-import { mapStores } from 'pinia';
+<script setup lang="ts">
+import { computed, onMounted, useTemplateRef } from 'vue';
 // prettier-ignore
 import {
   CDropdown,
@@ -13,87 +12,84 @@ import EditableInput from '@/components/coreui/EditableInput.vue';
 import HexColorPicker from '@/components/HexColorPicker.vue';
 import { useNodeStore } from '@/stores/node';
 import { useAwtrixStore, TIME_APP_MODE_DEFAULT } from '@/stores/awtrix';
-import type { EditableChangeEvent } from '@/types/coreui';
+import { type Toast, type EditableChangeEvent } from '@/types/coreui';
 
-export default defineComponent({
-  name: 'AppTimeSettingsModal',
-  components: {
-    CDropdown,
-    CDropdownToggle,
-    CDropdownMenu,
-    CListGroup,
-    BaseModal,
-    EditableInput,
-    HexColorPicker,
-  },
-  emits: ['close', 'toast'],
-  data() {
-    return {
-      formatPresets: [
-        { format: '%H:%M:%S', example: '13:30:45' },
-        { format: '%l:%M:%S', example: '1:30:45 ' },
-        { format: '%H:%M', example: '13:30' },
-        { format: '%H %M', example: '13.30', blinking: true },
-        { format: '%l:%M', example: '1:30' },
-        { format: '%l %M', example: '1:30', blinking: true },
-        { format: '%l:%M %p', example: '1:30 PM' },
-        { format: '%l %M %p', example: '1:30 PM', blinking: true },
-      ],
-      modes: [0, 1, 2, 3, 4],
-    };
-  },
-  computed: {
-    currentMode(): number {
-      const mode = this.awtrixStore.settings?.TMODE;
-      return mode !== undefined ? mode : TIME_APP_MODE_DEFAULT;
-    },
-    ...mapStores(
-      useNodeStore, // sets this.nodeStore
-      useAwtrixStore, // sets this.awtrixStore
-    ),
-  },
-  mounted() {
-    this.nodeStore.init();
-  },
-  methods: {
-    close() {
-      (this.$refs.modal as typeof BaseModal).close();
-    },
-    updateFormat(e: EditableChangeEvent<string>) {
-      this.awtrixStore.setSetting('TFORMAT', e.value).then((success) => {
-        if (!success) {
-          return e.reject('remote node did not save new format');
-        }
-        return e.confirm();
-      });
-    },
-    setFormat(f: string) {
-      this.awtrixStore.setSetting('TFORMAT', f).then((success) => {
-        if (!success) {
-          this.$emit('toast', { title: 'Error', body: 'remote node did not save new format' });
-        }
-      });
-    },
-    setMode(mode: number) {
-      this.awtrixStore.setSetting('TMODE', mode);
-    },
-    setHeaderColor(color: string) {
-      this.awtrixStore.setColor('CHCOL', color);
-    },
-    setBodyColor(color: string) {
-      this.awtrixStore.setColor('CBCOL', color);
-    },
-    setTextColor(color: string) {
-      this.awtrixStore.setColor('CTCOL', color);
-    },
-    setActiveWeekdayColor(color: string) {
-      this.awtrixStore.setColor('WDCA', color);
-    },
-    setInactiveWeekdayColor(color: string) {
-      this.awtrixStore.setColor('WDCI', color);
-    },
-  },
+const emit = defineEmits<{
+  (e: 'close'): void;
+  (e: 'toast', t: Toast): void;
+}>();
+
+const formatPresets = [
+  { format: '%H:%M:%S', example: '13:30:45' },
+  { format: '%l:%M:%S', example: '1:30:45 ' },
+  { format: '%H:%M', example: '13:30' },
+  { format: '%H %M', example: '13.30', blinking: true },
+  { format: '%l:%M', example: '1:30' },
+  { format: '%l %M', example: '1:30', blinking: true },
+  { format: '%l:%M %p', example: '1:30 PM' },
+  { format: '%l %M %p', example: '1:30 PM', blinking: true },
+];
+
+const modes = [0, 1, 2, 3, 4];
+
+const modal = useTemplateRef('modal');
+
+const nodeStore = useNodeStore();
+const awtrixStore = useAwtrixStore();
+
+const currentMode = computed<number>(() => {
+  const mode = awtrixStore.settings?.TMODE;
+  return mode !== undefined ? mode : TIME_APP_MODE_DEFAULT;
 });
+
+onMounted(nodeStore.init);
+
+function close() {
+  if (modal.value) {
+    modal.value?.close();
+  }
+}
+
+function updateFormat(e: EditableChangeEvent<string>) {
+  awtrixStore.setSetting('TFORMAT', e.value).then((success) => {
+    if (!success) {
+      return e.reject('remote node did not save new format');
+    }
+    return e.confirm();
+  });
+}
+
+function setFormat(f: string) {
+  awtrixStore.setSetting('TFORMAT', f).then((success) => {
+    if (!success) {
+      emit('toast', { title: 'Error', body: 'remote node did not save new format' });
+    }
+  });
+}
+
+function setMode(mode: number) {
+  awtrixStore.setSetting('TMODE', mode);
+}
+
+function setHeaderColor(color: string) {
+  awtrixStore.setColor('CHCOL', color);
+}
+
+function setBodyColor(color: string) {
+  awtrixStore.setColor('CBCOL', color);
+}
+
+function setTextColor(color: string) {
+  awtrixStore.setColor('CTCOL', color);
+}
+
+function setActiveWeekdayColor(color: string) {
+  awtrixStore.setColor('WDCA', color);
+}
+
+function setInactiveWeekdayColor(color: string) {
+  awtrixStore.setColor('WDCI', color);
+}
 </script>
 
 <template>

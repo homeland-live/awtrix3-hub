@@ -1,6 +1,5 @@
-<script lang="ts">
-import { defineComponent } from 'vue';
-import { mapStores } from 'pinia';
+<script setup lang="ts">
+import { computed, onMounted } from 'vue';
 import BtnIcon from '@/components/coreui/BtnIcon.vue';
 import HexColorPicker from '@/components/HexColorPicker.vue';
 import { useNodeStore } from '@/stores/node';
@@ -8,43 +7,29 @@ import { useAwtrixStore, BRIGHTNESS_MIN, BRIGHTNESS_MAX } from '@/stores/awtrix'
 
 const BRIGHTNESS_STEP = 1;
 
-export default defineComponent({
-  name: 'DisplayCard',
-  components: { BtnIcon, HexColorPicker },
-  data() {
-    return {
-      brightnessMin: BRIGHTNESS_MIN,
-      brightnessMax: BRIGHTNESS_MAX,
-    };
-  },
-  computed: {
-    currentBrightness(): number {
-      return this.awtrixStore.settings?.BRI || this.brightnessMin;
-    },
-    ...mapStores(
-      useNodeStore, // sets this.nodeStore
-      useAwtrixStore, // sets this.awtrixStore
-    ),
-  },
-  mounted() {
-    this.nodeStore.init();
-  },
-  methods: {
-    setBrightness(event: Event) {
-      const input = event.target as HTMLInputElement;
-      this.awtrixStore.setSetting('BRI', parseInt(input.value, 10));
-    },
-    incrementBrightness() {
-      this.awtrixStore.setSetting('BRI', this.currentBrightness + BRIGHTNESS_STEP);
-    },
-    decrementBrightness() {
-      this.awtrixStore.setSetting('BRI', this.currentBrightness - BRIGHTNESS_STEP);
-    },
-    setGlobalTextColor(color: string) {
-      this.awtrixStore.setColor('TCOL', color);
-    },
-  },
-});
+const nodeStore = useNodeStore();
+const awtrixStore = useAwtrixStore();
+
+const currentBrightness = computed<number>(() => awtrixStore.settings?.BRI || BRIGHTNESS_MIN);
+
+onMounted(nodeStore.init);
+
+function setBrightness(event: Event) {
+  const input = event.target as HTMLInputElement;
+  awtrixStore.setSetting('BRI', parseInt(input.value, 10));
+}
+
+function incrementBrightness() {
+  awtrixStore.setSetting('BRI', currentBrightness.value + BRIGHTNESS_STEP);
+}
+
+function decrementBrightness() {
+  awtrixStore.setSetting('BRI', currentBrightness.value - BRIGHTNESS_STEP);
+}
+
+function setGlobalTextColor(color: string) {
+  awtrixStore.setColor('TCOL', color);
+}
 </script>
 
 <template>
@@ -73,15 +58,15 @@ export default defineComponent({
             v-if="awtrixStore.hasSettings && !awtrixStore.settings?.ABRI"
             icon="chevron-left"
             class="border-0"
-            :disabled="currentBrightness === brightnessMin"
+            :disabled="currentBrightness === BRIGHTNESS_MIN"
             @click="decrementBrightness"
           />
-          <span class="small align-middle">{{ currentBrightness }} / {{ brightnessMax }}</span>
+          <span class="small align-middle">{{ currentBrightness }} / {{ BRIGHTNESS_MAX }}</span>
           <BtnIcon
             v-if="awtrixStore.hasSettings && !awtrixStore.settings?.ABRI"
             icon="chevron-right"
             class="border-0 pe-0"
-            :disabled="currentBrightness === brightnessMax"
+            :disabled="currentBrightness === BRIGHTNESS_MAX"
             @click="incrementBrightness"
           />
         </span>
@@ -90,8 +75,8 @@ export default defineComponent({
         v-if="awtrixStore.hasSettings && !awtrixStore.settings?.ABRI"
         type="range"
         class="form-range"
-        :min="brightnessMin"
-        :max="brightnessMax"
+        :min="BRIGHTNESS_MIN"
+        :max="BRIGHTNESS_MAX"
         :value="currentBrightness"
         @change="setBrightness"
       />

@@ -1,67 +1,65 @@
-<script lang="ts">
-import { defineComponent, type PropType, ref } from 'vue';
-import { mapStores } from 'pinia';
+<script setup lang="ts">
+import { ref, computed, onMounted, useTemplateRef } from 'vue';
 import BaseModal from '@/components/coreui/BaseModal.vue';
 import { type Node } from '@/api/hub';
+import { type Toast } from '@/types/coreui';
 import { useNodeStore } from '@/stores/node';
 
-export default defineComponent({
-  name: 'NodeUpsertModal',
-  components: { BaseModal },
-  props: {
-    node: { type: Object as PropType<Partial<Node>>, required: true },
-  },
-  emits: ['upsert', 'toast', 'close'],
-  data() {
-    return {
-      errors: ref<Record<string, string>>({}),
-      model: ref<Partial<Node>>({ ...this.node }),
-    };
-  },
-  computed: {
-    isCreating(): boolean {
-      return !this.node.id;
-    },
-    ...mapStores(
-      useNodeStore, // sets this.nodeStore
-    ),
-  },
-  mounted() {
-    this.nodeStore.init();
-  },
-  methods: {
-    onBlur(name: string) {
-      if (this.errors[name]) {
-        delete this.errors[name];
+const props = defineProps<{
+  node: Partial<Node>;
+}>();
+
+const emit = defineEmits<{
+  (e: 'upsert', n: Node): void;
+  (e: 'toast', t: Toast): void;
+  (e: 'close'): void;
+}>();
+
+const modal = useTemplateRef('modal');
+
+const nodeStore = useNodeStore();
+
+const errors = ref<Record<string, string>>({});
+const model = ref<Partial<Node>>({ ...props.node });
+
+const isCreating = computed<boolean>(() => !props.node.id);
+
+onMounted(nodeStore.init);
+
+function onBlur(name: string) {
+  if (errors.value[name]) {
+    delete errors.value[name];
+  }
+}
+
+function close() {
+  if (modal.value) {
+    modal.value?.close();
+  }
+}
+
+function upsert() {
+  nodeStore.upsertNode({ ...model.value }).then((data) => {
+    if (!data.error) {
+      if (data.node) {
+        emit('upsert', data.node);
       }
-    },
-    close() {
-      (this.$refs.modal as typeof BaseModal).close();
-    },
-    upsert() {
-      this.nodeStore.upsertNode({ ...this.model }).then((data) => {
-        if (!data.error) {
-          if (data.node) {
-            this.$emit('upsert', data.node);
-          }
-          this.close();
-          return;
-        }
-        if (data.error.items) {
-          data.error.items.forEach((item) => {
-            this.errors[item.subject] = item.msg;
-          });
-        }
-        this.$emit('toast', {
-          title: `Error ${data.error.code}`,
-          body: data.error.msg,
-          icon: 'bell',
-          iconColor: 'danger',
-        });
+      close();
+      return;
+    }
+    if (data.error.items) {
+      data.error.items.forEach((item) => {
+        errors.value[item.subject] = item.msg;
       });
-    },
-  },
-});
+    }
+    emit('toast', {
+      title: `Error ${data.error.code}`,
+      body: data.error.msg,
+      icon: 'bell',
+      iconColor: 'danger',
+    });
+  });
+}
 </script>
 
 <template>

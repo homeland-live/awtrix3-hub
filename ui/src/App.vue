@@ -1,24 +1,15 @@
-<script lang="ts">
-import { defineComponent, ref } from 'vue';
+<script setup lang="ts">
+import { ref } from 'vue';
 import BaseToaster from '@/components/coreui/BaseToaster.vue';
 import MainHeader from '@/components/MainHeader.vue';
 import MainFooter from '@/components/MainFooter.vue';
-import type { Toast } from '@/types/coreui';
+import { type Toast } from '@/types/coreui';
 
-export default defineComponent({
-  name: 'App',
-  components: { BaseToaster, MainHeader, MainFooter },
-  data() {
-    return {
-      toasts: ref<Toast[]>([]),
-    };
-  },
-  methods: {
-    onToast(toast: Toast) {
-      this.toasts.push(toast);
-    },
-  },
-});
+const toasts = ref<Toast[]>([]);
+
+function onToast(t: Toast) {
+  toasts.value.push(t);
+}
 </script>
 
 <template>

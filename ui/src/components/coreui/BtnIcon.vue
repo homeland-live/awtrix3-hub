@@ -1,31 +1,31 @@
-<script lang="ts">
-import { defineComponent } from 'vue';
+<script setup lang="ts">
+import { computed } from 'vue';
 
-export default defineComponent({
-  name: 'BtnIcon',
-  props: {
-    icon: { type: String, required: true },
-    size: { type: String, default: 'sm' },
-    align: { type: String, default: 'middle' },
+const props = withDefaults(
+  defineProps<{
+    icon: string;
+    size?: string;
+    align?: string;
+  }>(),
+  {
+    size: 'sm',
+    align: 'middle',
   },
-  computed: {
-    sizeClass(): string {
-      if (!this.size) {
-        return '';
-      }
-      return `btn-${this.size}`;
-    },
-    alignClass(): string {
-      if (!this.align) {
-        return '';
-      }
-      return `align-${this.align}`;
-    },
-    iconClass(): string {
-      return `bi-${this.icon}`;
-    },
-  },
+);
+
+const sizeClass = computed<string>(() => {
+  if (!props.size) {
+    return '';
+  }
+  return `btn-${props.size}`;
 });
+const alignClass = computed<string>(() => {
+  if (!props.align) {
+    return '';
+  }
+  return `align-${props.align}`;
+});
+const iconClass = computed<string>(() => `bi-${props.icon}`);
 </script>
 
 <template>

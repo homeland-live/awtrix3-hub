@@ -1,6 +1,5 @@
-<script lang="ts">
-import { defineComponent, ref } from 'vue';
-import { mapStores } from 'pinia';
+<script setup lang="ts">
+import { ref, onMounted } from 'vue';
 import {
   CNavbar,
   CContainer,
@@ -12,40 +11,21 @@ import {
 } from '@coreui/vue';
 import NodeListMenu from '@/components/NodeListMenu.vue';
 import { useNodeStore } from '@/stores/node';
-import type { Toast } from '@/types/coreui';
+import { type Toast } from '@/types/coreui';
 
-export default defineComponent({
-  name: 'MainHeader',
-  components: {
-    CNavbar,
-    CContainer,
-    CNavbarBrand,
-    CNavbarToggler,
-    CCollapse,
-    CNavbarNav,
-    CNavItem,
-    NodeListMenu,
-  },
-  emits: ['toast'],
-  data() {
-    return {
-      visible: ref<boolean>(false),
-    };
-  },
-  computed: {
-    ...mapStores(
-      useNodeStore, // sets this.nodeStore
-    ),
-  },
-  mounted() {
-    this.nodeStore.init();
-  },
-  methods: {
-    onToast(toast: Toast) {
-      this.$emit('toast', toast);
-    },
-  },
-});
+const nodeStore = useNodeStore();
+
+const emit = defineEmits<{
+  (e: 'toast', t: Toast): void;
+}>();
+
+const isVisible = ref<boolean>(false);
+
+onMounted(nodeStore.init);
+
+function onToast(toast: Toast) {
+  emit('toast', toast);
+}
 </script>
 
 <template>
@@ -55,8 +35,8 @@ export default defineComponent({
         <i class="bi bi-diagram-3" />
         Awtrix3Hub
       </CNavbarBrand>
-      <CNavbarToggler @click="visible = !visible" />
-      <CCollapse class="navbar-collapse" :visible="visible">
+      <CNavbarToggler @click="isVisible = !isVisible" />
+      <CCollapse class="navbar-collapse" :visible="isVisible">
         <CNavbarNav class="me-auto" as="ul">
           <CNavItem as="li">
             <router-link to="/dashboard" class="nav-link">Dashboard</router-link>

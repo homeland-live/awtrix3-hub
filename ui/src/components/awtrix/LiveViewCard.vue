@@ -1,21 +1,12 @@
-<script lang="ts">
-import { defineComponent } from 'vue';
-import { mapStores } from 'pinia';
+<script setup lang="ts">
+import { onMounted } from 'vue';
 import { useNodeStore } from '@/stores/node';
 import { useAwtrixStore } from '@/stores/awtrix';
 
-export default defineComponent({
-  name: 'LiveViewCard',
-  computed: {
-    ...mapStores(
-      useNodeStore, // sets this.nodeStore
-      useAwtrixStore, // sets this.awtrixStore
-    ),
-  },
-  mounted() {
-    this.nodeStore.init();
-  },
-});
+const nodeStore = useNodeStore();
+const awtrixStore = useAwtrixStore();
+
+onMounted(nodeStore.init);
 </script>
 
 <template>

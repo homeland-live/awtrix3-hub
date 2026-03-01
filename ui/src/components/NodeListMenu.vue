@@ -1,6 +1,5 @@
-<script lang="ts">
-import { defineComponent, ref } from 'vue';
-import { mapStores } from 'pinia';
+<script setup lang="ts">
+import { ref, onMounted } from 'vue';
 // prettier-ignore
 import {
   CDropdown,
@@ -9,47 +8,36 @@ import {
   CListGroup,
 } from '@coreui/vue';
 import NodeUpsertModal from '@/components/NodeUpsertModal.vue';
-import type { Toast } from '@/types/coreui';
+import { type Toast } from '@/types/coreui';
+import { type Node } from '@/api/hub';
 import { useNodeStore } from '@/stores/node';
 
-export default defineComponent({
-  name: 'NodeListMenu',
-  components: {
-    CDropdown,
-    CDropdownToggle,
-    CDropdownMenu,
-    CListGroup,
-    NodeUpsertModal,
-  },
-  emits: ['toast', 'select'],
-  data() {
-    return {
-      isUpsertModalVisible: ref<boolean>(false),
-    };
-  },
-  computed: {
-    ...mapStores(
-      useNodeStore, // sets this.nodeStore
-    ),
-  },
-  mounted() {
-    this.nodeStore.init();
-  },
-  methods: {
-    showUpsertModal() {
-      this.isUpsertModalVisible = true;
-    },
-    hideUpsertModal() {
-      this.isUpsertModalVisible = false;
-    },
-    onSelect(node: Node) {
-      this.$emit('select', node);
-    },
-    onToast(toast: Toast) {
-      this.$emit('toast', toast);
-    },
-  },
-});
+const nodeStore = useNodeStore();
+
+const emit = defineEmits<{
+  (e: 'select', n: Node): void;
+  (e: 'toast', t: Toast): void;
+}>();
+
+const isUpsertModalVisible = ref<boolean>(false);
+
+onMounted(nodeStore.init);
+
+function showUpsertModal() {
+  isUpsertModalVisible.value = true;
+}
+
+function hideUpsertModal() {
+  isUpsertModalVisible.value = false;
+}
+
+function onSelect(node: Node) {
+  emit('select', node);
+}
+
+function onToast(toast: Toast) {
+  emit('toast', toast);
+}
 </script>
 
 <template>
